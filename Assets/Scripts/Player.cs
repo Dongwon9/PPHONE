@@ -1,17 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 public class Player : TurnActor {
     public static event Action OnTurnUpdate;
     public int HP;
     private int moveCount = 0;
-    private void Awake() {
-        gravityAffected = true;
-    }
     void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             nextAction = () => Move(Direction.Left);
