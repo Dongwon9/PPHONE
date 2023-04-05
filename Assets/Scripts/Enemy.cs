@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 public enum Direction { Left, Up, Right, Down };
-public class Enemy : TurnActor {
+public abstract class Enemy : TurnActor {
     protected class EnemyAction {
         public Action PreTurnAction;
         public Action TurnAction;
@@ -21,9 +21,10 @@ public class Enemy : TurnActor {
         return new EnemyAction(() => MovePreTurn(dir), () => Move(dir));
     }
     //이 함수를 반복적으로 사용해 여러 곳에 공격하는 것을 구현한다.
-    protected void AttackPreTurn(int offsetX, int offsetY) {
+    protected void AttackPreTurn(int offsetX, int offsetY, int damage) {
         var attack = AttackPool.Get();
         attack.transform.position = transform.position + new Vector3(offsetX, offsetY, 0);
+        attack.damage = damage;
     }
     protected void MovePreTurn(Direction dir) {
         NextActonSprite.enabled = true;

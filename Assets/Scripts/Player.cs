@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 public class Player : TurnActor {
     public static event Action OnTurnUpdate;
-    public int HP;
+    public Armor equippedArmor = null;
+    public int HP, Shield, maxHP, maxShield;
     private int moveCount = 0;
+    private Direction facing = Direction.Right;
     void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             nextAction = () => Move(Direction.Left);
@@ -22,6 +24,10 @@ public class Player : TurnActor {
             OnTurnUpdate();
         }
     }
+    new void Move(Direction dir) {
+        base.Move(dir);
+        facing = dir;
+    }
     protected override void TurnUpdate() {
         base.TurnUpdate();
         moveCount += 1;
@@ -29,10 +35,22 @@ public class Player : TurnActor {
             moveCount = 0;
             HP -= 1;
         }
+        if (equippedArmor != null) {
+            equippedArmor.OnTurnUpdate();
+        }
     }
-
-    private void TakeDamage(int damage) {
+    private void TakeDamage(int damage, bool piercing = false) {
         HP -= damage;
         Debug.Log(ToString() + "Takes damage!");
+        equippedArmor.OnHit();
+    }
+    public void ArmorEquip(Armor armor) {
+        if (equippedArmor != null) {
+            equippedArmor.OnUnequip();
+            //그 자리에서 움직이면, EquippedArmor(였던 것)를 가진 Container가
+            //마지막에 있던 자리에 생성된다.
+        }
+        equippedArmor = armor;
+        equippedArmor.OnEquip(this);
     }
 }

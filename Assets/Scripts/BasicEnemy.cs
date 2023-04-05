@@ -5,7 +5,7 @@ public class BasicEnemy : Enemy {
     private int counter = 0;
     void LaserPreTurn() {
         for (int i = 1; i <= 10; i++) {
-            AttackPreTurn(-i, 0);
+            AttackPreTurn(-i, 0, 2);
         }
     }
     private void Update() {
@@ -14,14 +14,14 @@ public class BasicEnemy : Enemy {
         nextAction = sampleAI[counter].TurnAction;
         sampleAI[counter].PreTurnAction();
     }
-    protected void OnEnable() {
+    protected override void OnEnable() {
         base.OnEnable();
         sampleAI = new List<EnemyAction> {
         MoveAction(Direction.Left),
         MoveAction(Direction.Left),
         MoveAction(Direction.Right),
         MoveAction(Direction.Right),
-        new EnemyAction(()=>AttackPreTurn(-1,0),()=>{return; }),
+        new EnemyAction(()=>AttackPreTurn(-1,0,1),()=>{return; }),
         MoveAction(Direction.Up),
         MoveAction(Direction.Up),
         MoveAction(Direction.Down),

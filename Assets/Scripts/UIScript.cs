@@ -6,11 +6,11 @@ public class UIScript : MonoBehaviour {
     public TextMeshProUGUI HPText;
     void Start() {
         player = GameObject.Find("Player").GetComponent<Player>();
-        HPText.text = "HP : " + player.HP;
+        HPText.text = "HP : " + player.HP + "/" + player.maxHP + "\nShield : " + player.Shield + "" +"/"+player.maxShield;
     }
 
     // Update is called once per frame
     void Update() {
-        HPText.text = "HP : " + player.HP;
+        HPText.text = "HP : " + player.HP + "/" + player.maxHP + "\nShield : " + player.Shield + "" + "/" + player.maxShield;
     }
 }

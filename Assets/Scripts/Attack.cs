@@ -3,7 +3,8 @@ using UnityEngine.Pool;
 
 public class Attack : TurnActor {
     //TurnAction으로 충돌을 활성화한 후 3프레임 후 사라진다.
-    private int frameCount = 0, life = 3, damage = 1;
+    private int frameCount = 0, life = 3;
+    public int damage;
     private BoxCollider2D boxCollider;
     private IObjectPool<Attack> managedPool;
     private void Awake() {

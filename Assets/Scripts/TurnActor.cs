@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TurnActor : MonoBehaviour {
+public abstract class TurnActor : MonoBehaviour {
     protected Action nextAction;
     // Start is called before the first frame update
     protected virtual void OnEnable() {
