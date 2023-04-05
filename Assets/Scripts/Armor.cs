@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-public abstract class Armor : MonoBehaviour {
+public abstract class Armor {
     protected Player equippedPlayer;
     //장착시 효과(최대SP증가 포함)
     public virtual void OnEquip(Player player) {
