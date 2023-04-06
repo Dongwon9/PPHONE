@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class BasicEnemy : Enemy {
     private List<EnemyAction> sampleAI;
@@ -17,15 +18,16 @@ public class BasicEnemy : Enemy {
     protected override void OnEnable() {
         base.OnEnable();
         sampleAI = new List<EnemyAction> {
-        MoveAction(Direction.Left),
-        MoveAction(Direction.Left),
-        MoveAction(Direction.Right),
-        MoveAction(Direction.Right),
-        new EnemyAction(()=>AttackPreTurn(-1,0,1),()=>{return; }),
-        MoveAction(Direction.Up),
-        MoveAction(Direction.Up),
-        MoveAction(Direction.Down),
-        new EnemyAction(LaserPreTurn,()=>{return; })
+            new EnemyAction(()=>{return; },()=>{return; })
+        //MoveAction(Direction.Left),
+        //MoveAction(Direction.Left),
+        //MoveAction(Direction.Right),
+        //MoveAction(Direction.Right),
+        //new EnemyAction(()=>AttackPreTurn(-1,0,1),()=>{return; }),
+        //MoveAction(Direction.Up),
+        //MoveAction(Direction.Up),
+        //MoveAction(Direction.Down),
+        //new EnemyAction(LaserPreTurn,()=>{return; })
         };
         nextAction = sampleAI[0].TurnAction;
         sampleAI[0].PreTurnAction();

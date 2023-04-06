@@ -12,11 +12,12 @@ public abstract class Enemy : TurnActor {
             TurnAction = turnAction;
         }
     }
-    
+
     public Attack AttackPrefab;
     public static IObjectPool<Attack> AttackPool;
     public SpriteRenderer NextActonSprite;
     public int HP;
+    public Animator animator;
     protected EnemyAction MoveAction(Direction dir) {
         return new EnemyAction(() => MovePreTurn(dir), () => Move(dir));
     }
@@ -58,5 +59,10 @@ public abstract class Enemy : TurnActor {
         (attack) => Destroy(attack.gameObject),
         maxSize: 100
         );
+        animator = GetComponent<Animator>();
+    }
+    private void TakeDamage(int damage) {
+        HP-=damage;
+        animator.SetTrigger("isHit");
     }
 }
