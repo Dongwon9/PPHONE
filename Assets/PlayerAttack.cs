@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour {
     //TurnAction으로 충돌을 활성화한 후 3프레임 후 사라진다.
-    private int frameCount = 0, life = 3;
+    private int frameCount = 0, life = 5;
     public int damage;
     void Update() {
         frameCount += 1;
