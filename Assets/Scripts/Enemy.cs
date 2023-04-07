@@ -11,20 +11,17 @@ public abstract class Enemy : TurnActor {
             PreTurnAction = preTurnAction;
             TurnAction = turnAction;
         }
-    }
-
-    public Attack AttackPrefab;
-    public static IObjectPool<Attack> AttackPool;
+    }    
     public SpriteRenderer NextActonSprite;
     public int HP;
-    public Animator animator;
+    private Animator animator;
     protected EnemyAction MoveAction(Direction dir) {
         return new EnemyAction(() => MovePreTurn(dir), () => Move(dir));
     }
     //이 함수를 반복적으로 사용해 여러 곳에 공격하는 것을 구현한다.
-    protected void AttackPreTurn(int offsetX, int offsetY, int damage) {
-        var attack = AttackPool.Get();
-        attack.transform.position = transform.position + new Vector3(offsetX, offsetY, 0);
+    protected void AttackPreTurn(Vector3 position,int damage) {
+        var attack = ObjectPool.AttackPool.Get();
+        attack.transform.position = position;
         attack.damage = damage;
     }
     protected void MovePreTurn(Direction dir) {
@@ -48,21 +45,20 @@ public abstract class Enemy : TurnActor {
         NextActonSprite.transform.rotation = Quaternion.Euler(0, 0, -90 * (int)dir);
     }
     private void Awake() {
-        AttackPool = new ObjectPool<Attack>(
-            () => {
-                Attack attack = Instantiate(AttackPrefab).GetComponent<Attack>();
-                attack.SetManagedPool(AttackPool);
-                return attack;
-            },
-        (attack) => attack.gameObject.SetActive(true),
-        (attack) => attack.gameObject.SetActive(false),
-        (attack) => Destroy(attack.gameObject),
-        maxSize: 100
-        );
         animator = GetComponent<Animator>();
     }
+    private void Update() {
+        if(nextAction == null) {
+            DecideNextAction();
+        }
+    }
     private void TakeDamage(int damage) {
-        HP-=damage;
+        HP -= damage;
         animator.SetTrigger("isHit");
+    }
+    //다음 턴 행동을 정하는 함수
+    protected abstract void DecideNextAction();
+    protected override sealed void TurnUpdate() {
+        base.TurnUpdate();
     }
 }

@@ -1,39 +1,34 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-
+using UnityEngine;
 public class BasicEnemy : Enemy {
     private List<EnemyAction> sampleAI;
     private int counter = 0;
+    private WaveAttack waveAttack;
     void LaserPreTurn() {
         for (int i = 1; i <= 10; i++) {
-            AttackPreTurn(-i, 0, 2);
+            //AttackPreTurn(-i, 0, 2);
+            AttackPreTurn(transform.position + new Vector3(-i, 0), 2);
         }
     }
-    private void Update() {
-        if (nextAction != null)
-            return;
-        nextAction = sampleAI[counter].TurnAction;
-        sampleAI[counter].PreTurnAction();
-    }
+
+    readonly EnemyAction Nothing = new(() => { }, () => { });
     protected override void OnEnable() {
         base.OnEnable();
+        waveAttack = GetComponent<WaveAttack>();
         sampleAI = new List<EnemyAction> {
-            new EnemyAction(()=>{return; },()=>{return; })
-        //MoveAction(Direction.Left),
-        //MoveAction(Direction.Left),
-        //MoveAction(Direction.Right),
-        //MoveAction(Direction.Right),
-        //new EnemyAction(()=>AttackPreTurn(-1,0,1),()=>{return; }),
-        //MoveAction(Direction.Up),
-        //MoveAction(Direction.Up),
-        //MoveAction(Direction.Down),
-        //new EnemyAction(LaserPreTurn,()=>{return; })
+            new EnemyAction(()=>{ },()=>waveAttack.ActivatePreTurn(3)),
+            Nothing,
+            Nothing,
+            Nothing,
+            Nothing
         };
         nextAction = sampleAI[0].TurnAction;
         sampleAI[0].PreTurnAction();
     }
-    protected override void TurnUpdate() {
-        base.TurnUpdate();
-        counter = (counter + 1) % sampleAI.Count;
+    protected override void DecideNextAction() {
+        counter = (counter + 1) % 5;
+        nextAction = sampleAI[counter].TurnAction;
+        sampleAI[counter].PreTurnAction();
     }
+
 }

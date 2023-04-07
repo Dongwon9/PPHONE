@@ -43,10 +43,10 @@ public class Player : TurnActor {
             equippedArmor.OnTurnUpdate();
         }
     }
-    private void TakeDamage(int damage, bool piercing = false) {
+    private void TakeDamage(int damage) {
         HP -= damage;
         Debug.Log(ToString() + "Takes damage!");
-        equippedArmor.OnHit();
+        equippedArmor?.OnHit();
     }
     public void ArmorEquip(Armor armor) {
         if (equippedArmor != null) {
