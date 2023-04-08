@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class WaveAttack : Enemy {
+public sealed class WaveAttack : TurnActor {
     private Vector3 attackOrigin;
     private int counter = 0;
     private int damage;
@@ -12,7 +12,10 @@ public sealed class WaveAttack : Enemy {
         this.damage = damage;
     }
 
-    protected override void DecideNextAction() {
+    void Update() {
+        if (nextAction != null) {
+            return;
+        }
         if (counter > 0) {
             for (int i = -1; i <= 1; i++) {
                 AttackPreTurn(attackOrigin + new Vector3(-counter, i), damage);

@@ -12,14 +12,24 @@ public class Attack : TurnActor {
     }
     protected override void OnEnable() {
         base.OnEnable();
-        boxCollider.enabled = false;
-        nextAction = () => boxCollider.enabled = true;
+        if (gameObject.CompareTag("Enemy")) {
+            boxCollider.enabled = false;
+            nextAction = () => boxCollider.enabled = true;
+        } else {
+            boxCollider.enabled = true;
+        }
     }
     public void SetManagedPool(IObjectPool<Attack> pool) {
         managedPool = pool;
     }
     void Update() {
-        if (!boxCollider.enabled) return;
+        if (!boxCollider.enabled) {
+            if (gameObject.CompareTag("Player")) {
+                boxCollider.enabled = true;
+            } else {
+                return;
+            }
+        }
         frameCount += 1;
         if (frameCount >= life) {
             managedPool.Release(this);
@@ -27,8 +37,10 @@ public class Attack : TurnActor {
         }
     }
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Player")) {
-            collision.gameObject.SendMessage("TakeDamage", damage);
+        if (gameObject.CompareTag("Enemy")) {
+            collision.gameObject.GetComponent<Player>()?.TakeDamage(damage);
+        } else if (gameObject.CompareTag("Player")) {
+            collision.gameObject.GetComponent<Enemy>()?.TakeDamage(damage);
         }
     }
 }

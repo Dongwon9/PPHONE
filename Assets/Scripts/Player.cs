@@ -3,7 +3,6 @@ using UnityEngine;
 public class Player : TurnActor {
     public static event Action OnTurnUpdate;
     public Armor equippedArmor = null;
-    public PlayerAttack playerAttack;
     public int HP, Shield, maxHP, maxShield;
     private int moveCount = 0;
     private Direction facing = Direction.Right;
@@ -18,8 +17,9 @@ public class Player : TurnActor {
             nextAction = () => Move(Direction.Up);
         } else if (Input.GetKeyDown(KeyCode.Z)) {
             nextAction = () => {
-                PlayerAttack atk = Instantiate(playerAttack, transform.position + Vector3.right, Quaternion.identity);
-                atk.damage = 100;
+                //PlayerAttack atk = Instantiate(playerAttack, transform.position + Vector3.right, Quaternion.identity);
+                //atk.damage = 100;
+                AttackPreTurn(transform.position + Vector3.right, 100);
             };
         } else if (Input.GetKeyDown(KeyCode.Space)) {
             nextAction = () => { return; };
@@ -43,7 +43,7 @@ public class Player : TurnActor {
             equippedArmor.OnTurnUpdate();
         }
     }
-    private void TakeDamage(int damage) {
+    public void TakeDamage(int damage) {
         HP -= damage;
         Debug.Log(ToString() + "Takes damage!");
         equippedArmor?.OnHit();

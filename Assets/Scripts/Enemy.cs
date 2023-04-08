@@ -19,11 +19,7 @@ public abstract class Enemy : TurnActor {
         return new EnemyAction(() => MovePreTurn(dir), () => Move(dir));
     }
     //이 함수를 반복적으로 사용해 여러 곳에 공격하는 것을 구현한다.
-    protected void AttackPreTurn(Vector3 position,int damage) {
-        var attack = ObjectPool.AttackPool.Get();
-        attack.transform.position = position;
-        attack.damage = damage;
-    }
+    
     protected void MovePreTurn(Direction dir) {
         NextActonSprite.enabled = true;
         Vector3 offset = Vector3.zero;
@@ -52,7 +48,7 @@ public abstract class Enemy : TurnActor {
             DecideNextAction();
         }
     }
-    private void TakeDamage(int damage) {
+    public void TakeDamage(int damage) {
         HP -= damage;
         animator.SetTrigger("isHit");
     }

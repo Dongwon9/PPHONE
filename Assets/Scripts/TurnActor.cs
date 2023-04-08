@@ -19,6 +19,12 @@ public abstract class TurnActor : MonoBehaviour {
         }
         nextAction = null;
     }
+    protected void AttackPreTurn(Vector3 position, int damage) {
+        var attack = ObjectPool.AttackPool.Get();
+        attack.tag = gameObject.tag;
+        attack.transform.position = position;
+        attack.damage = damage;
+    }
     protected void Move(Direction dir) {
         Vector3 direction = Vector3.zero;
         switch (dir) {
