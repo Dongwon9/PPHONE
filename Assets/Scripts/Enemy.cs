@@ -11,7 +11,7 @@ public abstract class Enemy : TurnActor {
             PreTurnAction = preTurnAction;
             TurnAction = turnAction;
         }
-    }    
+    }
     public SpriteRenderer NextActonSprite;
     public int HP;
     private Animator animator;
@@ -19,7 +19,7 @@ public abstract class Enemy : TurnActor {
         return new EnemyAction(() => MovePreTurn(dir), () => Move(dir));
     }
     //이 함수를 반복적으로 사용해 여러 곳에 공격하는 것을 구현한다.
-    
+
     protected void MovePreTurn(Direction dir) {
         NextActonSprite.enabled = true;
         Vector3 offset = Vector3.zero;
@@ -44,7 +44,7 @@ public abstract class Enemy : TurnActor {
         animator = GetComponent<Animator>();
     }
     private void Update() {
-        if(nextAction == null) {
+        if (nextAction == null) {
             DecideNextAction();
         }
     }

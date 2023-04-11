@@ -19,7 +19,7 @@ public abstract class TurnActor : MonoBehaviour {
         }
         nextAction = null;
     }
-    protected void AttackPreTurn(Vector3 position, int damage) {
+    public void AttackPreTurn(Vector3 position, int damage) {
         var attack = ObjectPool.AttackPool.Get();
         attack.tag = gameObject.tag;
         attack.transform.position = position;
