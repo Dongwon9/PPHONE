@@ -34,7 +34,10 @@ public class BasicEnemy : Enemy {
                 dirSign = -1;
             }
             for (int i = -1; i <= 1; i++) {
-                attackUser.AttackPreTurn(attackUser.transform.position + new Vector3(turnCounter * dirSign, i), damage);
+                attackUser.AttackPreTurn(attackUser.transform.position + new Vector3(turnCounter * dirSign, i), damage,
+                    () => {
+                        
+                    });
             }
             turnCounter += 1;
             if (turnCounter > attackDuration) {
@@ -62,15 +65,14 @@ public class BasicEnemy : Enemy {
 
 
     protected override void OnEnable() {
+        WaveAttack.SetAttackUser(this);
         base.OnEnable();
         sampleAI = new List<EnemyAction> {
             Nothing,
             Nothing,
             Nothing,
             Nothing
-        };
-        WaveAttack.SetAttackUser(this);
-        DecideNextAction();
+        };       
     }
     protected override void DecideNextAction() {
         nextAction = () => { };

@@ -2,29 +2,52 @@ using System;
 using UnityEngine;
 
 public abstract class TurnActor : MonoBehaviour {
+    /// <summary>
+    /// 모든 TurnActor들이 사용하는 다음턴 action
+    /// </summary>
     protected Action nextAction;
     // Start is called before the first frame update
     protected virtual void OnEnable() {
         Player.OnTurnUpdate += TurnUpdate;
+        DecideNextAction();
     }
     private void OnDisable() {
         Player.OnTurnUpdate -= TurnUpdate;
     }
-
+    private void Update() {
+        
+    }
+    /// <summary>
+    /// TurnActor들이 다음 행동을 정할 때 사용하는 함수
+    /// </summary>
+    protected abstract void DecideNextAction();
+    
     protected virtual void TurnUpdate() {
         if (nextAction == null) {
-            Debug.LogError(ToString() + "'s nextAction was null!");
+            Debug.Log(ToString() + "의 nextAction이 null입니다");
         } else {
             nextAction();
         }
         nextAction = null;
+        DecideNextAction();
     }
-    public void AttackPreTurn(Vector3 position, int damage) {
+    /// <summary>
+    /// position에 공격 경고를 띄운다.
+    /// 이 함수를 반복적으로 사용해 적의 공격을 구현한다.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="damage"></param>
+    public void AttackPreTurn(Vector3 position, int damage,Action onHitEffect = null) {
         var attack = ObjectPool.AttackPool.Get();
         attack.tag = gameObject.tag;
         attack.transform.position = position;
         attack.damage = damage;
+        attack.onHitEffect = onHitEffect;
     }
+    /// <summary>
+    /// dir 방향으로 1칸 이동한다.
+    /// </summary>
+    /// <param name="dir"></param>
     protected void Move(Direction dir) {
         Vector3 direction = Vector3.zero;
         switch (dir) {
@@ -47,7 +70,11 @@ public abstract class TurnActor : MonoBehaviour {
             transform.Translate(direction);
         }
     }
-    //해당 방향으로 움직일 수 있는지만 알고 싶을 때 사용한다.
+    /// <summary>
+    /// 해당 방향으로 움직일 수 있는지만 알고 싶을 때 사용한다.
+    /// </summary>
+    /// <param name="dir"></param>
+    /// <returns></returns>
     protected bool MoveCheck(Direction dir) {
         Vector3 direction = Vector3.zero;
         switch (dir) {

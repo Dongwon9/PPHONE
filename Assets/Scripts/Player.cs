@@ -1,11 +1,20 @@
 using System;
 using UnityEngine;
+/// <summary>
+/// Player클래스가 턴의 흐름을 제어한다.
+/// </summary>
 public class Player : TurnActor {
     public static event Action OnTurnUpdate;
+    public static int turnProcessing = 0;
+
     public Armor equippedArmor = null;
     public int HP, Shield, maxHP, maxShield;
     private int moveCount = 0;
     private Direction facing = Direction.Right;
+    private Animator animator;
+    private void Awake() {
+        animator = GetComponent<Animator>();
+    }
     void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             nextAction = () => Move(Direction.Left);
@@ -17,20 +26,37 @@ public class Player : TurnActor {
             nextAction = () => Move(Direction.Up);
         } else if (Input.GetKeyDown(KeyCode.Z)) {
             nextAction = () => {
-                //PlayerAttack atk = Instantiate(playerAttack, transform.position + Vector3.right, Quaternion.identity);
-                //atk.damage = 100;
-                AttackPreTurn(transform.position + Vector3.right, 100);
+                PlayerAttack(1);
             };
         } else if (Input.GetKeyDown(KeyCode.Space)) {
-            nextAction = () => { return; };
+            nextAction = () => { };
         }
         if (nextAction != null) {
             OnTurnUpdate();
         }
+        //Debug.Log("TurnProcessing : " + turnProcessing);
     }
     new void Move(Direction dir) {
         base.Move(dir);
         facing = dir;
+    }
+    void PlayerAttack(int damage) {
+        Vector3 direction = Vector3.zero;
+        switch (facing) {
+            case Direction.Left:
+                direction = Vector3.left;
+                break;
+            case Direction.Right:
+                direction = Vector3.right;
+                break;
+            case Direction.Up:
+                direction = Vector3.up;
+                break;
+            case Direction.Down:
+                direction = Vector3.down;
+                break;
+        }
+        AttackPreTurn(transform.position + direction, damage);
     }
     protected override void TurnUpdate() {
         base.TurnUpdate();
@@ -43,10 +69,14 @@ public class Player : TurnActor {
             equippedArmor.OnTurnUpdate();
         }
     }
-    public void TakeDamage(int damage) {
-        HP -= damage;
-        Debug.Log(ToString() + "Takes damage!");
+    public void TakeDamage(int damage,Action onHitEffect = null) {
+        if(Shield < damage) {
+            HP -= damage - Shield;
+            Shield = 0;
+        }
         equippedArmor?.OnHit();
+        animator.SetTrigger("isHit");
+        onHitEffect?.Invoke();
     }
     public void ArmorEquip(Armor armor) {
         if (equippedArmor != null) {
@@ -56,5 +86,7 @@ public class Player : TurnActor {
         }
         equippedArmor = armor;
         equippedArmor.OnEquip(this);
+    }
+    protected override void DecideNextAction() {
     }
 }
