@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class ObjectPool : MonoBehaviour {
     public Attack AttackPrefab;
     public static IObjectPool<Attack> AttackPool;
+
     private void Awake() {
         AttackPool = new ObjectPool<Attack>(
         () => {

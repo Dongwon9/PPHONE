@@ -4,13 +4,14 @@ using UnityEngine;
 public class UIScript : MonoBehaviour {
     public Player player;
     public TextMeshProUGUI HPText;
-    void Start() {
+
+    private void Start() {
         player = GameObject.Find("Player").GetComponent<Player>();
-        HPText.text = "HP : " + player.HP + "/" + player.maxHP + "\nShield : " + player.Shield + "" +"/"+player.maxShield;
+        HPText.text = "HP : " + player.HP + "/" + player.maxHP + "\nShield : " + player.Shield + "" + "/" + player.maxShield;
     }
 
     // Update is called once per frame
-    void Update() {
+    private void Update() {
         HPText.text = "HP : " + player.HP + "/" + player.maxHP + "\nShield : " + player.Shield + "" + "/" + player.maxShield;
     }
 }
