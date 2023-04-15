@@ -15,9 +15,24 @@ public abstract class Enemy : TurnActor {
         }
     }
 
-    public SpriteRenderer NextActonSprite;
     public int HP;
+
     private Animator animator;
+
+    [SerializeField] private SpriteRenderer NextActonSprite;
+
+    public virtual void TakeDamage(int damage) {
+        HP -= damage;
+        animator.SetTrigger("isHit");
+        if (HP <= 0) {
+            Destroy(gameObject);
+        }
+    }
+
+    protected override void Awake() {
+        base.Awake();
+        animator = GetComponent<Animator>();
+    }
 
     protected EnemyAction MoveAction(Direction dir) {
         return new EnemyAction(() => MovePreTurn(dir), () => Move(dir));
@@ -43,19 +58,6 @@ public abstract class Enemy : TurnActor {
                 offset = Vector3.down;
                 break;
         }
-        NextActonSprite.transform.position = transform.position + offset;
-        NextActonSprite.transform.rotation = Quaternion.Euler(0, 0, -90 * (int)dir);
-    }
-
-    private void Awake() {
-        animator = GetComponent<Animator>();
-    }
-
-    public virtual void TakeDamage(int damage) {
-        HP -= damage;
-        animator.SetTrigger("isHit");
-        if (HP <= 0) {
-            Destroy(gameObject);
-        }
+        NextActonSprite.transform.SetPositionAndRotation(transform.position + offset, Quaternion.Euler(0, 0, -90 * (int)dir));
     }
 }

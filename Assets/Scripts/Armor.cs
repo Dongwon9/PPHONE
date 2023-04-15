@@ -4,16 +4,8 @@
     /// <summary>
     /// 장착시 효과(최대SP증가 포함)
     /// </summary>
-    ///
     public virtual void OnEquip(Player player) {
         equippedPlayer = player;
-    }
-
-    /// <summary>
-    /// 장착 해제시 효과(최대 SP감소 포함)
-    /// </summary>
-    public virtual void OnUnequip() {
-        equippedPlayer = null;
     }
 
     /// <summary>
@@ -25,4 +17,11 @@
     /// 매 턴마다 효과
     /// </summary>
     public virtual void OnTurnUpdate() { }
+
+    /// <summary>
+    /// 장착 해제시 효과(최대 SP감소 포함)
+    /// </summary>
+    public virtual void OnUnequip() {
+        equippedPlayer = null;
+    }
 }

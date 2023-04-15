@@ -5,15 +5,11 @@ using UnityEngine;
 public class BasicEnemy : Enemy {
 
     private class WaveAttack {
+        private const int attackDuration = 5;
         private static List<WaveAttack> attackList = new List<WaveAttack>();
         private static BasicEnemy attackUser = null;
-        private int turnCounter = 0, damage;
-        private const int attackDuration = 5;
         private Direction facing;
-
-        public static void SetAttackUser(BasicEnemy enemy) {
-            attackUser = enemy;
-        }
+        private int turnCounter = 0, damage;
 
         private WaveAttack() {
         }
@@ -35,6 +31,18 @@ public class BasicEnemy : Enemy {
             usingAttack.facing = facing;
         }
 
+        public static void ExecuteAll() {
+            foreach (var attack in attackList) {
+                if (attack.turnCounter > 0) {
+                    attack.Execute();
+                }
+            }
+        }
+
+        public static void SetAttackUser(BasicEnemy enemy) {
+            attackUser = enemy;
+        }
+
         private void Execute() {
             int dirSign = 1;
             if (facing == Direction.Left) {
@@ -50,27 +58,34 @@ public class BasicEnemy : Enemy {
                 turnCounter = 0;
             }
         }
-
-        public static void ExecuteAll() {
-            foreach (var attack in attackList) {
-                if (attack.turnCounter > 0) {
-                    attack.Execute();
-                }
-            }
-        }
     }
 
     private readonly EnemyAction Nothing = new(() => { }, () => { });
-    private List<EnemyAction> sampleAI;
     private int counter = 0;
+    private List<EnemyAction> sampleAI;
 
     public event Action PreTurnActions;
 
-    private void LaserPreTurn() {
-        for (int i = 1; i <= 10; i++) {
-            //AttackPreTurn(-i, 0, 2);
-            AttackPreTurn(transform.position + new Vector3(-i, 0), 2);
+    public void AddNextAction(Action action) {
+        nextAction += action;
+    }
+
+    protected override void DecideNextAction() {
+        EnemyAction decidedAction = Nothing;
+        nextAction = () => { };
+        if (counter < 4) {
+            if (counter % 2 == 0) {
+                WaveAttack.Activate(Direction.Left, 5);
+            } else {
+                WaveAttack.Activate(Direction.Right, 5);
+            }
         }
+        counter = (counter + 1) % 8;
+        PreTurnActions += decidedAction.PreTurnAction;
+        nextAction = decidedAction.TurnAction;
+        PreTurnActions();
+        WaveAttack.ExecuteAll();
+        PreTurnActions = () => { };
     }
 
     protected override void OnEnable() {
@@ -84,28 +99,10 @@ public class BasicEnemy : Enemy {
         };
     }
 
-    protected override void DecideNextAction() {
-        EnemyAction decidedAction = Nothing;
-        nextAction = () => { };
-        if (counter < 4) {
-            if (counter % 2 == 0) {
-                WaveAttack.Activate(Direction.Left, 5);
-            } else {
-                WaveAttack.Activate(Direction.Right, 5);
-            }
+    private void LaserPreTurn() {
+        for (int i = 1; i <= 10; i++) {
+            //AttackPreTurn(-i, 0, 2);
+            AttackPreTurn(transform.position + new Vector3(-i, 0), 2);
         }
-        //if (counter >= 3) {
-        //    decidedAction = sampleAI[UnityEngine.Random.Range(0, 4)];
-        //}
-        counter = (counter + 1) % 8;
-        PreTurnActions += decidedAction.PreTurnAction;
-        nextAction = decidedAction.TurnAction;
-        PreTurnActions();
-        WaveAttack.ExecuteAll();
-        PreTurnActions = () => { };
-    }
-
-    public void AddNextAction(Action action) {
-        nextAction += action;
     }
 }

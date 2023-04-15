@@ -4,11 +4,11 @@
 
         public override void OnEquip(Player player) {
             base.OnEquip(player);
-            player.maxShield += 40;
+            player.AddMaxShield(40);
         }
 
         public override void OnUnequip() {
-            equippedPlayer.maxShield -= 40;
+            equippedPlayer.AddMaxShield(-40);
             base.OnUnequip();
         }
     }

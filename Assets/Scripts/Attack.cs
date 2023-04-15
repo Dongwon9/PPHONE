@@ -3,61 +3,47 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 public class Attack : TurnActor {
-
-    //TurnActionÀ¸·Î Ãæµ¹À» È°¼ºÈ­ÇÑ ÈÄ 3ÇÁ·¹ÀÓ ÈÄ »ç¶óÁø´Ù.
-    private float timeCount = 0f;
-
-    private const float lifeTime = 0.2f;
-
     public int damage;
-    private BoxCollider2D boxCollider;
-    private SpriteRenderer spriteRenderer;
-    private IObjectPool<Attack> managedPool;
+
     public Action onHitEffect;
 
-    private void Awake() {
-        boxCollider = GetComponent<BoxCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    private const float lifeTime = 2 * movingTime;
 
-    protected override void OnEnable() {
-        base.OnEnable();
-        spriteRenderer.enabled = true;
-        if (gameObject.CompareTag("Enemy")) {
-            boxCollider.enabled = false;
-            nextAction += () => {
-                boxCollider.enabled = true;
-                spriteRenderer.enabled = false;
-            };
-        } else {
-            boxCollider.enabled = true;
-        }
-    }
+    private IObjectPool<Attack> managedPool;
 
-    protected override void DecideNextAction() {
-        nextAction += () => { };
-    }
+    private SpriteRenderer spriteRenderer;
+
+    //TurnActionï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ 0.2ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    private float timeCount = 0f;
 
     /// <summary>
-    /// ¿ÀºêÁ§Æ®Ç®¸µ¿¡ È°¿ëÇÏ´Â ÄÚµå
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®Ç®ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Úµï¿½
     /// </summary>
     /// <param name="pool"></param>
     public void SetManagedPool(IObjectPool<Attack> pool) {
         managedPool = pool;
     }
 
-    private void Update() {
-        if (!boxCollider.enabled) {
-            if (gameObject.CompareTag("Player")) {
-                boxCollider.enabled = true;
-            } else {
-                return;
-            }
-        }
-        timeCount += Time.deltaTime;
-        if (timeCount >= lifeTime) {
-            managedPool.Release(this);
-            timeCount = 0f;
+    protected override void Awake() {
+        base.Awake();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    protected override void DecideNextAction() {
+        nextAction += () => { };
+    }
+
+    protected override void OnEnable() {
+        base.OnEnable();
+        spriteRenderer.enabled = true;
+        if (gameObject.CompareTag("Enemy")) {
+            objectCollider.enabled = false;
+            nextAction += () => {
+                objectCollider.enabled = true;
+                spriteRenderer.enabled = false;
+            };
+        } else {
+            objectCollider.enabled = true;
         }
     }
 
@@ -66,6 +52,21 @@ public class Attack : TurnActor {
             collision.gameObject.GetComponent<Player>()?.TakeDamage(damage, onHitEffect);
         } else if (gameObject.CompareTag("Player")) {
             collision.gameObject.GetComponent<Enemy>()?.TakeDamage(damage);
+        }
+    }
+
+    private void Update() {
+        if (!objectCollider.enabled) {
+            if (gameObject.CompareTag("Player")) {
+                objectCollider.enabled = true;
+            } else {
+                return;
+            }
+        }
+        timeCount += Time.deltaTime;
+        if (timeCount >= lifeTime) {
+            managedPool.Release(this);
+            timeCount = 0f;
         }
     }
 }
