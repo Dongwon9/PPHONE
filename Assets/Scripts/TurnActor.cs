@@ -94,6 +94,7 @@ public abstract class TurnActor : MonoBehaviour {
 
     protected virtual void OnEnable() {
         Player.OnTurnUpdate += TurnUpdate;
+        AdjustPosition();
         DecideNextAction();
     }
 
@@ -107,6 +108,13 @@ public abstract class TurnActor : MonoBehaviour {
         DecideNextAction();
     }
 
+    /// <summary>
+    /// 오브젝트의 좌표를 (정수)+0.5로 교정한다.
+    /// </summary>
+    private void AdjustPosition() {
+        transform.position = new Vector3(MathF.Floor(transform.position.x) + 0.5f, MathF.Floor(transform.position.y) + 0.5f);
+    }
+
     private void FixedUpdate() {
         //캐릭터가 일정 시간에 걸쳐 움직이게 하는 코드
         if (timeCounter >= 0) {
@@ -116,8 +124,8 @@ public abstract class TurnActor : MonoBehaviour {
             if (timeCounter >= movingTime) {
                 timeCounter = -1f;
                 moveDir = Vector3.zero;
-                //움직임을 마친 후에 오브젝트의 좌표를 (정수)+0.5로 교정한다.
-                transform.position = new Vector3(MathF.Floor(transform.position.x) + 0.5f, MathF.Floor(transform.position.y) + 0.5f);
+
+                AdjustPosition();
                 objectCollider.enabled = true;
             }
         }

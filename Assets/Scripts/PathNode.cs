@@ -10,6 +10,8 @@
     --------------------------------------------------
  */
 
+using UnityEngine;
+
 public class PathNode {
     public PathNode cameFromNode;
     public int fCost;
@@ -29,6 +31,11 @@ public class PathNode {
 
     public void CalculateFCost() {
         fCost = gCost + hCost;
+    }
+
+    public void DetermineIsWalkable() {
+        GameObject objectHere = GameManager.Instance.GameMapGrid.GetGridObject(x, y);
+        SetIsWalkable(objectHere == null || !objectHere.CompareTag("Wall"));
     }
 
     public void SetIsWalkable(bool isWalkable) {

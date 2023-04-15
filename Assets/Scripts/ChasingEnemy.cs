@@ -13,7 +13,7 @@ public class ChasingEnemy : Enemy {
             if (pathToPlayer != null && pathToPlayer.Count > 2) {
                 transform.position = pathToPlayer[1];
             }
-            pathToPlayer = pathfinding.FindPath(transform.position, GameManager.playerReference.transform.position);
+            pathToPlayer = pathfinding?.FindPath(transform.position, GameManager.playerReference.transform.position);
         };
         if (pathToPlayer.Count == 2) {
             AttackPreTurn(GameManager.playerReference.transform.position, 5);

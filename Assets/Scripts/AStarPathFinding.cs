@@ -60,6 +60,7 @@ public class AStarPathfinding {
                 pathNode.gCost = 99999999;
                 pathNode.CalculateFCost();
                 pathNode.cameFromNode = null;
+                pathNode.DetermineIsWalkable();
             }
         }
 
