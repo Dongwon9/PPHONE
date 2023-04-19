@@ -25,7 +25,7 @@ public class Grid<TGridObject> {
         this.height = height;
 
         gridArray = new TGridObject[width, height];
-        originPosition = new Vector3(-31, -31);
+        originPosition = new Vector3(-16, -16);
         for (int x = 0; x < gridArray.GetLength(0); x++) {
             for (int y = 0; y < gridArray.GetLength(1); y++) {
                 gridArray[x, y] = createGridObject(this, x, y);
@@ -41,7 +41,7 @@ public class Grid<TGridObject> {
         if (x >= 0 && y >= 0 && x < width && y < height) {
             return gridArray[x, y];
         } else {
-            Debug.Log("Invalid coordinate in GetGridObject!");
+            Debug.Log("Invalid coordinate in GetGridObject! (" + x + " , " + y + ")");
             return default;
         }
     }

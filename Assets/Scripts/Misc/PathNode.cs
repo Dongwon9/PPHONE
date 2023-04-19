@@ -34,8 +34,7 @@ public class PathNode {
     }
 
     public void DetermineIsWalkable() {
-        GameObject objectHere = GameManager.Instance.GameMapGrid.GetGridObject(x, y);
-        SetIsWalkable(objectHere == null || !objectHere.CompareTag("Wall"));
+        SetIsWalkable(GameManager.Instance.WalkableGrid.GetGridObject(x, y));
     }
 
     public void SetIsWalkable(bool isWalkable) {

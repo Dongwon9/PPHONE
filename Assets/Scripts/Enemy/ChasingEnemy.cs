@@ -9,20 +9,20 @@ public class ChasingEnemy : Enemy {
     [SerializeField] private List<Vector3> pathToPlayer;
 
     protected override void DecideNextAction() {
+        pathToPlayer = pathfinding?.FindPath(transform.position, GameManager.playerReference.transform.position);
         nextAction = () => {
             if (pathToPlayer != null && pathToPlayer.Count > 2) {
-                transform.position = pathToPlayer[1];
+                Move(pathToPlayer[1]);
             }
-            pathToPlayer = pathfinding?.FindPath(transform.position, GameManager.playerReference.transform.position);
         };
-        if (pathToPlayer.Count == 2) {
+        if (pathToPlayer != null && pathToPlayer.Count == 2) {
             AttackPreTurn(GameManager.playerReference.transform.position, 5);
         }
     }
 
     protected override void OnEnable() {
         base.OnEnable();
-        pathfinding = new AStarPathfinding(63, 63);
+        pathfinding = new AStarPathfinding(31, 31);
         pathToPlayer = pathfinding.FindPath(transform.position, GameManager.playerReference.transform.position);
     }
 

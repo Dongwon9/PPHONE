@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
-    public Grid<GameObject> GameMapGrid { get; private set; }
+    public Grid<bool> WalkableGrid { get; private set; }
     public static GameObject playerReference;
     public Image UIWindow;
 
@@ -13,15 +13,14 @@ public class GameManager : MonoBehaviour {
             Instance = this;
         }
         playerReference = GameObject.FindGameObjectWithTag("Player");
-        GameMapGrid = new Grid<GameObject>(63, 63, (grid, x, y) => null);
-
-        GameMapGrid.SetGridObject(playerReference.transform.position, playerReference);
-
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy")) {
-            GameMapGrid.SetGridObject(enemy.transform.position, enemy);
-        }
-        foreach (GameObject wall in GameObject.FindGameObjectsWithTag("Wall")) {
-            GameMapGrid.SetGridObject(wall.transform.position, wall);
+        WalkableGrid = new Grid<bool>(31, 31, (grid, x, y) => true);
+        RaycastHit2D hit2D;
+        for (int x = -16; x <= 16; x++) {
+            for (int y = -16; y <= 16; y++) {
+                hit2D = Physics2D.Raycast(new Vector2(x + 0.5f, y + 0.5f), Vector2.zero, 0.0f, LayerMask.GetMask("Wall"));
+                Debug.Log(x + "," + y + ": " + hit2D.collider);
+                WalkableGrid.SetGridObject(x, y, !hit2D);
+            }
         }
     }
 }

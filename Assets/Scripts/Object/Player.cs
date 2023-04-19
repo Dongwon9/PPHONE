@@ -52,6 +52,7 @@ public class Player : TurnActor {
     protected override void Awake() {
         base.Awake();
         animator = GetComponent<Animator>();
+        Debug.Log(MathF.Floor(-7.5f));
     }
 
     protected override void DecideNextAction() {
@@ -98,15 +99,19 @@ public class Player : TurnActor {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            nextAction = () => Move(Direction.Left);
+            nextAction = () => {
+                Move(Direction.Left);
+            };
         } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            nextAction = () => Move(Direction.Right);
+            nextAction = () => {
+                Move(Direction.Right);
+            };
         } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
             nextAction = () => Move(Direction.Down);
         } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
             nextAction = () => Move(Direction.Up);
-        } else if (Input.GetKeyDown(KeyCode.Z)) { 
-                nextAction = () => PlayerAttack(1);            
+        } else if (Input.GetKeyDown(KeyCode.Z)) {
+            nextAction = () => PlayerAttack(1);
         } else if (Input.GetKeyDown(KeyCode.Space)) {
             nextAction = () => { };
         }
