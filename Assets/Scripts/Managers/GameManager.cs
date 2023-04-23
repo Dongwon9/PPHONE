@@ -17,9 +17,9 @@ public class GameManager : MonoBehaviour {
         RaycastHit2D hit2D;
         for (int x = -16; x <= 16; x++) {
             for (int y = -16; y <= 16; y++) {
-                hit2D = Physics2D.Raycast(new Vector2(x + 0.5f, y + 0.5f), Vector2.zero, 0.0f, LayerMask.GetMask("Wall"));
-                Debug.Log(x + "," + y + ": " + hit2D.collider);
-                WalkableGrid.SetGridObject(x, y, !hit2D);
+                hit2D = Physics2D.Raycast(new Vector2(x + 0.5f, y + 0.5f), Vector2.down, 0.1f, LayerMask.GetMask("Wall"));
+                //Debug.Log(x + "," + y + ": " + hit2D.collider);
+                WalkableGrid.SetGridObject(x + 15, y + 15, !hit2D);
             }
         }
     }

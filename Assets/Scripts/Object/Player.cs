@@ -52,7 +52,7 @@ public class Player : TurnActor {
     protected override void Awake() {
         base.Awake();
         animator = GetComponent<Animator>();
-        Debug.Log(MathF.Floor(-7.5f));
+        TurnReady = true;
     }
 
     protected override void DecideNextAction() {
@@ -116,7 +116,7 @@ public class Player : TurnActor {
             nextAction = () => { };
         }
 
-        if (nextAction != null && timeCounter < 0) {
+        if (nextAction != null && TurnReady) {
             if (UIManager.Instance.UIActive) {
                 UIManager.Instance.SetUIActive(false);
                 nextAction = null;

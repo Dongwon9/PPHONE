@@ -2,6 +2,20 @@ using System;
 using UnityEngine;
 
 public abstract class TurnActor : MonoBehaviour {
+
+    public bool TurnReady {
+        get {
+            return timeCounter == -1;
+        }
+        set {
+            if (value == true) {
+                timeCounter = -1;
+            } else {
+                timeCounter = 0;
+            }
+        }
+    }
+
     protected const float movingTime = 0.05f;
 
     /// <summary>
@@ -14,9 +28,9 @@ public abstract class TurnActor : MonoBehaviour {
     /// </summary>
     protected Collider2D objectCollider;
 
-    protected float timeCounter = -1f;
     private Vector3 moveDir = Vector3.zero;
     private SpriteRenderer spriteRenderer;
+    private float timeCounter = -1f;
 
     /// <summary>
     /// position에 공격 경고를 띄운다. 이 함수를 반복적으로 사용해 적의 공격을 구현한다.
@@ -120,7 +134,7 @@ public abstract class TurnActor : MonoBehaviour {
             DecideNextAction();
         }
         nextAction();
-
+        TurnReady = false;
         nextAction = null;
         // DecideNextAction();
     }
@@ -144,7 +158,7 @@ public abstract class TurnActor : MonoBehaviour {
             timeCounter += Time.deltaTime;
             objectCollider.enabled = false;
             if (timeCounter >= movingTime) {
-                timeCounter = -1f;
+                TurnReady = true;
                 moveDir = Vector3.zero;
 
                 AdjustPosition();
