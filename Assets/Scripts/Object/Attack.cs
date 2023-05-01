@@ -11,8 +11,6 @@ public class Attack : TurnActor {
 
     private IObjectPool<Attack> managedPool;
 
-    private SpriteRenderer spriteRenderer;
-
     //TurnAction���� �浹�� Ȱ��ȭ�� �� 0.2�� �� �������.
     private float timeCount = 0f;
 

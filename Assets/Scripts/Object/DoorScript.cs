@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour {
     private Animator animator;
-    private Collider2D collider;
+    private new Collider2D collider;
 
     private void Awake() {
         animator = GetComponent<Animator>();

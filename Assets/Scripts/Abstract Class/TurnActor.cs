@@ -28,8 +28,8 @@ public abstract class TurnActor : MonoBehaviour {
     /// </summary>
     protected Collider2D objectCollider;
 
+    protected SpriteRenderer spriteRenderer;
     private Vector3 moveDir = Vector3.zero;
-    private SpriteRenderer spriteRenderer;
     private float timeCounter = -1f;
 
     /// <summary>
