@@ -16,7 +16,7 @@ public abstract class TurnActor : MonoBehaviour {
         }
     }
 
-    protected const float movingTime = 0.05f;
+    public const float movingTime = 0.05f;
 
     /// <summary>
     /// 모든 TurnActor들이 사용하는 다음턴 action

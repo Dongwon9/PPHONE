@@ -10,8 +10,6 @@
     --------------------------------------------------
  */
 
-using UnityEngine;
-
 public class PathNode {
     public PathNode cameFromNode;
     public int fCost;
