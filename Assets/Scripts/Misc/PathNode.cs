@@ -32,7 +32,7 @@ public class PathNode {
     }
 
     public void DetermineIsWalkable() {
-        SetIsWalkable(GameManager.Instance.WalkableGrid.GetGridObject(x, y));
+        SetIsWalkable(GameManager.WalkableGrid.GetGridObject(x, y));
     }
 
     public void SetIsWalkable(bool isWalkable) {

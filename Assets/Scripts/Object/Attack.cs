@@ -10,6 +10,7 @@ public class Attack : TurnActor {
     private const float lifeTime = 2 * movingTime;
 
     private IObjectPool<Attack> managedPool;
+    public bool instant;
 
     //TurnAction���� �浹�� Ȱ��ȭ�� �� 0.2�� �� �������.
     private float timeCount = 0f;
@@ -43,11 +44,14 @@ public class Attack : TurnActor {
         } else {
             objectCollider.enabled = true;
         }
+        if (instant) {
+            objectCollider.enabled = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (gameObject.CompareTag("Enemy")) {
-            collision.gameObject.GetComponent<Player>()?.TakeDamage(damage, onHitEffect);
+            collision.gameObject.GetComponent<Player>()?.TakeDamage(damage);
         } else if (gameObject.CompareTag("Player")) {
             collision.gameObject.GetComponent<Enemy>()?.TakeDamage(damage);
         }
@@ -55,7 +59,7 @@ public class Attack : TurnActor {
 
     private void Update() {
         if (!objectCollider.enabled) {
-            if (gameObject.CompareTag("Player")) {
+            if (gameObject.CompareTag("Player") || instant) {
                 objectCollider.enabled = true;
             } else {
                 return;

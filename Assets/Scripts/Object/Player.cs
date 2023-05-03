@@ -4,17 +4,19 @@ using UnityEngine;
 /// <summary>
 /// Player클래스가 턴의 흐름을 제어한다.
 /// </summary>
-public class Player : TurnActor {
-    public int HP { get; private set; }
-    public int MaxHP { get; private set; }
-    public int MaxShield { get; private set; }
-    public int Shield { get; private set; }
+public class Player : TurnActor, TurnActor.IDamagable {
     public Armor equippedArmor = null;
     private Animator animator;
     private Direction facing = Direction.Right;
+    [SerializeField] private int hp;
     private int moveCount = 0;
 
     public static event Action OnTurnUpdate;
+
+    public int HP { get { return hp; } private set { hp = value; } }
+    public int MaxHP { get; private set; }
+    public int MaxShield { get; private set; }
+    public int Shield { get; private set; }
 
     public void AddMaxHP(int value) {
         MaxHP += value;
@@ -37,7 +39,7 @@ public class Player : TurnActor {
         equippedArmor.OnEquip(this);
     }
 
-    public void TakeDamage(int damage, Action onHitEffect = null) {
+    public void TakeDamage(int damage) {
         if (Shield < damage) {
             HP -= damage - Shield;
             Shield = 0;
@@ -46,7 +48,6 @@ public class Player : TurnActor {
         }
         equippedArmor?.OnHit();
         animator.SetTrigger("isHit");
-        onHitEffect?.Invoke();
     }
 
     protected override void Awake() {
@@ -73,6 +74,7 @@ public class Player : TurnActor {
     private new void Move(Direction dir) {
         base.Move(dir);
         facing = dir;
+        animator.SetTrigger("isWalk");
     }
 
     private void PlayerAttack(int damage) {

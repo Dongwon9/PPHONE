@@ -2,6 +2,28 @@ using System;
 using UnityEngine;
 
 public abstract class TurnActor : MonoBehaviour {
+    public const float movingTime = 0.1f;
+
+    /// <summary>
+    /// 모든 TurnActor들이 사용하는 다음턴 action
+    /// </summary>
+    protected Action nextAction;
+
+    /// <summary>
+    /// 이름을 collider 라고 하려 했더니 같은 이름의 deprecated 필드가 있댄다...
+    /// </summary>
+    protected Collider2D objectCollider;
+
+    protected SpriteRenderer spriteRenderer;
+
+    private Vector3 moveDir = Vector3.zero;
+
+    private float timeCounter = -1f;
+
+    public interface IDamagable {
+
+        public void TakeDamage(int damage);
+    }
 
     public bool TurnReady {
         get {
@@ -16,27 +38,11 @@ public abstract class TurnActor : MonoBehaviour {
         }
     }
 
-    public const float movingTime = 0.05f;
-
-    /// <summary>
-    /// 모든 TurnActor들이 사용하는 다음턴 action
-    /// </summary>
-    protected Action nextAction;
-
-    /// <summary>
-    /// 이름을 collider 라고 하려 했더니 같은 이름의 deprecated 필드가 있댄다...
-    /// </summary>
-    protected Collider2D objectCollider;
-
-    protected SpriteRenderer spriteRenderer;
-    private Vector3 moveDir = Vector3.zero;
-    private float timeCounter = -1f;
-
     /// <summary>
     /// position에 공격 경고를 띄운다. 이 함수를 반복적으로 사용해 적의 공격을 구현한다.
     /// </summary>
-    public void AttackPreTurn(Vector3 position, int damage, Action onHitEffect = null) {
-        var attack = ObjectPool.AttackPool.Get();
+    public void AttackPreTurn(Vector3 position, int damage, Action onHitEffect = null, bool instant = false) {
+        Attack attack = ObjectPool.AttackPool.Get();
         attack.tag = gameObject.tag;
         attack.transform.position = position;
         attack.damage = damage;

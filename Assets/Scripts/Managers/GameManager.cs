@@ -2,11 +2,24 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    public static GameManager Instance { get; private set; }
-    public Grid<bool> WalkableGrid { get; private set; }
-    public static GameObject playerReference;
+    public static Grid<bool> WalkableGrid;
     public Image UIWindow;
+    private static GameObject playerReference = null;
     [SerializeField] private bool WalkableGridDebugDisplay;
+    public static GameManager Instance { get; private set; }
+
+    public static GameObject PlayerReference {
+        get {
+            if (playerReference == null) {
+                playerReference = GameObject.FindGameObjectWithTag("Player");
+            }
+            if (playerReference == null) {
+                Debug.LogError("플레이어를 찾을 수 없습니다!");
+            }
+            return playerReference;
+        }
+        set { playerReference = value; }
+    }
 
     private void Awake() {
         if (Instance == null) {

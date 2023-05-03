@@ -20,9 +20,9 @@ public class DoorScript : MonoBehaviour {
                 return;
             }
         }
-        GameManager.Instance.WalkableGrid.SetGridObject(transform.position, true);
-        GameManager.Instance.WalkableGrid.SetGridObject(transform.position + transform.right, true);
-        GameManager.Instance.WalkableGrid.SetGridObject(transform.position - transform.right, true);
+        GameManager.WalkableGrid.SetGridObject(transform.position, true);
+        GameManager.WalkableGrid.SetGridObject(transform.position + transform.right, true);
+        GameManager.WalkableGrid.SetGridObject(transform.position - transform.right, true);
         animator.enabled = true;
         collider.enabled = false;
     }
