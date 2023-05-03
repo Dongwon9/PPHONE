@@ -10,13 +10,11 @@ public class Player : TurnActor, TurnActor.IDamagable {
     private Direction facing = Direction.Right;
     [SerializeField] private int hp;
     private int moveCount = 0;
-
-    public static event Action OnTurnUpdate;
-
     public int HP { get { return hp; } private set { hp = value; } }
     public int MaxHP { get; private set; }
     public int MaxShield { get; private set; }
     public int Shield { get; private set; }
+    public static event Action OnTurnUpdate;
 
     public void AddMaxHP(int value) {
         MaxHP += value;
@@ -101,13 +99,9 @@ public class Player : TurnActor, TurnActor.IDamagable {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            nextAction = () => {
-                Move(Direction.Left);
-            };
+            nextAction = () => Move(Direction.Left);
         } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            nextAction = () => {
-                Move(Direction.Right);
-            };
+            nextAction = () => Move(Direction.Right);
         } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
             nextAction = () => Move(Direction.Down);
         } else if (Input.GetKeyDown(KeyCode.UpArrow)) {

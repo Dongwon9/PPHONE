@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BasicEnemy : Enemy {
+    private readonly EnemyAction Nothing = new(() => { }, () => { });
+
+    private int counter = 0;
+
+    private List<EnemyAction> sampleAI;
+
+    public event Action PreTurnActions;
 
     private class WaveAttack {
         private const int attackDuration = 5;
@@ -59,12 +66,6 @@ public class BasicEnemy : Enemy {
             }
         }
     }
-
-    private readonly EnemyAction Nothing = new(() => { }, () => { });
-    private int counter = 0;
-    private List<EnemyAction> sampleAI;
-
-    public event Action PreTurnActions;
 
     public void AddNextAction(Action action) {
         nextAction += action;

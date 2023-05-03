@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ public class ExplodingEnemy : Enemy {
                 turnsTillExplosion -= 1;
                 if (turnsTillExplosion == 0) {
                     foreach (Vector3 pos in ExplosionPosList) {
-                        AttackPreTurn(pos, damage, null, true);
+                        AttackPreTurn(transform.position + pos, damage, null, true);
                     }
                     Destroy(gameObject);
                 }
@@ -30,6 +29,7 @@ public class ExplodingEnemy : Enemy {
                 }
             };
             if (pathToPlayer != null && pathToPlayer.Count == 2) {
+                nextAction = () => { };
                 turnsTillExplosion = 3;
                 foreach (Vector3 pos in ExplosionPosList) {
                     Instantiate(RedSquare, pos, Quaternion.identity, transform);

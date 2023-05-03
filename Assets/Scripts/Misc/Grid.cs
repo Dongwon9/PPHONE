@@ -2,12 +2,6 @@
 using UnityEngine;
 
 public class Grid<TGridObject> {
-
-    public class OnGridObjectChangedEventArgs : EventArgs {
-        public int x;
-        public int y;
-    }
-
     private const float cellSize = 1f;
 
     private TGridObject[,] gridArray;
@@ -19,6 +13,11 @@ public class Grid<TGridObject> {
     private int width;
 
     public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
+
+    public class OnGridObjectChangedEventArgs : EventArgs {
+        public int x;
+        public int y;
+    }
 
     public Grid(int width, int height, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject, bool debug = false) {
         this.width = width;

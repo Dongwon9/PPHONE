@@ -3,28 +3,17 @@ using UnityEngine;
 
 public abstract class TurnActor : MonoBehaviour {
     public const float movingTime = 0.1f;
-
     /// <summary>
     /// 모든 TurnActor들이 사용하는 다음턴 action
     /// </summary>
     protected Action nextAction;
-
     /// <summary>
     /// 이름을 collider 라고 하려 했더니 같은 이름의 deprecated 필드가 있댄다...
     /// </summary>
     protected Collider2D objectCollider;
-
     protected SpriteRenderer spriteRenderer;
-
     private Vector3 moveDir = Vector3.zero;
-
     private float timeCounter = -1f;
-
-    public interface IDamagable {
-
-        public void TakeDamage(int damage);
-    }
-
     public bool TurnReady {
         get {
             return timeCounter == -1;
@@ -36,6 +25,10 @@ public abstract class TurnActor : MonoBehaviour {
                 timeCounter = 0;
             }
         }
+    }
+
+    public interface IDamagable {
+        public void TakeDamage(int damage);
     }
 
     /// <summary>

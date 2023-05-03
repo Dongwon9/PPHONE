@@ -4,21 +4,11 @@ using UnityEngine.Pool;
 
 public class Attack : TurnActor {
     public int damage;
-
-    public Action onHitEffect;
-
-    private const float lifeTime = 2 * movingTime;
-
-    private IObjectPool<Attack> managedPool;
     public bool instant;
-
-    //TurnAction���� �浹�� Ȱ��ȭ�� �� 0.2�� �� �������.
+    public Action onHitEffect;
+    private const float lifeTime = 2 * movingTime;
+    private IObjectPool<Attack> managedPool;
     private float timeCount = 0f;
-
-    /// <summary>
-    /// ������ƮǮ���� Ȱ���ϴ� �ڵ�
-    /// </summary>
-    /// <param name="pool"></param>
     public void SetManagedPool(IObjectPool<Attack> pool) {
         managedPool = pool;
     }

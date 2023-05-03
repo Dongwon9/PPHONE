@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 public class ObjectPool : MonoBehaviour {
-    public Attack AttackPrefab;
     public static IObjectPool<Attack> AttackPool;
+    public Attack AttackPrefab;
 
     private void Awake() {
         AttackPool = new ObjectPool<Attack>(

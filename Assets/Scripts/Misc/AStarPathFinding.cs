@@ -14,12 +14,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AStarPathfinding {
-    public static AStarPathfinding Instance { get; private set; }
     private const int MOVE_DIAGONAL_COST = 14;
     private const int MOVE_STRAIGHT_COST = 10;
     private List<PathNode> closedList;
     private Grid<PathNode> grid;
     private List<PathNode> openList;
+    public static AStarPathfinding Instance { get; private set; }
 
     public AStarPathfinding(int width, int height) {
         Instance = this;

@@ -4,6 +4,11 @@ using UnityEngine;
 public enum Direction { Left, Up, Right, Down };
 
 public abstract class Enemy : TurnActor {
+    public int HP;
+
+    private Animator animator;
+
+    [SerializeField] private SpriteRenderer NextActonSprite;
 
     protected class EnemyAction {
         public Action PreTurnAction;
@@ -14,12 +19,6 @@ public abstract class Enemy : TurnActor {
             TurnAction = turnAction;
         }
     }
-
-    public int HP;
-
-    private Animator animator;
-
-    [SerializeField] private SpriteRenderer NextActonSprite;
 
     public virtual void TakeDamage(int damage) {
         HP -= damage;
