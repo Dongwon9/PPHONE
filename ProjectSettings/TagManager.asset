@@ -41,7 +41,7 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: a
+  - name: Player
     uniqueID: 2444563313
     locked: 0
   - name: Default

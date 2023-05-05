@@ -40,6 +40,7 @@ public abstract class TurnActor : MonoBehaviour {
         attack.transform.position = position;
         attack.damage = damage;
         attack.onHitEffect = onHitEffect;
+        attack.instant = instant;
     }
 
     protected virtual void Awake() {

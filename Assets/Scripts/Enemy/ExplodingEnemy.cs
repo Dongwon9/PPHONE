@@ -30,9 +30,9 @@ public class ExplodingEnemy : Enemy {
             };
             if (pathToPlayer != null && pathToPlayer.Count == 2) {
                 nextAction = () => { };
-                turnsTillExplosion = 3;
+                turnsTillExplosion = 2;
                 foreach (Vector3 pos in ExplosionPosList) {
-                    Instantiate(RedSquare, pos, Quaternion.identity, transform);
+                    Instantiate(RedSquare, transform.position + pos, Quaternion.identity, transform);
                 }
             }
         }

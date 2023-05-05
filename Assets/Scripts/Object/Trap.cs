@@ -9,8 +9,8 @@ public class Trap : MonoBehaviour {
     // Update is called once per frame
     private void OnCollisionEnter2D(Collision2D collision) {
         bool success = collision.gameObject.TryGetComponent<TurnActor.IDamagable>(out var damageTarget);
-        Debug.Log(damageTarget.ToString());
         if (success) {
+            Debug.Log(damageTarget.ToString());
             damageTarget.TakeDamage(damage);
             if (oneUse) {
                 Destroy(gameObject);

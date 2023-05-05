@@ -493,8 +493,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea413593eb608764584be386e3d8f7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 1996313952}
   UIWindow: {fileID: 2133075621}
+  text: {fileID: 1996313952}
 --- !u!1 &376795921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,7 +1450,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 999
   m_Sprite: {fileID: 1393205960, guid: 25b77881da547d44880840a6465ad366, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1470,7 +1470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783624750}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 2.53, z: 0}
+  m_LocalPosition: {x: -1.45, y: 2.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1835,7 +1835,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1057875771}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.47, y: 2.48, z: 0}
+  m_LocalPosition: {x: 2.13, y: 2.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1904,10 +1904,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 0
   NextActonSprite: {fileID: 0}
-  pathToPlayer: []
   damage: 10
-  RedSquare: {fileID: 8814332389410693332, guid: 7b7f6322d46ff844ba3ae415fccad9bc, type: 3}
   ExplosionRadius: 3
+  pathToPlayer: []
+  RedSquare: {fileID: 8814332389410693332, guid: 7b7f6322d46ff844ba3ae415fccad9bc, type: 3}
 --- !u!1 &1067161517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1940,8 +1940,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea413593eb608764584be386e3d8f7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 1996313952}
   UIWindow: {fileID: 2133075621}
+  text: {fileID: 1996313952}
 --- !u!114 &1067161519
 MonoBehaviour:
   m_ObjectHideFlags: 0

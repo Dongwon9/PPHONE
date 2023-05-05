@@ -60,5 +60,8 @@ public class Attack : TurnActor {
             managedPool.Release(this);
             timeCount = 0f;
         }
+        if (instant) {
+            objectCollider.enabled = true;
+        }
     }
 }

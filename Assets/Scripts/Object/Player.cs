@@ -113,12 +113,12 @@ public class Player : TurnActor, TurnActor.IDamagable {
         }
 
         if (nextAction != null && TurnReady) {
-            if (UIManager.Instance.UIActive) {
-                UIManager.Instance.SetUIActive(false);
-                nextAction = null;
-            } else {
-                OnTurnUpdate();
-            }
+            //if (UIManager.Instance.UIActive) {
+            //    UIManager.Instance.SetUIActive(false);
+            //    nextAction = null;
+            //} else {
+            OnTurnUpdate();
+            //}
         }
     }
 }
