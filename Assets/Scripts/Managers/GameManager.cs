@@ -1,9 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 
+//디자인패턴: 싱글톤
 public class GameManager : MonoBehaviour {
+    //맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자
     public static Grid<bool> WalkableGrid;
-    public Image UIWindow;
+    //public Image UIWindow;
+    //플레이어 스크립트에 대한 참조는 이걸로 하면 된다.
     private static GameObject playerReference = null;
     [SerializeField] private bool WalkableGridDebugDisplay;
     public static GameManager Instance { get; private set; }
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour {
         playerReference = GameObject.FindGameObjectWithTag("Player");
         WalkableGrid = new Grid<bool>(31, 31, (grid, x, y) => true, WalkableGridDebugDisplay);
         RaycastHit2D hit2D;
+        //(-16,-16)에서(16,16)까지의 맵의 모든 칸에 하나싹 레이캐스트를 해서
+        //거기에 벽이 있는지를 판단한다.
         for (int x = -16; x <= 16; x++) {
             for (int y = -16; y <= 16; y++) {
                 hit2D = Physics2D.Raycast(new Vector2(x + 0.5f, y + 0.5f), Vector2.down, 0.1f, LayerMask.GetMask("Wall"));

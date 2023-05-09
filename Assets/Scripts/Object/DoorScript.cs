@@ -10,7 +10,6 @@ public class DoorScript : MonoBehaviour {
         collider = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
     private void Update() {
         RaycastHit2D hit =
           Physics2D.Raycast(transform.position - transform.right - transform.up, transform.right, 2, LayerMask.GetMask("Player"));
@@ -20,6 +19,7 @@ public class DoorScript : MonoBehaviour {
                 return;
             }
         }
+
         GameManager.WalkableGrid.SetGridObject(transform.position, true);
         GameManager.WalkableGrid.SetGridObject(transform.position + transform.right, true);
         GameManager.WalkableGrid.SetGridObject(transform.position - transform.right, true);

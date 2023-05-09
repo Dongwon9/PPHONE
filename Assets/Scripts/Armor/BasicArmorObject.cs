@@ -1,7 +1,6 @@
 ﻿public class BasicArmorObject : Container {
 
     private class BasicArmor : Armor {
-
         public override void OnEquip(Player player) {
             base.OnEquip(player);
             player.AddMaxShield(20);

@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour {
     [SerializeField] private int damage;
+    /// <summary>이 함정은 일회용인가?</summary>
     [SerializeField] private bool oneUse;
 
-    // Start is called before the first frame update
-
-    // Update is called once per frame
     private void OnCollisionEnter2D(Collision2D collision) {
-        bool success = collision.gameObject.TryGetComponent<TurnActor.IDamagable>(out var damageTarget);
+        //이것이 바로 인터페이스의 활용법!
+        TurnActor.IDamagable damageTarget;
+        bool success = collision.gameObject.TryGetComponent<TurnActor.IDamagable>(out damageTarget);
         if (success) {
-            Debug.Log(damageTarget.ToString());
             damageTarget.TakeDamage(damage);
             if (oneUse) {
                 Destroy(gameObject);

@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 
 public abstract class TurnActor : MonoBehaviour {
+    /// <summary>
+    /// 한 턴의 실행이 끝나는데 걸리는 시간.<br></br>
+    /// 플레이어는 최소 이 시간을 기다린 후에 행동할 수 있다.
+    /// </summary>
     public const float movingTime = 0.1f;
     /// <summary>
     /// 모든 TurnActor들이 사용하는 다음턴 action
@@ -14,6 +18,10 @@ public abstract class TurnActor : MonoBehaviour {
     protected SpriteRenderer spriteRenderer;
     private Vector3 moveDir = Vector3.zero;
     private float timeCounter = -1f;
+    /// <summary>
+    /// Private인 timeCounter를 대신해 클래스들이 참조할 수 있는 속성<br></br>
+    /// 다른 클래스들은 자신 턴이 준비 됐는지만 알 수 있다.
+    /// </summary>
     public bool TurnReady {
         get {
             return timeCounter == -1;
@@ -128,6 +136,9 @@ public abstract class TurnActor : MonoBehaviour {
         DecideNextAction();
     }
 
+    /// <summary>
+    /// 현재 턴의 행동을 실행하는 코드
+    /// </summary>
     protected virtual void TurnUpdate() {
         if (nextAction == null) {
             Debug.Log(ToString() + "의 nextAction이 null입니다");

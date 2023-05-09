@@ -3,15 +3,10 @@ using UnityEngine;
 
 public class Grid<TGridObject> {
     private const float cellSize = 1f;
-
     private TGridObject[,] gridArray;
-
     private int height;
-
     private Vector3 originPosition;
-
     private int width;
-
     public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
 
     public class OnGridObjectChangedEventArgs : EventArgs {
@@ -33,7 +28,6 @@ public class Grid<TGridObject> {
         bool showDebug = debug;
         if (showDebug) {
             TextMesh[,] debugTextArray = new TextMesh[width, height];
-
             for (int x = 0; x < gridArray.GetLength(0); x++) {
                 for (int y = 0; y < gridArray.GetLength(1); y++) {
                     debugTextArray[x, y] = CreateWorldText(
@@ -44,7 +38,6 @@ public class Grid<TGridObject> {
             }
             Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
             Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
-
             OnGridObjectChanged += (object sender, OnGridObjectChangedEventArgs eventArgs) => {
                 debugTextArray[eventArgs.x, eventArgs.y].text = gridArray[eventArgs.x, eventArgs.y]?.ToString();
             };

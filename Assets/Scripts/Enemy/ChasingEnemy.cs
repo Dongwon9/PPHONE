@@ -11,10 +11,12 @@ public class ChasingEnemy : Enemy {
     protected override void DecideNextAction() {
         pathToPlayer = pathfinding?.FindPath(transform.position, GameManager.PlayerReference.transform.position);
         nextAction = () => {
+            //필요한 이동 길이가 2칸보다 많으면 움직인다.
             if (pathToPlayer != null && pathToPlayer.Count > 2) {
                 Move(pathToPlayer[1]);
             }
         };
+        //필요한 이동 길이가 2칸이면 공격한다.
         if (pathToPlayer != null && pathToPlayer.Count == 2) {
             AttackPreTurn(GameManager.PlayerReference.transform.position, 5);
         }

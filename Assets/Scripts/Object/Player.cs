@@ -14,6 +14,11 @@ public class Player : TurnActor, TurnActor.IDamagable {
     public int MaxHP { get; private set; }
     public int MaxShield { get; private set; }
     public int Shield { get; private set; }
+    /// <summary>
+    /// 모든 TurnActor들이 이 이벤트에 TurnUpdate()를 구독시키고,
+    /// 플레이어 행동이 정해지면 이 이벤트를 호출해 이 이벤트에 구독된
+    /// 수많은 TurnActor들의 TurnUpdate()가 실행된다.
+    /// </summary>
     public static event Action OnTurnUpdate;
 
     public void AddMaxHP(int value) {
