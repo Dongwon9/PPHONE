@@ -8,4 +8,8 @@ public class DestroyableWall : Enemy {
     }
 
     protected override void DecideNextAction() => nextAction = () => { };
+
+    private void Update() {
+        nextAction = () => { };
+    }
 }

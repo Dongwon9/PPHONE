@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum Direction { Left, Up, Right, Down };
 
-public abstract class Enemy : TurnActor {
+public abstract class Enemy : TurnActor, TurnActor.IDamagable {
     public int HP;
 
     private Animator animator;

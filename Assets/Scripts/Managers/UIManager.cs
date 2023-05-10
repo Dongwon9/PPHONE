@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour {
     public GameObject UIWindow;
     [SerializeField] private TextMeshProUGUI text;
     public bool UIActive { get; private set; }
-
+    //TODO : 체력바와 쉴드바 만들기
     private UIManager() {
     }
 

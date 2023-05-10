@@ -7,14 +7,11 @@ public abstract class TurnActor : MonoBehaviour {
     /// 플레이어는 최소 이 시간을 기다린 후에 행동할 수 있다.
     /// </summary>
     public const float movingTime = 0.1f;
+    protected new Collider2D collider;
     /// <summary>
     /// 모든 TurnActor들이 사용하는 다음턴 action
     /// </summary>
     protected Action nextAction;
-    /// <summary>
-    /// 이름을 collider 라고 하려 했더니 같은 이름의 deprecated 필드가 있댄다...
-    /// </summary>
-    protected Collider2D objectCollider;
     protected SpriteRenderer spriteRenderer;
     private Vector3 moveDir = Vector3.zero;
     private float timeCounter = -1f;
@@ -52,7 +49,7 @@ public abstract class TurnActor : MonoBehaviour {
     }
 
     protected virtual void Awake() {
-        objectCollider = GetComponent<Collider2D>();
+        collider = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -61,21 +58,26 @@ public abstract class TurnActor : MonoBehaviour {
     /// </summary>
     protected abstract void DecideNextAction();
 
+    //스프라이트를 X축으로 뒤집거나 뒤집지 않는다
+    protected virtual void FlipSprite(bool toRight) {
+        spriteRenderer.flipX = toRight;
+    }
+
     /// <summary>
     /// dir 방향으로 1칸 이동한다.
     /// </summary>
     protected void Move(Direction dir) {
         Vector3 direction = Vector3.zero;
-        bool? spriteFlip = null;
+        bool? moveToRight = null;
         switch (dir) {
             case Direction.Left:
                 direction = Vector3.left;
-                spriteFlip = true;
+                moveToRight = false;
                 break;
 
             case Direction.Right:
                 direction = Vector3.right;
-                spriteFlip = false;
+                moveToRight = true;
                 break;
 
             case Direction.Up:
@@ -93,8 +95,8 @@ public abstract class TurnActor : MonoBehaviour {
             timeCounter = 0;
         }
         //스프라이트 x축으로 반전
-        if (spriteFlip != null) {
-            spriteRenderer.flipX = (bool)spriteFlip;
+        if (moveToRight != null) {
+            FlipSprite((bool)moveToRight);
         }
     }
 
@@ -167,13 +169,13 @@ public abstract class TurnActor : MonoBehaviour {
             }
             transform.Translate(moveDir * Time.fixedDeltaTime / movingTime);
             timeCounter += Time.deltaTime;
-            objectCollider.enabled = false;
+            collider.enabled = false;
             if (timeCounter >= movingTime) {
                 TurnReady = true;
                 moveDir = Vector3.zero;
 
                 AdjustPosition();
-                objectCollider.enabled = true;
+                collider.enabled = true;
                 DecideNextAction();
             }
         }

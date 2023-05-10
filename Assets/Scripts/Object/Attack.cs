@@ -9,13 +9,19 @@ public class Attack : TurnActor {
     private const float lifeTime = 2 * movingTime;
     private IObjectPool<Attack> managedPool;
     private float timeCount = 0f;
+    /// <summary>
+    /// 공격이 실행되기 전에 제거하기 위한 public 메서드
+    /// </summary>
+    public void RemoveAttack() {
+        managedPool.Release(this);
+    }
+
     public void SetManagedPool(IObjectPool<Attack> pool) {
         managedPool = pool;
     }
 
     protected override void Awake() {
         base.Awake();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     protected override void DecideNextAction() {
@@ -26,16 +32,16 @@ public class Attack : TurnActor {
         base.OnEnable();
         spriteRenderer.enabled = true;
         if (gameObject.CompareTag("Enemy")) {
-            objectCollider.enabled = false;
+            collider.enabled = false;
             nextAction += () => {
-                objectCollider.enabled = true;
+                collider.enabled = true;
                 spriteRenderer.enabled = false;
             };
         } else {
-            objectCollider.enabled = true;
+            collider.enabled = true;
         }
         if (instant) {
-            objectCollider.enabled = true;
+            collider.enabled = true;
         }
     }
 
@@ -48,9 +54,9 @@ public class Attack : TurnActor {
     }
 
     private void Update() {
-        if (!objectCollider.enabled) {
+        if (!collider.enabled) {
             if (gameObject.CompareTag("Player") || instant) {
-                objectCollider.enabled = true;
+                collider.enabled = true;
             } else {
                 return;
             }
@@ -61,7 +67,7 @@ public class Attack : TurnActor {
             timeCount = 0f;
         }
         if (instant) {
-            objectCollider.enabled = true;
+            collider.enabled = true;
         }
     }
 }

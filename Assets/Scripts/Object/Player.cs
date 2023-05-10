@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,20 +7,36 @@ using UnityEngine;
 /// </summary>
 public class Player : TurnActor, TurnActor.IDamagable {
     public Armor equippedArmor = null;
+    private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
     private Direction facing = Direction.Right;
-    [SerializeField] private int hp;
+    [SerializeField]
+    private int hp = 100, maxHp = 100, shield = 20, maxShield = 20;
     private int moveCount = 0;
+    [SerializeField]
+    private List<GameObject> playerParts;
     public int HP { get { return hp; } private set { hp = value; } }
-    public int MaxHP { get; private set; }
-    public int MaxShield { get; private set; }
-    public int Shield { get; private set; }
+    public int MaxHP { get { return maxHp; } private set { maxHp = value; } }
+    public int MaxShield { get { return maxShield; } private set { maxShield = value; } }
+    public int Shield { get { return shield; } private set { shield = value; } }
+
     /// <summary>
     /// 모든 TurnActor들이 이 이벤트에 TurnUpdate()를 구독시키고,
     /// 플레이어 행동이 정해지면 이 이벤트를 호출해 이 이벤트에 구독된
     /// 수많은 TurnActor들의 TurnUpdate()가 실행된다.
     /// </summary>
     public static event Action OnTurnUpdate;
+
+    private class PartComponents {
+        public Animator animator;
+        public SpriteRenderer sprite;
+        public Transform transform;
+        public PartComponents(Animator animator, SpriteRenderer sprite, Transform transform) {
+            this.animator = animator ?? throw new ArgumentNullException(nameof(animator));
+            this.sprite = sprite ?? throw new ArgumentNullException(nameof(sprite));
+            this.transform = transform;
+        }
+    }
 
     public void AddMaxHP(int value) {
         MaxHP += value;
@@ -56,10 +73,29 @@ public class Player : TurnActor, TurnActor.IDamagable {
     protected override void Awake() {
         base.Awake();
         animator = GetComponent<Animator>();
+        foreach (GameObject obj in playerParts) {
+            playerPartComponents.Add(
+                new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
+        }
         TurnReady = true;
     }
 
     protected override void DecideNextAction() {
+    }
+
+    protected override void FlipSprite(bool toRight) {
+        base.FlipSprite(toRight);
+        float sign;
+        if (toRight) {
+            sign = 1.0f;
+        } else {
+            sign = -1.0f;
+        }
+
+        foreach (var part in playerPartComponents) {
+            part.sprite.flipX = !toRight;
+            part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
+        }
     }
 
     protected override void TurnUpdate() {
@@ -100,6 +136,9 @@ public class Player : TurnActor, TurnActor.IDamagable {
                 break;
         }
         AttackPreTurn(transform.position + direction, damage);
+        foreach (var obj in playerPartComponents) {
+            obj.animator.SetTrigger("Attack");
+        }
     }
 
     private void Update() {
@@ -125,5 +164,7 @@ public class Player : TurnActor, TurnActor.IDamagable {
             OnTurnUpdate();
             //}
         }
+        //메인카메라가 플레이어의 자식이 아니기 때문에
+        //이렇게 따라오게 한다.
     }
 }

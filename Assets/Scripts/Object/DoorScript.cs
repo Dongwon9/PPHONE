@@ -1,13 +1,18 @@
 using UnityEngine;
 
-public class DoorScript : MonoBehaviour {
+public class DoorScript : TurnActor {
     private Animator animator;
-    private new Collider2D collider;
 
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         animator = GetComponent<Animator>();
         animator.enabled = false;
-        collider = GetComponent<Collider2D>();
+    }
+
+    protected override void DecideNextAction() {
+        //TODO: 턴 진행이 끝난 후에도 플레이어가 레이캐스트에 닿아있으면
+        //문이 열린다.
+        nextAction = () => { };
     }
 
     private void Update() {
