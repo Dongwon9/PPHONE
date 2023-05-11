@@ -8,7 +8,5 @@ public class ShopScript : MonoBehaviour {
             return;
         }
         counter += 1;
-        UIManager.Instance.SetText(counter + "번째로 만나는군, " + collision.name);
-        UIManager.Instance.SetUIActive(true);
     }
 }

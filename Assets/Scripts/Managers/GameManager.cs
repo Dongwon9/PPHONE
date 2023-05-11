@@ -6,14 +6,14 @@ public class GameManager : MonoBehaviour {
     public static Grid<bool> WalkableGrid;
     //public Image UIWindow;
     //플레이어 스크립트에 대한 참조는 이걸로 하면 된다.
-    private static GameObject playerReference = null;
+    private static Player playerReference = null;
     [SerializeField] private bool WalkableGridDebugDisplay;
     public static GameManager Instance { get; private set; }
 
-    public static GameObject PlayerReference {
+    public static Player PlayerReference {
         get {
             if (playerReference == null) {
-                playerReference = GameObject.FindGameObjectWithTag("Player");
+                playerReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
             }
             if (playerReference == null) {
                 Debug.LogError("플레이어를 찾을 수 없습니다!");
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-        playerReference = GameObject.FindGameObjectWithTag("Player");
+        playerReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         WalkableGrid = new Grid<bool>(31, 31, (grid, x, y) => true, WalkableGridDebugDisplay);
         RaycastHit2D hit2D;
         //(-16,-16)에서(16,16)까지의 맵의 모든 칸에 하나싹 레이캐스트를 해서

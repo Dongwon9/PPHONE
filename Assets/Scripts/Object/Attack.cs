@@ -6,7 +6,7 @@ public class Attack : TurnActor {
     public int damage;
     public bool instant;
     public Action onHitEffect;
-    private const float lifeTime = 2 * movingTime;
+    private const float lifeTime = 2 * MovingTurnActor.movingTime;
     private IObjectPool<Attack> managedPool;
     private float timeCount = 0f;
     /// <summary>

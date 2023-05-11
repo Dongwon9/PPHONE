@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Player클래스가 턴의 흐름을 제어한다.
 /// </summary>
-public class Player : TurnActor, TurnActor.IDamagable {
+public class Player : MovingTurnActor, TurnActor.IDamagable {
     public Armor equippedArmor = null;
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
