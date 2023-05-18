@@ -6,19 +6,21 @@ using UnityEngine;
 /// Player클래스가 턴의 흐름을 제어한다.
 /// </summary>
 public class Player : MovingTurnActor, TurnActor.IDamagable {
+    public static Player Instance;
     public Armor equippedArmor = null;
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
+    private int defaultAttackDamage = 1;
     private Direction facing = Direction.Right;
     [SerializeField]
-    private int hp = 100, maxHp = 100, shield = 20, maxShield = 20;
+    private int hp = 100, maxHP = 100, shield = 20, maxShield = 20;
     private int moveCount = 0;
     [SerializeField]
     private List<GameObject> playerParts;
-    public int HP { get { return hp; } private set { hp = value; } }
-    public int MaxHP { get { return maxHp; } private set { maxHp = value; } }
-    public int MaxShield { get { return maxShield; } private set { maxShield = value; } }
-    public int Shield { get { return shield; } private set { shield = value; } }
+    public int HP => hp;
+    public int MaxHP => maxHP;
+    public int MaxShield => maxShield;
+    public int Shield => shield;
 
     /// <summary>
     /// 모든 TurnActor들이 이 이벤트에 TurnUpdate()를 구독시키고,
@@ -27,51 +29,69 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     /// </summary>
     public static event Action OnTurnUpdate;
 
+    /// <summary>
+    /// 플레이어의 파츠의 필요한 컴포넌트만 담는 클래스
+    /// GetComponent를 최대한 적게 쓰려고 만들었다.
+    /// </summary>
     private class PartComponents {
         public Animator animator;
         public SpriteRenderer sprite;
         public Transform transform;
         public PartComponents(Animator animator, SpriteRenderer sprite, Transform transform) {
-            this.animator = animator ?? throw new ArgumentNullException(nameof(animator));
-            this.sprite = sprite ?? throw new ArgumentNullException(nameof(sprite));
+            this.animator = animator != null ? animator : throw new ArgumentNullException(nameof(animator));
+            this.sprite = sprite != null ? sprite : throw new ArgumentNullException(nameof(sprite));
             this.transform = transform;
         }
     }
 
     public void AddMaxHP(int value) {
-        MaxHP += value;
+        maxHP += value;
     }
 
     /// <summary>
     /// 최대 쉴드 감소는 여기에 음수를 넣어서 표현한다.("음수를 더한다")
     /// </summary>
     public void AddMaxShield(int value) {
-        MaxShield += value;
+        maxShield += value;
     }
 
     public void ArmorEquip(Armor armor) {
         if (equippedArmor != null) {
             equippedArmor.OnUnequip();
-            //TODO:그 자리에서 움직이면, EquippedArmor(였던 것)를 가진 Container가
-            //마지막에 있던 자리에 생성된다.
         }
         equippedArmor = armor;
         equippedArmor.OnEquip(this);
     }
 
     public void TakeDamage(int damage) {
-        if (Shield < damage) {
-            HP -= damage - Shield;
-            Shield = 0;
+        if (shield < damage) {
+            hp -= damage - shield;
+            shield = 0;
         } else {
-            Shield -= damage;
+            shield -= damage;
         }
         equippedArmor?.OnHit();
         animator.SetTrigger("isHit");
     }
 
+    /// <summary>
+    /// 입력은 여기에서 받는다.
+    /// </summary>
+    public void TakeInput(Direction? inputDir) {
+        if (inputDir == null) {
+            nextAction = () => { };
+            return;
+        }
+        if (ButtonManager.Instance.AttackMode) {
+            nextAction = () => PlayerAttack((Direction)inputDir, defaultAttackDamage);
+        } else {
+            nextAction = () => Move((Direction)inputDir);
+        }
+    }
+
     protected override void Awake() {
         base.Awake();
+        Instance = this;
         animator = GetComponent<Animator>();
         foreach (GameObject obj in playerParts) {
             playerPartComponents.Add(
@@ -84,14 +104,11 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     }
 
     protected override void FlipSprite(bool toRight) {
+        //먼저 자신을 뒤집는다
         base.FlipSprite(toRight);
-        float sign;
-        if (toRight) {
-            sign = 1.0f;
-        } else {
-            sign = -1.0f;
-        }
-
+        //어느쪽으로 뒤집혔는가?
+        float sign = toRight ? 1.0f : -1.0f;
+        //자신의 모든 파츠를 플레이어와 같은 방향으로 뒤집는다
         foreach (var part in playerPartComponents) {
             part.sprite.flipX = !toRight;
             part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
@@ -103,11 +120,9 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         moveCount += 1;
         if (moveCount == 3) {
             moveCount = 0;
-            HP -= 1;
+            hp -= 1;
         }
-        if (equippedArmor != null) {
-            equippedArmor.OnTurnUpdate();
-        }
+        equippedArmor?.OnTurnUpdate();
     }
 
     private new void Move(Direction dir) {
@@ -116,9 +131,9 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         animator.SetTrigger("isWalk");
     }
 
-    private void PlayerAttack(int damage) {
+    private void PlayerAttack(Direction dir, int damage) {
         Vector3 direction = Vector3.zero;
-        switch (facing) {
+        switch (dir) {
             case Direction.Left:
                 direction = Vector3.left;
                 break;
@@ -136,6 +151,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
                 break;
         }
         AttackPreTurn(transform.position + direction, damage);
+
         foreach (var obj in playerPartComponents) {
             obj.animator.SetTrigger("Attack");
         }
@@ -151,7 +167,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
             nextAction = () => Move(Direction.Up);
         } else if (Input.GetKeyDown(KeyCode.Z)) {
-            nextAction = () => PlayerAttack(1);
+            nextAction = () => PlayerAttack(facing, 1);
         } else if (Input.GetKeyDown(KeyCode.Space)) {
             nextAction = () => { };
         }
@@ -164,7 +180,5 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             OnTurnUpdate();
             //}
         }
-        //메인카메라가 플레이어의 자식이 아니기 때문에
-        //이렇게 따라오게 한다.
     }
 }

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+public enum Direction { Left, Up, Right, Down };
+
 //디자인패턴: 싱글톤
 public class GameManager : MonoBehaviour {
     //맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자

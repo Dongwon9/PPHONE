@@ -23,7 +23,7 @@ public class ExplodingEnemy : Enemy {
             };
         } else {
             //ChasingEnemy와 같은 위치추적 로직
-            pathToPlayer = pathfinding?.FindPath(transform.position, GameManager.PlayerReference.transform.position);
+            pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
             nextAction = () => {
                 if (pathToPlayer != null && pathToPlayer.Count > 2) {
                     Move(pathToPlayer[1]);
@@ -43,7 +43,7 @@ public class ExplodingEnemy : Enemy {
     protected override void OnEnable() {
         base.OnEnable();
         pathfinding = new AStarPathfinding(31, 31);
-        pathToPlayer = pathfinding?.FindPath(transform.position, GameManager.PlayerReference.transform.position);
+        pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
         ExplosionPosList = new();
         for (int x = -ExplosionRadius; x <= ExplosionRadius; x++) {
             for (int y = -(ExplosionRadius - Mathf.Abs(x)); y <= (ExplosionRadius - Mathf.Abs(x)); y++) {

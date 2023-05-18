@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-public enum Direction { Left, Up, Right, Down };
-
 public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
     public int HP;
 
