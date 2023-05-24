@@ -102,7 +102,9 @@ public abstract class MovingTurnActor : TurnActor {
     /// 오브젝트의 좌표를 (정수)+0.5로 교정한다.
     /// </summary>
     private void AdjustPosition() {
-        transform.position = new Vector3(MathF.Floor(transform.position.x) + 0.5f, MathF.Floor(transform.position.y) + 0.5f,
+        transform.position = new Vector3(
+            MathF.Floor(transform.position.x) + 0.5f,
+            MathF.Floor(transform.position.y) + 0.5f,
             MathF.Floor(transform.position.y) * 0.1f);
     }
 

@@ -26,7 +26,7 @@ public class ExplodingEnemy : Enemy {
             pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
             nextAction = () => {
                 if (pathToPlayer != null && pathToPlayer.Count > 2) {
-                    Move(pathToPlayer[1]);
+                    Invoke(nameof(ExecuteMove), movingTime);
                 }
             };
             if (pathToPlayer != null && pathToPlayer.Count == 2) {
@@ -50,5 +50,9 @@ public class ExplodingEnemy : Enemy {
                 ExplosionPosList.Add(new Vector3(x, y));
             }
         }
+    }
+
+    private void ExecuteMove() {
+        Move(pathToPlayer[1]);
     }
 }
