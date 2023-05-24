@@ -13,6 +13,7 @@ public abstract class TurnActor : MonoBehaviour {
     /// </summary>
     protected Action nextAction;
     protected SpriteRenderer spriteRenderer;
+    protected bool StartsFacingRight;
 
     public interface IDamagable {
         public void TakeDamage(int damage);
@@ -42,7 +43,7 @@ public abstract class TurnActor : MonoBehaviour {
 
     //스프라이트를 X축으로 뒤집거나 뒤집지 않는다
     protected virtual void FlipSprite(bool toRight) {
-        spriteRenderer.flipX = toRight;
+        spriteRenderer.flipX = StartsFacingRight ? !toRight : toRight;
     }
 
     /// <summary>

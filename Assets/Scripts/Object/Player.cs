@@ -63,6 +63,12 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         equippedArmor.OnEquip(this);
     }
 
+    public void HideOrShowArm(int showArm) {
+        foreach (var part in playerPartComponents) {
+            part.sprite.enabled = showArm == 1 ? true : false;
+        }
+    }
+
     public void TakeDamage(int damage) {
         if (shield < damage) {
             hp -= damage - shield;
@@ -98,11 +104,16 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
                 new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
         }
         TurnReady = true;
+        StartsFacingRight = true;
     }
 
     protected override void DecideNextAction() {
     }
 
+    /// <summary>
+    /// 자신 스프라이트를 좌우로 뒤집는다.
+    /// </summary>
+    /// <param name="toRight">true면 오른쪽, false면 왼쪽을 보게 된다.</param>
     protected override void FlipSprite(bool toRight) {
         //먼저 자신을 뒤집는다
         base.FlipSprite(toRight);
@@ -110,7 +121,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         float sign = toRight ? 1.0f : -1.0f;
         //자신의 모든 파츠를 플레이어와 같은 방향으로 뒤집는다
         foreach (var part in playerPartComponents) {
-            part.sprite.flipX = !toRight;
+            part.sprite.flipX = spriteRenderer.flipX;
             part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
         }
     }
@@ -136,10 +147,12 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         switch (dir) {
             case Direction.Left:
                 direction = Vector3.left;
+                FlipSprite(false);
                 break;
 
             case Direction.Right:
                 direction = Vector3.right;
+                FlipSprite(true);
                 break;
 
             case Direction.Up:

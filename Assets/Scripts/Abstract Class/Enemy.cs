@@ -28,6 +28,7 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
 
     protected override void Awake() {
         base.Awake();
+        StartsFacingRight = false;
         animator = GetComponent<Animator>();
     }
 

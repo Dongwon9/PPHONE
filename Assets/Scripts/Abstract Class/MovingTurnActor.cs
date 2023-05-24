@@ -9,6 +9,7 @@ public abstract class MovingTurnActor : TurnActor {
     /// </summary>
     protected float timeCounter = -1f;
     private Vector3 moveDir = Vector3.zero;
+
     public bool TurnReady {
         get {
             return timeCounter == -1;
@@ -101,7 +102,8 @@ public abstract class MovingTurnActor : TurnActor {
     /// 오브젝트의 좌표를 (정수)+0.5로 교정한다.
     /// </summary>
     private void AdjustPosition() {
-        transform.position = new Vector3(MathF.Floor(transform.position.x) + 0.5f, MathF.Floor(transform.position.y) + 0.5f);
+        transform.position = new Vector3(MathF.Floor(transform.position.x) + 0.5f, MathF.Floor(transform.position.y) + 0.5f,
+            MathF.Floor(transform.position.y) * 0.1f);
     }
 
     private void FixedUpdate() {

@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class DoorScript : TurnActor {
     private Animator animator;
-
+    [SerializeField] private Animator shadowAnimator;
     protected override void Awake() {
         base.Awake();
         animator = GetComponent<Animator>();
         animator.enabled = false;
+        shadowAnimator.enabled = false;
     }
 
     protected override void DecideNextAction() {
@@ -29,6 +30,9 @@ public class DoorScript : TurnActor {
         GameManager.WalkableGrid.SetGridObject(transform.position + transform.right, true);
         GameManager.WalkableGrid.SetGridObject(transform.position - transform.right, true);
         animator.enabled = true;
+        if (shadowAnimator) {
+            shadowAnimator.enabled = true;
+        }
         collider.enabled = false;
     }
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8959b52f4954aee4b85a389729300078
+guid: 1f128f9b58d367d4e8ef20e6a9262155
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 40
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -129,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Arm_0
+      name: 01Wall_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 69
-        width: 47
-        height: 11
+        x: 0
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d46b263c600de64893fa441d9954704
-      internalID: 426322548
+      spriteID: d6d4ef9190c43a84b9dc89f5eb7c34b1
+      internalID: -1483196191
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Arm_1
+      name: 01Wall_1
       rect:
         serializedVersion: 2
-        x: 51
-        y: 70
-        width: 47
-        height: 10
+        x: 100
+        y: 0
+        width: 100
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,50 +164,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 672b278beda586644956beb3b5c56b0c
-      internalID: -736484609
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_Arm_2
-      rect:
-        serializedVersion: 2
-        x: 2
-        y: 29
-        width: 47
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cea77b80fb37f964a8e75fc4a70676dd
-      internalID: -441073037
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_Arm_3
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 28
-        width: 47
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 90d6d152ff4cf1840a36cbe3d0707a6a
-      internalID: 1198211511
+      spriteID: ac7cdd22c0f193642aac175a6d94d1ea
+      internalID: -1805950318
       vertices: []
       indices: 
       edges: []
@@ -223,10 +181,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_Arm_0: 426322548
-      Player_Arm_1: -736484609
-      Player_Arm_2: -441073037
-      Player_Arm_3: 1198211511
+      01Wall_0: -1483196191
+      01Wall_1: -1805950318
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
