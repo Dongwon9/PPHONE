@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShopScript : MonoBehaviour {
     private int counter = 0;

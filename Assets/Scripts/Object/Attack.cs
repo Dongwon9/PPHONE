@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -10,7 +10,7 @@ public class Attack : TurnActor {
     private IObjectPool<Attack> managedPool;
     private float timeCount = 0f;
     /// <summary>
-    /// °ø°İÀÌ ½ÇÇàµÇ±â Àü¿¡ Á¦°ÅÇÏ±â À§ÇÑ public ¸Ş¼­µå
+    /// ê³µê²©ì´ ì‹¤í–‰ë˜ê¸° ì „ì— ì œê±°í•˜ê¸° ìœ„í•œ public ë©”ì„œë“œ
     /// </summary>
     public void RemoveAttack() {
         managedPool.Release(this);

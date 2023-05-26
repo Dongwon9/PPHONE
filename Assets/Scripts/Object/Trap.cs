@@ -1,12 +1,12 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Trap : MonoBehaviour {
     [SerializeField] private int damage;
-    /// <summary>ÀÌ ÇÔÁ¤Àº ÀÏÈ¸¿ëÀÎ°¡?</summary>
+    /// <summary>ì´ í•¨ì •ì€ ì¼íšŒìš©ì¸ê°€?</summary>
     [SerializeField] private bool oneUse;
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        //ÀÌ°ÍÀÌ ¹Ù·Î ÀÎÅÍÆäÀÌ½ºÀÇ È°¿ë¹ı!
+        //ì´ê²ƒì´ ë°”ë¡œ ì¸í„°í˜ì´ìŠ¤ì˜ í™œìš©ë²•!
         TurnActor.IDamagable damageTarget;
         bool success = collision.gameObject.TryGetComponent<TurnActor.IDamagable>(out damageTarget);
         if (success) {

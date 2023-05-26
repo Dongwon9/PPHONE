@@ -1,15 +1,15 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 public abstract class TurnActor : MonoBehaviour {
     /// <summary>
-    /// ÇÑ ÅÏÀÇ ½ÇÇàÀÌ ³¡³ª´Âµ¥ °É¸®´Â ½Ã°£.<br></br>
-    /// ÇÃ·¹ÀÌ¾î´Â ÃÖ¼Ò ÀÌ ½Ã°£À» ±â´Ù¸° ÈÄ¿¡ Çàµ¿ÇÒ ¼ö ÀÖ´Ù.
+    /// í•œ í„´ì˜ ì‹¤í–‰ì´ ëë‚˜ëŠ”ë° ê±¸ë¦¬ëŠ” ì‹œê°„.<br></br>
+    /// í”Œë ˆì´ì–´ëŠ” ìµœì†Œ ì´ ì‹œê°„ì„ ê¸°ë‹¤ë¦° í›„ì— í–‰ë™í•  ìˆ˜ ìˆë‹¤.
     /// </summary>
 
     protected new Collider2D collider;
     /// <summary>
-    /// ¸ğµç TurnActorµéÀÌ »ç¿ëÇÏ´Â ´ÙÀ½ÅÏ action
+    /// ëª¨ë“  TurnActorë“¤ì´ ì‚¬ìš©í•˜ëŠ” ë‹¤ìŒí„´ action
     /// </summary>
     protected Action nextAction;
     protected SpriteRenderer spriteRenderer;
@@ -20,7 +20,7 @@ public abstract class TurnActor : MonoBehaviour {
     }
 
     /// <summary>
-    /// position¿¡ °ø°İ °æ°í¸¦ ¶ç¿î´Ù. ÀÌ ÇÔ¼ö¸¦ ¹İº¹ÀûÀ¸·Î »ç¿ëÇØ ÀûÀÇ °ø°İÀ» ±¸ÇöÇÑ´Ù.
+    /// positionì— ê³µê²© ê²½ê³ ë¥¼ ë„ìš´ë‹¤. ì´ í•¨ìˆ˜ë¥¼ ë°˜ë³µì ìœ¼ë¡œ ì‚¬ìš©í•´ ì ì˜ ê³µê²©ì„ êµ¬í˜„í•œë‹¤.
     /// </summary>
     public void AttackPreTurn(Vector3 position, int damage, Action onHitEffect = null, bool instant = false) {
         Attack attack = ObjectPool.AttackPool.Get();
@@ -37,18 +37,18 @@ public abstract class TurnActor : MonoBehaviour {
     }
 
     /// <summary>
-    /// TurnActorµéÀÌ ´ÙÀ½ Çàµ¿À» Á¤ÇÒ ¶§ »ç¿ëÇÏ´Â ÇÔ¼ö
+    /// TurnActorë“¤ì´ ë‹¤ìŒ í–‰ë™ì„ ì •í•  ë•Œ ì‚¬ìš©í•˜ëŠ” í•¨ìˆ˜
     /// </summary>
     protected abstract void DecideNextAction();
 
-    //½ºÇÁ¶óÀÌÆ®¸¦ XÃàÀ¸·Î µÚÁı°Å³ª µÚÁıÁö ¾Ê´Â´Ù
+    //ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ Xì¶•ìœ¼ë¡œ ë’¤ì§‘ê±°ë‚˜ ë’¤ì§‘ì§€ ì•ŠëŠ”ë‹¤
     protected virtual void FlipSprite(bool toRight) {
         spriteRenderer.flipX = StartsFacingRight ? !toRight : toRight;
     }
 
     /// <summary>
-    /// PrivateÀÎ timeCounter¸¦ ´ë½ÅÇØ Å¬·¡½ºµéÀÌ ÂüÁ¶ÇÒ ¼ö ÀÖ´Â ¼Ó¼º<br></br>
-    /// ´Ù¸¥ Å¬·¡½ºµéÀº ÀÚ½Å ÅÏÀÌ ÁØºñ µÆ´ÂÁö¸¸ ¾Ë ¼ö ÀÖ´Ù.
+    /// Privateì¸ timeCounterë¥¼ ëŒ€ì‹ í•´ í´ë˜ìŠ¤ë“¤ì´ ì°¸ì¡°í•  ìˆ˜ ìˆëŠ” ì†ì„±<br></br>
+    /// ë‹¤ë¥¸ í´ë˜ìŠ¤ë“¤ì€ ìì‹  í„´ì´ ì¤€ë¹„ ëëŠ”ì§€ë§Œ ì•Œ ìˆ˜ ìˆë‹¤.
     /// </summary>
     protected virtual void OnEnable() {
         Player.OnTurnUpdate += TurnUpdate;
@@ -56,11 +56,11 @@ public abstract class TurnActor : MonoBehaviour {
     }
 
     /// <summary>
-    /// ÇöÀç ÅÏÀÇ Çàµ¿À» ½ÇÇàÇÏ´Â ÄÚµå
+    /// í˜„ì¬ í„´ì˜ í–‰ë™ì„ ì‹¤í–‰í•˜ëŠ” ì½”ë“œ
     /// </summary>
     protected virtual void TurnUpdate() {
         if (nextAction == null) {
-            Debug.Log(ToString() + "ÀÇ nextActionÀÌ nullÀÔ´Ï´Ù");
+            Debug.Log(ToString() + "ì˜ nextActionì´ nullì…ë‹ˆë‹¤");
             DecideNextAction();
         }
         nextAction();

@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ÇÃ·¹ÀÌ¾î¸¦ ÂÑ¾Æ¿Í¼­ °Å¸®°¡ 1Ä­ÀÌ µÇ¸é °ø°İÇÏ´Â Àû
+/// í”Œë ˆì´ì–´ë¥¼ ì«“ì•„ì™€ì„œ ê±°ë¦¬ê°€ 1ì¹¸ì´ ë˜ë©´ ê³µê²©í•˜ëŠ” ì 
 /// </summary>
 public class ChasingEnemy : Enemy {
     private AStarPathfinding pathfinding;
@@ -11,12 +11,12 @@ public class ChasingEnemy : Enemy {
     protected override void DecideNextAction() {
         pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
         nextAction = () => {
-            //ÇÊ¿äÇÑ ÀÌµ¿ ±æÀÌ°¡ 2Ä­º¸´Ù ¸¹À¸¸é ¿òÁ÷ÀÎ´Ù.
+            //í•„ìš”í•œ ì´ë™ ê¸¸ì´ê°€ 2ì¹¸ë³´ë‹¤ ë§ìœ¼ë©´ ì›€ì§ì¸ë‹¤.
             if (pathToPlayer != null && pathToPlayer.Count > 2) {
                 Invoke("ExecuteMove", movingTime / 2);
             }
         };
-        //ÇÊ¿äÇÑ ÀÌµ¿ ±æÀÌ°¡ 2Ä­ÀÌ¸é °ø°İÇÑ´Ù.
+        //í•„ìš”í•œ ì´ë™ ê¸¸ì´ê°€ 2ì¹¸ì´ë©´ ê³µê²©í•œë‹¤.
         if (pathToPlayer != null && pathToPlayer.Count == 2) {
             AttackPreTurn(Player.Instance.transform.position, 5);
         }

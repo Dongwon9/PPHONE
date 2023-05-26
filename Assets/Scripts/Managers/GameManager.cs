@@ -1,13 +1,13 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public enum Direction { Left, Up, Right, Down };
 
-//µğÀÚÀÎÆĞÅÏ: ½Ì±ÛÅæ
+//ë””ìì¸íŒ¨í„´: ì‹±ê¸€í†¤
 public class GameManager : MonoBehaviour {
-    //¸ÊÀÇ °ÉÀ» ¼ö ÀÖ´Â Ä­°ú ¾ø´Â Ä­À» ÀúÀåÇÏ´Â °İÀÚ
+    //ë§µì˜ ê±¸ì„ ìˆ˜ ìˆëŠ” ì¹¸ê³¼ ì—†ëŠ” ì¹¸ì„ ì €ì¥í•˜ëŠ” ê²©ì
     public static Grid<bool> WalkableGrid;
     //public Image UIWindow;
-    //ÇÃ·¹ÀÌ¾î ½ºÅ©¸³Æ®¿¡ ´ëÇÑ ÂüÁ¶´Â ÀÌ°É·Î ÇÏ¸é µÈ´Ù.
+    //í”Œë ˆì´ì–´ ìŠ¤í¬ë¦½íŠ¸ì— ëŒ€í•œ ì°¸ì¡°ëŠ” ì´ê±¸ë¡œ í•˜ë©´ ëœë‹¤.
     private static Player playerReference = null;
     [SerializeField] private bool WalkableGridDebugDisplay;
     public static GameManager Instance { get; private set; }
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
                 playerReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
             }
             if (playerReference == null) {
-                Debug.LogError("ÇÃ·¹ÀÌ¾î¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
+                Debug.LogError("í”Œë ˆì´ì–´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
             }
             return playerReference;
         }
@@ -32,8 +32,8 @@ public class GameManager : MonoBehaviour {
         playerReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         WalkableGrid = new Grid<bool>(31, 31, (grid, x, y) => true, WalkableGridDebugDisplay);
         RaycastHit2D hit2D;
-        //(-16,-16)¿¡¼­(16,16)±îÁöÀÇ ¸ÊÀÇ ¸ğµç Ä­¿¡ ÇÏ³ª½Ï ·¹ÀÌÄ³½ºÆ®¸¦ ÇØ¼­
-        //°Å±â¿¡ º®ÀÌ ÀÖ´ÂÁö¸¦ ÆÇ´ÜÇÑ´Ù.
+        //(-16,-16)ì—ì„œ(16,16)ê¹Œì§€ì˜ ë§µì˜ ëª¨ë“  ì¹¸ì— í•˜ë‚˜ì‹¹ ë ˆì´ìºìŠ¤íŠ¸ë¥¼ í•´ì„œ
+        //ê±°ê¸°ì— ë²½ì´ ìˆëŠ”ì§€ë¥¼ íŒë‹¨í•œë‹¤.
         for (int x = -16; x <= 16; x++) {
             for (int y = -16; y <= 16; y++) {
                 hit2D = Physics2D.Raycast(new Vector2(x + 0.5f, y + 0.5f), Vector2.down, 0.1f, LayerMask.GetMask("Wall"));

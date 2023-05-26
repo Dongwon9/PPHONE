@@ -1,9 +1,9 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// PlayerÅ¬·¡½º°¡ ÅÏÀÇ Èå¸§À» Á¦¾îÇÑ´Ù.
+/// Playerí´ë˜ìŠ¤ê°€ í„´ì˜ íë¦„ì„ ì œì–´í•œë‹¤.
 /// </summary>
 public class Player : MovingTurnActor, TurnActor.IDamagable {
     public static Player Instance;
@@ -23,15 +23,15 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     public int Shield => shield;
 
     /// <summary>
-    /// ¸ğµç TurnActorµéÀÌ ÀÌ ÀÌº¥Æ®¿¡ TurnUpdate()¸¦ ±¸µ¶½ÃÅ°°í,
-    /// ÇÃ·¹ÀÌ¾î Çàµ¿ÀÌ Á¤ÇØÁö¸é ÀÌ ÀÌº¥Æ®¸¦ È£ÃâÇØ ÀÌ ÀÌº¥Æ®¿¡ ±¸µ¶µÈ
-    /// ¼ö¸¹Àº TurnActorµéÀÇ TurnUpdate()°¡ ½ÇÇàµÈ´Ù.
+    /// ëª¨ë“  TurnActorë“¤ì´ ì´ ì´ë²¤íŠ¸ì— TurnUpdate()ë¥¼ êµ¬ë…ì‹œí‚¤ê³ ,
+    /// í”Œë ˆì´ì–´ í–‰ë™ì´ ì •í•´ì§€ë©´ ì´ ì´ë²¤íŠ¸ë¥¼ í˜¸ì¶œí•´ ì´ ì´ë²¤íŠ¸ì— êµ¬ë…ëœ
+    /// ìˆ˜ë§ì€ TurnActorë“¤ì˜ TurnUpdate()ê°€ ì‹¤í–‰ëœë‹¤.
     /// </summary>
     public static event Action OnTurnUpdate;
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ÆÄÃ÷ÀÇ ÇÊ¿äÇÑ ÄÄÆ÷³ÍÆ®¸¸ ´ã´Â Å¬·¡½º
-    /// GetComponent¸¦ ÃÖ´ëÇÑ Àû°Ô ¾²·Á°í ¸¸µé¾ú´Ù.
+    /// í”Œë ˆì´ì–´ì˜ íŒŒì¸ ì˜ í•„ìš”í•œ ì»´í¬ë„ŒíŠ¸ë§Œ ë‹´ëŠ” í´ë˜ìŠ¤
+    /// GetComponentë¥¼ ìµœëŒ€í•œ ì ê²Œ ì“°ë ¤ê³  ë§Œë“¤ì—ˆë‹¤.
     /// </summary>
     private class PartComponents {
         public Animator animator;
@@ -49,7 +49,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     }
 
     /// <summary>
-    /// ÃÖ´ë ½¯µå °¨¼Ò´Â ¿©±â¿¡ À½¼ö¸¦ ³Ö¾î¼­ Ç¥ÇöÇÑ´Ù.("À½¼ö¸¦ ´õÇÑ´Ù")
+    /// ìµœëŒ€ ì‰´ë“œ ê°ì†ŒëŠ” ì—¬ê¸°ì— ìŒìˆ˜ë¥¼ ë„£ì–´ì„œ í‘œí˜„í•œë‹¤.("ìŒìˆ˜ë¥¼ ë”í•œë‹¤")
     /// </summary>
     public void AddMaxShield(int value) {
         maxShield += value;
@@ -81,7 +81,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     }
 
     /// <summary>
-    /// ÀÔ·ÂÀº ¿©±â¿¡¼­ ¹Ş´Â´Ù.
+    /// ì…ë ¥ì€ ì—¬ê¸°ì—ì„œ ë°›ëŠ”ë‹¤.
     /// </summary>
     public void TakeInput(Direction? inputDir) {
         if (inputDir == null) {
@@ -111,15 +111,15 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     }
 
     /// <summary>
-    /// ÀÚ½Å ½ºÇÁ¶óÀÌÆ®¸¦ ÁÂ¿ì·Î µÚÁı´Â´Ù.
+    /// ìì‹  ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì¢Œìš°ë¡œ ë’¤ì§‘ëŠ”ë‹¤.
     /// </summary>
-    /// <param name="toRight">true¸é ¿À¸¥ÂÊ, false¸é ¿ŞÂÊÀ» º¸°Ô µÈ´Ù.</param>
+    /// <param name="toRight">trueë©´ ì˜¤ë¥¸ìª½, falseë©´ ì™¼ìª½ì„ ë³´ê²Œ ëœë‹¤.</param>
     protected override void FlipSprite(bool toRight) {
-        //¸ÕÀú ÀÚ½ÅÀ» µÚÁı´Â´Ù
+        //ë¨¼ì € ìì‹ ì„ ë’¤ì§‘ëŠ”ë‹¤
         base.FlipSprite(toRight);
-        //¾î´ÀÂÊÀ¸·Î µÚÁıÇû´Â°¡?
+        //ì–´ëŠìª½ìœ¼ë¡œ ë’¤ì§‘í˜”ëŠ”ê°€?
         float sign = toRight ? 1.0f : -1.0f;
-        //ÀÚ½ÅÀÇ ¸ğµç ÆÄÃ÷¸¦ ÇÃ·¹ÀÌ¾î¿Í °°Àº ¹æÇâÀ¸·Î µÚÁı´Â´Ù
+        //ìì‹ ì˜ ëª¨ë“  íŒŒì¸ ë¥¼ í”Œë ˆì´ì–´ì™€ ê°™ì€ ë°©í–¥ìœ¼ë¡œ ë’¤ì§‘ëŠ”ë‹¤
         foreach (var part in playerPartComponents) {
             part.sprite.flipX = spriteRenderer.flipX;
             part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);

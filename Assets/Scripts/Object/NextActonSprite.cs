@@ -1,8 +1,8 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class NextActonSprite : TurnActor {
-    //TurnActionÀ¸·Î ¸ÅÅÏ ¾È º¸ÀÌ°Ô µÇ·Á°í ÇÑ´Ù.
-    //EnemyÀÇ movePreTurnÀ¸·Î ´Ù½Ã º¸ÀÌ°Ô µÈ´Ù.
+    //TurnActionìœ¼ë¡œ ë§¤í„´ ì•ˆ ë³´ì´ê²Œ ë˜ë ¤ê³  í•œë‹¤.
+    //Enemyì˜ movePreTurnìœ¼ë¡œ ë‹¤ì‹œ ë³´ì´ê²Œ ëœë‹¤.
     protected override void DecideNextAction() {
         nextAction = () => spriteRenderer.enabled = false;
     }

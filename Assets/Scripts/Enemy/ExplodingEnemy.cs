@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 public class ExplodingEnemy : Enemy {
@@ -11,7 +11,7 @@ public class ExplodingEnemy : Enemy {
     private int turnsTillExplosion = -1;
     protected override void DecideNextAction() {
         if (turnsTillExplosion != -1) {
-            //ÀÚÆø ·ÎÁ÷À» °³½Ã,3ÅÏ ÈÄ¿¡ Æø¹ßÇÑ´Ù.
+            //ìží­ ë¡œì§ì„ ê°œì‹œ,3í„´ í›„ì— í­ë°œí•œë‹¤.
             nextAction = () => {
                 turnsTillExplosion -= 1;
                 if (turnsTillExplosion == 0) {
@@ -22,7 +22,7 @@ public class ExplodingEnemy : Enemy {
                 }
             };
         } else {
-            //ChasingEnemy¿Í °°Àº À§Ä¡ÃßÀû ·ÎÁ÷
+            //ChasingEnemyì™€ ê°™ì€ ìœ„ì¹˜ì¶”ì  ë¡œì§
             pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
             nextAction = () => {
                 if (pathToPlayer != null && pathToPlayer.Count > 2) {
@@ -30,7 +30,7 @@ public class ExplodingEnemy : Enemy {
                 }
             };
             if (pathToPlayer != null && pathToPlayer.Count == 2) {
-                //°Å¸® 2 ÀÌ³»±îÁö ¿À¸é, ÀÚÆø·ÎÁ÷À¸·Î ÀüÈ¯ÇÑ´Ù.
+                //ê±°ë¦¬ 2 ì´ë‚´ê¹Œì§€ ì˜¤ë©´, ìží­ë¡œì§ìœ¼ë¡œ ì „í™˜í•œë‹¤.
                 nextAction = () => { };
                 turnsTillExplosion = 2;
                 foreach (Vector3 pos in ExplosionPosList) {
