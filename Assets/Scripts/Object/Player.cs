@@ -117,12 +117,9 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     protected override void FlipSprite(bool toRight) {
         //먼저 자신을 뒤집는다
         base.FlipSprite(toRight);
-        //어느쪽으로 뒤집혔는가?
-        float sign = toRight ? 1.0f : -1.0f;
         //자신의 모든 파츠를 플레이어와 같은 방향으로 뒤집는다
         foreach (var part in playerPartComponents) {
             part.sprite.flipX = spriteRenderer.flipX;
-            part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
         }
     }
 

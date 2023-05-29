@@ -132,12 +132,12 @@ TextureImporter:
       name: Player_Arm_Attack_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 50
-        width: 50
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2
+        y: 69
+        width: 48
+        height: 11
+      alignment: 9
+      pivot: {x: 0.44791666, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -153,12 +153,12 @@ TextureImporter:
       name: Player_Arm_Attack_1
       rect:
         serializedVersion: 2
-        x: 50
-        y: 50
-        width: 50
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 53
+        y: 70
+        width: 47
+        height: 10
+      alignment: 9
+      pivot: {x: 0.41489363, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -174,12 +174,12 @@ TextureImporter:
       name: Player_Arm_Attack_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 50
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2
+        y: 17
+        width: 46
+        height: 14
+      alignment: 9
+      pivot: {x: 0.4673913, y: 0.9285714}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -195,12 +195,12 @@ TextureImporter:
       name: Player_Arm_Attack_3
       rect:
         serializedVersion: 2
-        x: 50
-        y: 0
-        width: 50
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 51
+        y: 18
+        width: 47
+        height: 12
+      alignment: 9
+      pivot: {x: 0.4574468, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

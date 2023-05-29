@@ -49,7 +49,7 @@ public class Attack : TurnActor {
         if (gameObject.CompareTag("Enemy")) {
             collision.gameObject.GetComponent<Player>()?.TakeDamage(damage);
         } else if (gameObject.CompareTag("Player")) {
-            collision.gameObject.GetComponent<Enemy>()?.TakeDamage(damage);
+            collision.gameObject.GetComponent<IDamagable>()?.TakeDamage(damage);
         }
     }
 
