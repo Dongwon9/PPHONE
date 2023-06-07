@@ -58,6 +58,11 @@ public abstract class MovingTurnActor : TurnActor {
 
     protected void Move(Vector3 dest) {
         moveDir = dest - transform.position;
+        if (moveDir.x > 0) {
+            FlipSprite(true);
+        } else if (moveDir.x < 0) {
+            FlipSprite(false);
+        }
         timeCounter = 0;
     }
 

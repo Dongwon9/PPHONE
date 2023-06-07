@@ -6,7 +6,7 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
 
     private Animator animator;
 
-    [SerializeField] private SpriteRenderer NextActonSprite;
+    //[SerializeField] private SpriteRenderer NextActonSprite;
 
     protected class EnemyAction {
         public Action PreTurnAction;
@@ -37,7 +37,7 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
     }
 
     protected void MovePreTurn(Direction dir) {
-        NextActonSprite.enabled = true;
+        //NextActonSprite.enabled = true;
         Vector3 offset = Vector3.zero;
         switch (dir) {
             case Direction.Left:
@@ -56,6 +56,6 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
                 offset = Vector3.down;
                 break;
         }
-        NextActonSprite.transform.SetPositionAndRotation(transform.position + offset, Quaternion.Euler(0, 0, -90 * (int)dir));
+        //NextActonSprite.transform.SetPositionAndRotation(transform.position + offset, Quaternion.Euler(0, 0, -90 * (int)dir));
     }
 }

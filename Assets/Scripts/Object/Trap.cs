@@ -7,8 +7,8 @@ public class Trap : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         //이것이 바로 인터페이스의 활용법!
-        TurnActor.IDamagable damageTarget;
-        bool success = collision.gameObject.TryGetComponent<TurnActor.IDamagable>(out damageTarget);
+        Player damageTarget;
+        bool success = collision.gameObject.TryGetComponent<Player>(out damageTarget);
         if (success) {
             damageTarget.TakeDamage(damage);
             if (oneUse) {

@@ -44,6 +44,14 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         }
     }
 
+    public void AddHP(int value) {
+        if (hp + value > maxHP) {
+            hp = maxHP;
+        } else {
+            hp += value;
+        }
+    }
+
     public void AddMaxHP(int value) {
         maxHP += value;
     }
@@ -65,7 +73,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
 
     public void HideOrShowArm(int showArm) {
         foreach (var part in playerPartComponents) {
-            part.sprite.enabled = showArm == 1 ? true : false;
+            part.sprite.enabled = (showArm == 1);
         }
     }
 

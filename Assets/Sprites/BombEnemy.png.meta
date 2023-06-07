@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8959b52f4954aee4b85a389729300078
+guid: 684bce1d2428cbe4fb9f5ba2ec553aa1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -129,85 +129,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Arm_0
+      name: BombEnemy_0
       rect:
         serializedVersion: 2
         x: 2
-        y: 69
+        y: 51
         width: 47
-        height: 11
-      alignment: 9
-      pivot: {x: 0.43617022, y: 1}
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d46b263c600de64893fa441d9954704
-      internalID: 426322548
+      spriteID: 10fcbd4758b720b45b39061d5331d5dc
+      internalID: -2144091764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Arm_1
+      name: BombEnemy_1
       rect:
         serializedVersion: 2
-        x: 51
-        y: 70
-        width: 47
-        height: 10
-      alignment: 9
-      pivot: {x: 0.43617022, y: 1}
+        x: 50
+        y: 51
+        width: 49
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 672b278beda586644956beb3b5c56b0c
-      internalID: -736484609
+      spriteID: d5fe57e873b527043bb6a0ad03068ccc
+      internalID: -1991465487
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Arm_2
+      name: BombEnemy_2
       rect:
         serializedVersion: 2
         x: 2
-        y: 29
+        y: 1
         width: 47
-        height: 10
-      alignment: 9
-      pivot: {x: 0.43617022, y: 1}
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cea77b80fb37f964a8e75fc4a70676dd
-      internalID: -441073037
+      spriteID: 3364ea66a284b004cbb838089dfccdf9
+      internalID: -2111307080
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Arm_3
+      name: BombEnemy_3
       rect:
         serializedVersion: 2
         x: 51
-        y: 28
-        width: 47
-        height: 11
-      alignment: 9
-      pivot: {x: 0.43617022, y: 1}
+        y: 1
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90d6d152ff4cf1840a36cbe3d0707a6a
-      internalID: 1198211511
+      spriteID: 3630c1bfe5f625145ae861579edbcc3c
+      internalID: -515049655
       vertices: []
       indices: 
       edges: []
@@ -223,10 +223,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_Arm_0: 426322548
-      Player_Arm_1: -736484609
-      Player_Arm_2: -441073037
-      Player_Arm_3: 1198211511
+      BombEnemy_0: -2144091764
+      BombEnemy_1: -1991465487
+      BombEnemy_2: -2111307080
+      BombEnemy_3: -515049655
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

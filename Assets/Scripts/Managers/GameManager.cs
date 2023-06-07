@@ -24,6 +24,20 @@ public class GameManager : MonoBehaviour {
         }
         set { playerReference = value; }
     }
+    /// <summary>
+    /// walkableGrid 전체를 업데이트하는데 사용한다.
+    /// </summary>
+    public void UpdateWalkableGrid() {
+        //(-16,-16)에서(16,16)까지의 맵의 모든 칸에 하나싹 레이캐스트를 해서
+        //거기에 벽이 있는지를 판단한다.
+        RaycastHit2D hit2D;
+        for (int x = -16; x <= 16; x++) {
+            for (int y = -16; y <= 16; y++) {
+                hit2D = Physics2D.Raycast(new Vector2(x + 0.5f, y + 0.5f), Vector2.down, 0.1f, LayerMask.GetMask("Wall"));
+                WalkableGrid.SetGridObject(x + 15, y + 15, !hit2D);
+            }
+        }
+    }
 
     private void Awake() {
         if (Instance == null) {
@@ -31,14 +45,5 @@ public class GameManager : MonoBehaviour {
         }
         playerReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         WalkableGrid = new Grid<bool>(31, 31, (grid, x, y) => true, WalkableGridDebugDisplay);
-        RaycastHit2D hit2D;
-        //(-16,-16)에서(16,16)까지의 맵의 모든 칸에 하나싹 레이캐스트를 해서
-        //거기에 벽이 있는지를 판단한다.
-        for (int x = -16; x <= 16; x++) {
-            for (int y = -16; y <= 16; y++) {
-                hit2D = Physics2D.Raycast(new Vector2(x + 0.5f, y + 0.5f), Vector2.down, 0.1f, LayerMask.GetMask("Wall"));
-                WalkableGrid.SetGridObject(x + 15, y + 15, !hit2D);
-            }
-        }
     }
 }
