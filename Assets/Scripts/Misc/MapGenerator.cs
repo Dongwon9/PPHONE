@@ -1,28 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+ï»¿using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
     public GameObject enemyPrefab;
-    public GameObject obstaclePrefab; // Àå¾Ö¹° ÇÁ¸®ÆÕ
-                                      // Àû ÇÁ¸®ÆÕ
+    public GameObject obstaclePrefab; // ì¥ì• ë¬¼ í”„ë¦¬íŒ¹
+                                      // ì  í”„ë¦¬íŒ¹
 
     private int obstacleHeight = 5;
-    private int obstacleWidth = 5; // Àå¾Ö¹°ÀÇ ³Êºñ
-                                   // Àå¾Ö¹°ÀÇ ³ôÀÌ
+    private int obstacleWidth = 5; // ì¥ì• ë¬¼ì˜ ë„ˆë¹„
+                                   // ì¥ì• ë¬¼ì˜ ë†’ì´
 
     private void Awake() {
         GenerateObstacleAndEnemy();
     }
 
     private void GenerateObstacleAndEnemy() {
-        // ¸Ê Áß¾Ó ÁÂÇ¥
-        //Random.Range(int a,int b) :a º¸´Ù Å©°Å³ª °°°í bº¸´Ù ÀÛÀº Á¤¼ö¸¦ ¹«ÀÛÀ§·Î »ı¼ºÇÑ´Ù.
+        // ë§µ ì¤‘ì•™ ì¢Œí‘œ
+        //Random.Range(int a,int b) :a ë³´ë‹¤ í¬ê±°ë‚˜ ê°™ê³  bë³´ë‹¤ ì‘ì€ ì •ìˆ˜ë¥¼ ë¬´ì‘ìœ„ë¡œ ìƒì„±í•œë‹¤.
         int centerX = Random.Range(-1, 2) * 10;
         int centerY = Random.Range(-1, 2) * 10;
 
-        // Àå¾Ö¹° »ı¼º
+        // ì¥ì• ë¬¼ ìƒì„±
         int obstacleStartX = centerX - obstacleWidth / 2;
         int obstacleEndX = obstacleStartX + obstacleWidth;
         int obstacleStartY = centerY - obstacleHeight / 2;
@@ -37,7 +34,7 @@ public class MapGenerator : MonoBehaviour {
             }
         }
         GameManager.Instance.UpdateWalkableGrid();
-        // Àû »ı¼º
+        // ì  ìƒì„±
         Instantiate(enemyPrefab, new Vector3(centerX + 0.5f, centerY + 0.5f, 0), Quaternion.identity);
     }
 }

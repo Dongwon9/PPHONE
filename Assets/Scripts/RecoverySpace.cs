@@ -1,53 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+ï»¿using UnityEngine;
 
-
-public class RecoverySpace : MonoBehaviour
-{
-    public int recoveryAmount = 10; // Ã¼·Â È¸º¹·®
-    public float recoveryInterval = 2f; // Ã¼·Â È¸º¹ °£°Ý
+public class RecoverySpace : MonoBehaviour {
+    public int recoveryAmount = 7; // ì²´ë ¥ íšŒë³µëŸ‰
 
     private Character character;
-    private float timer;
 
-    private void Start()
-    {
-        character = FindObjectOfType<Character>();
-        timer = 0f;
-    }
-
-    private void Update()
-    {
-        timer += Time.deltaTime;
-
-        if (timer >= recoveryInterval)//2ÃÊ°¡ °æ°úÇÒ¶§¸¶´Ù Ã¼·ÂÀ» È¸º¹
-        {
-            timer = 0f;
+    public void CharacterMoved() {
+        if (IsCharacterInRecoverySpace()) {
             character.RecoverHealth(recoveryAmount);
         }
     }
-}
 
-public class Character : MonoBehaviour
-{
-    public int maxHealth = 100; // ÃÖ´ë Ã¼·Â
-    private int currentHealth; // ÇöÀç Ã¼·Â
-
-    private void Start()
-    {
-        currentHealth = maxHealth;
+    private void Start() {
+        character = FindObjectOfType<Character>();
     }
 
-    public void RecoverHealth(int amount)
-    {
-        // Ã¼·Â È¸º¹
+    private bool IsCharacterInRecoverySpace() {
+        // ë§µ ì¤‘ì•™ì˜ 6x6 ì¹¸ì¸ì§€ í™•ì¸
+        Vector3 characterPosition = character.transform.position;
+        int recoverySpaceSize = 6; // ê³µê°„ í¬ê¸°
+
+        int startX = Mathf.RoundToInt(characterPosition.x) - recoverySpaceSize / 2;
+        int startY = Mathf.RoundToInt(characterPosition.y) - recoverySpaceSize / 2;
+
+        int characterX = Mathf.RoundToInt(characterPosition.x);
+        int characterY = Mathf.RoundToInt(characterPosition.y);
+
+        return (characterX >= startX && characterX < startX + recoverySpaceSize &&
+                characterY >= startY && characterY < startY + recoverySpaceSize);
+    }
+}
+
+public class Character : MonoBehaviour {
+    public int maxHealth = 100; // ìµœëŒ€ ì²´ë ¥
+    private int currentHealth; // í˜„ìž¬ ì²´ë ¥
+
+    private RecoverySpace recoverySpace;
+
+    public void Move() {
+        // ìºë¦­í„° ì´ë™ ë¡œì§
+
+        // ìºë¦­í„°ê°€ ì´ë™í•  ë•Œë§ˆë‹¤ ì²´ë ¥ íšŒë³µ ì²´í¬
+        recoverySpace.CharacterMoved();
+    }
+
+    public void RecoverHealth(int amount) {
+        // ì²´ë ¥ íšŒë³µ
         currentHealth += amount;
-        if (currentHealth > maxHealth)
-        {
+        if (currentHealth > maxHealth) {
             currentHealth = maxHealth;
         }
-        Debug.Log("Ã¼·Â È¸º¹Áß, ÇöÀç Ã¼·Â: " + currentHealth);
+        Debug.Log("ì²´ë ¥ íšŒë³µ ì¤‘, í˜„ìž¬ ì²´ë ¥: " + currentHealth);
+    }
+
+    private void Start() {
+        currentHealth = maxHealth;
+        recoverySpace = FindObjectOfType<RecoverySpace>();
     }
 }

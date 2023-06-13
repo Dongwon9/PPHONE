@@ -1,8 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// 모든 적들이 상속할 abstract 클래스
+/// </summary>
 public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
-    public int HP;
+    [SerializeField] private int HP;
 
     private Animator animator;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DestroyableWall : MonoBehaviour,TurnActor.IDamagable {
+public class DestroyableWall : MonoBehaviour, TurnActor.IDamagable {
     private int HP;
     public void TakeDamage(int damage) {
         HP -= 1;
@@ -9,6 +9,4 @@ public class DestroyableWall : MonoBehaviour,TurnActor.IDamagable {
             Destroy(gameObject);
         }
     }
-
-
 }

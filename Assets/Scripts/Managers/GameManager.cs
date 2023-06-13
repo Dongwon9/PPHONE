@@ -4,26 +4,14 @@ public enum Direction { Left, Up, Right, Down };
 
 //디자인패턴: 싱글톤
 public class GameManager : MonoBehaviour {
-    //맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자
+    /// <summary>
+    /// 맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자
+    /// </summary>
     public static Grid<bool> WalkableGrid;
     //public Image UIWindow;
-    //플레이어 스크립트에 대한 참조는 이걸로 하면 된다.
-    private static Player playerReference = null;
     [SerializeField] private bool WalkableGridDebugDisplay;
     public static GameManager Instance { get; private set; }
 
-    public static Player PlayerReference {
-        get {
-            if (playerReference == null) {
-                playerReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            }
-            if (playerReference == null) {
-                Debug.LogError("플레이어를 찾을 수 없습니다!");
-            }
-            return playerReference;
-        }
-        set { playerReference = value; }
-    }
     /// <summary>
     /// walkableGrid 전체를 업데이트하는데 사용한다.
     /// </summary>
@@ -40,10 +28,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Awake() {
-        if (Instance == null) {
-            Instance = this;
-        }
-        playerReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        Instance = this;
         WalkableGrid = new Grid<bool>(31, 31, (grid, x, y) => true, WalkableGridDebugDisplay);
     }
 }

@@ -30,7 +30,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     public static event Action OnTurnUpdate;
 
     /// <summary>
-    /// 플레이어의 파츠의 필요한 컴포넌트만 담는 클래스
+    /// 플레이어의 파츠의 필요한 컴포넌트만 담는 클래스<br></br>
     /// GetComponent를 최대한 적게 쓰려고 만들었다.
     /// </summary>
     private class PartComponents {
@@ -44,7 +44,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         }
     }
 
-    public void AddHP(int value) {
+    public void HealHP(int value) {
         if (hp + value > maxHP) {
             hp = maxHP;
         } else {
