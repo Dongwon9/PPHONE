@@ -22,7 +22,7 @@ public class Quiz : MonoBehaviour {
 
     private void CreateGameMap() {
         // 맵 정중앙에 물체 생성
-        currentObject = Instantiate(objectPrefab, Vector3.zero, Quaternion.identity);
+        currentObject = Instantiate(objectPrefab, transform.position, Quaternion.identity);
     }
 
     private void Update() {

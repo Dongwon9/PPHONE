@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Thorns : MonoBehaviour {
+public class Thorns : TurnActor {
     public GameObject obstaclePrefab;  // 장애물 프리팹
-    public float obstacleSpeed = 2f;  // 장애물 이동 속도
     public int damageAmount = 3;  // 장애물과의 충돌 시 감소되는 체력
 
     private List<Transform> obstacleList = new List<Transform>();  // 현재 맵에 존재하는 모든 장애물 리스트
@@ -12,12 +11,11 @@ public class Thorns : MonoBehaviour {
     private int turnCount = 0;  // 캐릭터의 움직임 턴 수
     private Vector3 characterPosition;  // 캐릭터의 위치
 
-    private void Start() {
-        // 캐릭터의 초기 위치 설정 (임의로 한가운데 좌표로 설정)
-        characterPosition = new Vector3(5f, 0f, 0f);
+    protected override void DecideNextAction() {
+        nextAction = ThornsAction;
     }
 
-    private void Update() {
+    private void ThornsAction() {
         // 캐릭터의 움직임 턴 수 증가
         turnCount++;
 
@@ -31,8 +29,8 @@ public class Thorns : MonoBehaviour {
                 }
 
                 // 해당 칼럼에 장애물 생성
-                Vector3 spawnPosition = new Vector3(obstacleColumns[i], 9f, 0f);
-                GameObject obstacle = Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity);
+                Vector3 spawnPosition = transform.position + new Vector3(obstacleColumns[i], 9f, 0f);
+                GameObject obstacle = Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity, transform);
                 obstacleList.Add(obstacle.transform);
             }
         } else if (turnCount % 4 == 3) {

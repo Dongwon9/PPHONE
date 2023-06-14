@@ -29,11 +29,11 @@ public class Trapping2 : MonoBehaviour {
     private void PlaceObstacleInCorner(int startX, int startY) {
         for (int x = startX; x < startX + obstacleWidth; x++) {
             for (int y = startY; y < startY + obstacleHeight; y++) {
-                Instantiate(obstaclePrefab, new Vector3(x, y, 0), Quaternion.identity);
+                Instantiate(obstaclePrefab, transform.position + new Vector3(x, y, 0), Quaternion.identity, transform);
             }
         }
 
         // 적 생성
-        Instantiate(enemyPrefab, new Vector3(startX + 1, startY + 1, 0), Quaternion.identity);
+        Instantiate(enemyPrefab, transform.position + new Vector3(startX + 1, startY + 1, 0), Quaternion.identity, transform);
     }
 }

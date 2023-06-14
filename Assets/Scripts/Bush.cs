@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Bush : MonoBehaviour {
+public class Bush : TurnActor {
     public GameObject obstaclePrefab; // 장애물 프리팹을 연결할 변수
     public GameObject enemyPrefab; // 적 프리팹을 연결할 변수
     public GameObject bushPrefab; // bush 장애물 프리팹을 연결할 변수
@@ -9,13 +10,27 @@ public class Bush : MonoBehaviour {
     private const int obstacleCount = 10; // 장애물 개수
     private const int obstacleSize = 7; // 장애물 크기
     private const int bushCount = 4; // bush 장애물 개수
-
+    private int turnCount = 0;
+    private List<Vector2Int> bushPositions;
     private Vector2Int[] obstaclePositions; // 장애물 위치 배열
 
+    protected override void DecideNextAction() {
+        if (turnCount < 3) {
+            nextAction = () => {
+                turnCount++;
+                if (turnCount >= 3) {
+                    GenerateEnemies();
+                }
+            };
+        } else {
+            nextAction = () => { };
+        }
+    }
+
     private void Start() {
+        bushPositions = new List<Vector2Int>();
         GenerateObstacles();
         GenerateBushObstacles();
-        GenerateEnemies();
     }
 
     private void GenerateObstacles() {
@@ -23,8 +38,9 @@ public class Bush : MonoBehaviour {
 
         foreach (Vector2Int position in obstaclePositions) {
             // 장애물 생성
-            Instantiate(obstaclePrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+            Instantiate(obstaclePrefab, transform.position + new Vector3(position.x, position.y, 0), Quaternion.identity);
         }
+        GameManager.Instance.UpdateWalkableGrid();
     }
 
     private void GenerateBushObstacles() {
@@ -32,12 +48,7 @@ public class Bush : MonoBehaviour {
 
         foreach (Vector2Int position in bushPositions) {
             // bush 장애물 생성
-            Instantiate(bushPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
-
-            // 랜덤한 bush 장애물에 적 배치
-            if (Random.Range(0, bushCount) == 0) {
-                Instantiate(enemyPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
-            }
+            Instantiate(bushPrefab, transform.position + new Vector3(position.x, position.y, 0), Quaternion.identity);
         }
     }
 
@@ -47,12 +58,11 @@ public class Bush : MonoBehaviour {
         Vector2Int[] positions = new Vector2Int[obstacleCount];
 
         // 81칸 맵의 정중앙에 7x7 크기의 영역을 배치하기 위한 시작 위치 계산
-        int startX = (mapSize - obstacleSize) / 2;
-        int startY = (mapSize - obstacleSize) / 2;
+        //int startX = (mapSize - obstacleSize) / 2;
+        //int startY = (mapSize - obstacleSize) / 2;
 
         for (int i = 0; i < obstacleCount; i++) {
-            positions[i] = new Vector2Int(startX, startY);
-            startX++;
+            positions[i] = new Vector2Int(Random.Range(0, mapSize), Random.Range(0, mapSize));
         }
 
         return positions;
@@ -64,6 +74,7 @@ public class Bush : MonoBehaviour {
         for (int i = 0; i < bushCount; i++) {
             // 랜덤한 위치를 생성하여 bush 장애물의 위치로 지정
             positions[i] = GetRandomPosition();
+            bushPositions.Add(positions[i]);
         }
 
         return positions;
@@ -73,8 +84,8 @@ public class Bush : MonoBehaviour {
         int enemyCount = Random.Range(1, 4);
 
         for (int i = 0; i < enemyCount; i++) {
-            Vector2Int position = GetRandomPosition();
-            Instantiate(enemyPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+            Vector2Int position = bushPositions[Random.Range(0, bushPositions.Count)];
+            Instantiate(enemyPrefab, transform.position + new Vector3(position.x, position.y, 0), Quaternion.identity);
         }
     }
 

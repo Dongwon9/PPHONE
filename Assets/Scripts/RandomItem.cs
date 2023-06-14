@@ -20,12 +20,13 @@ public class RandomItem : MonoBehaviour {
         for (int x = obstacleStartX; x < obstacleStartX + obstacleSizeX; x++) {
             for (int y = obstacleStartY; y < obstacleStartY + obstacleSizeY; y++) {
                 // 5x3칸의 장애물을 2등분하는 벽 생성
-                Instantiate(obstaclePrefab, new Vector3(x, y, 0), Quaternion.identity);
+                Instantiate(obstaclePrefab, new Vector3(x, y, 0), Quaternion.identity, transform);
             }
         }
 
         // 각각의 방에 아이템 생성
-        Instantiate(itemPrefab, new Vector3(itemPosX - 1, itemPosY, 0), Quaternion.identity);
-        Instantiate(itemPrefab, new Vector3(itemPosX + 1, itemPosY, 0), Quaternion.identity);
+        Instantiate(itemPrefab, new Vector3(itemPosX - 1, itemPosY, 0), Quaternion.identity, transform);
+        Instantiate(itemPrefab, new Vector3(itemPosX + 1, itemPosY, 0), Quaternion.identity, transform);
+        GameManager.Instance.UpdateWalkableGrid();
     }
 }
