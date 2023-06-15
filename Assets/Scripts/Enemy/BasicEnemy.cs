@@ -21,6 +21,22 @@ public class BasicEnemy : Enemy {
         private WaveAttack() {
         }
 
+        private void Execute() {
+            int dirSign = 1;
+            if (facing == Direction.Left) {
+                dirSign = -1;
+            }
+            for (int i = -1; i <= 1; i++) {
+                attackUser.AttackPreTurn(attackUser.transform.position + new Vector3(turnCounter * dirSign, i), damage,
+                    () => {
+                    });
+            }
+            turnCounter += 1;
+            if (turnCounter > attackDuration) {
+                turnCounter = 0;
+            }
+        }
+
         public static void Activate(Direction facing, int damage) {
             WaveAttack usingAttack = null;
             foreach (var attack in attackList) {
@@ -49,26 +65,13 @@ public class BasicEnemy : Enemy {
         public static void SetAttackUser(BasicEnemy enemy) {
             attackUser = enemy;
         }
-
-        private void Execute() {
-            int dirSign = 1;
-            if (facing == Direction.Left) {
-                dirSign = -1;
-            }
-            for (int i = -1; i <= 1; i++) {
-                attackUser.AttackPreTurn(attackUser.transform.position + new Vector3(turnCounter * dirSign, i), damage,
-                    () => {
-                    });
-            }
-            turnCounter += 1;
-            if (turnCounter > attackDuration) {
-                turnCounter = 0;
-            }
-        }
     }
 
-    public void AddNextAction(Action action) {
-        nextAction += action;
+    private void LaserPreTurn() {
+        for (int i = 1; i <= 10; i++) {
+            //AttackPreTurn(-i, 0, 2);
+            AttackPreTurn(transform.position + new Vector3(-i, 0), 2);
+        }
     }
 
     protected override void DecideNextAction() {
@@ -100,10 +103,7 @@ public class BasicEnemy : Enemy {
         };
     }
 
-    private void LaserPreTurn() {
-        for (int i = 1; i <= 10; i++) {
-            //AttackPreTurn(-i, 0, 2);
-            AttackPreTurn(transform.position + new Vector3(-i, 0), 2);
-        }
+    public void AddNextAction(Action action) {
+        nextAction += action;
     }
 }

@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
 public class VisiblityScript : MonoBehaviour {
+    /// <summary>
+    /// 플레이어의 시야 범위를 이루는 스프라이트마스크들을
+    /// 참조하는 배열
+    /// </summary>
     private SpriteMask[] spriteMasks;
     private void Awake() {
         spriteMasks = GetComponentsInChildren<SpriteMask>();
     }
 
-    // Update is called once per frame
     private void Update() {
         foreach (var spriteMask in spriteMasks) {
             Vector2 distAndDir = spriteMask.transform.position - transform.position;

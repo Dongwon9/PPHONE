@@ -12,6 +12,7 @@ public class ObstacleSecuring : MonoBehaviour {
     private void Start() {
         GenerateObstacles();
         GenerateEnemies();
+        Destroy(gameObject);
     }
 
     private void GenerateObstacles() {

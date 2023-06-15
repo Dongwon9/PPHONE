@@ -8,12 +8,16 @@ public class ChasingEnemy : Enemy {
     private AStarPathfinding pathfinding;
     [SerializeField] private List<Vector3> pathToPlayer;
 
+    private void ExecuteMove() {
+        Move(pathToPlayer[1]);
+    }
+
     protected override void DecideNextAction() {
         pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
         nextAction = () => {
             //필요한 이동 길이가 2칸보다 많으면 움직인다.
             if (pathToPlayer != null && pathToPlayer.Count > 2) {
-                Invoke("ExecuteMove", movingTime / 2);
+                Invoke(nameof(ExecuteMove), movingTime / 2);
             }
         };
         //필요한 이동 길이가 2칸이면 공격한다.
@@ -26,9 +30,5 @@ public class ChasingEnemy : Enemy {
         base.OnEnable();
         pathfinding = new AStarPathfinding(31, 31);
         pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
-    }
-
-    private void ExecuteMove() {
-        Move(pathToPlayer[1]);
     }
 }

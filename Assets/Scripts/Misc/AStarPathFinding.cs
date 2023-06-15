@@ -26,6 +26,59 @@ public class AStarPathfinding {
         grid = new Grid<PathNode>(width, height, (Grid<PathNode> g, int x, int y) => new PathNode(g, x, y));
     }
 
+    private int CalculateDistanceCost(PathNode a, PathNode b) {
+        int xDistance = Mathf.Abs(a.x - b.x);
+        int yDistance = Mathf.Abs(a.y - b.y);
+        int remaining = Mathf.Abs(xDistance - yDistance);
+        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining;
+    }
+
+    private List<PathNode> CalculatePath(PathNode endNode) {
+        List<PathNode> path = new() {
+            endNode
+        };
+        PathNode currentNode = endNode;
+        while (currentNode.cameFromNode != null) {
+            path.Add(currentNode.cameFromNode);
+            currentNode = currentNode.cameFromNode;
+        }
+        path.Reverse();
+        return path;
+    }
+
+    private PathNode GetLowestFCostNode(List<PathNode> pathNodeList) {
+        PathNode lowestFCostNode = pathNodeList[0];
+        for (int i = 1; i < pathNodeList.Count; i++) {
+            if (pathNodeList[i].fCost < lowestFCostNode.fCost) {
+                lowestFCostNode = pathNodeList[i];
+            }
+        }
+        return lowestFCostNode;
+    }
+
+    private List<PathNode> GetNeighbourList(PathNode currentNode) {
+        List<PathNode> neighbourList = new List<PathNode>();
+
+        if (currentNode.x - 1 >= 0) {
+            // Left
+            neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y));
+        }
+        if (currentNode.x + 1 < grid.GetWidth()) {
+            // Right
+            neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y));
+        }
+        // Down
+        if (currentNode.y - 1 >= 0) {
+            neighbourList.Add(GetNode(currentNode.x, currentNode.y - 1));
+        }
+        // Up
+        if (currentNode.y + 1 < grid.GetHeight()) {
+            neighbourList.Add(GetNode(currentNode.x, currentNode.y + 1));
+        }
+
+        return neighbourList;
+    }
+
     public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition) {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);
@@ -113,58 +166,5 @@ public class AStarPathfinding {
 
     public PathNode GetNode(int x, int y) {
         return grid.GetGridObject(x, y);
-    }
-
-    private int CalculateDistanceCost(PathNode a, PathNode b) {
-        int xDistance = Mathf.Abs(a.x - b.x);
-        int yDistance = Mathf.Abs(a.y - b.y);
-        int remaining = Mathf.Abs(xDistance - yDistance);
-        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining;
-    }
-
-    private List<PathNode> CalculatePath(PathNode endNode) {
-        List<PathNode> path = new() {
-            endNode
-        };
-        PathNode currentNode = endNode;
-        while (currentNode.cameFromNode != null) {
-            path.Add(currentNode.cameFromNode);
-            currentNode = currentNode.cameFromNode;
-        }
-        path.Reverse();
-        return path;
-    }
-
-    private PathNode GetLowestFCostNode(List<PathNode> pathNodeList) {
-        PathNode lowestFCostNode = pathNodeList[0];
-        for (int i = 1; i < pathNodeList.Count; i++) {
-            if (pathNodeList[i].fCost < lowestFCostNode.fCost) {
-                lowestFCostNode = pathNodeList[i];
-            }
-        }
-        return lowestFCostNode;
-    }
-
-    private List<PathNode> GetNeighbourList(PathNode currentNode) {
-        List<PathNode> neighbourList = new List<PathNode>();
-
-        if (currentNode.x - 1 >= 0) {
-            // Left
-            neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y));
-        }
-        if (currentNode.x + 1 < grid.GetWidth()) {
-            // Right
-            neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y));
-        }
-        // Down
-        if (currentNode.y - 1 >= 0) {
-            neighbourList.Add(GetNode(currentNode.x, currentNode.y - 1));
-        }
-        // Up
-        if (currentNode.y + 1 < grid.GetHeight()) {
-            neighbourList.Add(GetNode(currentNode.x, currentNode.y + 1));
-        }
-
-        return neighbourList;
     }
 }

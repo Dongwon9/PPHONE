@@ -6,8 +6,6 @@ using UnityEngine;
 /// Player클래스가 턴의 흐름을 제어한다.
 /// </summary>
 public class Player : MovingTurnActor, TurnActor.IDamagable {
-    public static Player Instance;
-    public Armor equippedArmor = null;
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
     private int defaultAttackDamage = 1;
@@ -17,6 +15,8 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     private int moveCount = 0;
     [SerializeField]
     private List<GameObject> playerParts;
+    public static Player Instance;
+    public Armor equippedArmor = null;
     public int HP => hp;
     public int MaxHP => maxHP;
     public int MaxShield => maxShield;
@@ -44,109 +44,13 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         }
     }
 
-    public void HealHP(int value) {
-        if (hp + value > maxHP) {
-            hp = maxHP;
-        } else {
-            hp += value;
-        }
-    }
-
-    public void AddMaxHP(int value) {
-        maxHP += value;
-    }
-
-    /// <summary>
-    /// 최대 쉴드 감소는 여기에 음수를 넣어서 표현한다.("음수를 더한다")
-    /// </summary>
-    public void AddMaxShield(int value) {
-        maxShield += value;
-    }
-
-    public void ArmorEquip(Armor armor) {
-        if (equippedArmor != null) {
-            equippedArmor.OnUnequip();
-        }
-        equippedArmor = armor;
-        equippedArmor.OnEquip(this);
-    }
-
-    public void HideOrShowArm(int showArm) {
-        foreach (var part in playerPartComponents) {
-            part.sprite.enabled = (showArm == 1);
-        }
-    }
-
-    public void TakeDamage(int damage) {
-        if (shield < damage) {
-            hp -= damage - shield;
-            shield = 0;
-        } else {
-            shield -= damage;
-        }
-        equippedArmor?.OnHit();
-        animator.SetTrigger("isHit");
-    }
-
-    /// <summary>
-    /// 입력은 여기에서 받는다.
-    /// </summary>
-    public void TakeInput(Direction? inputDir) {
-        if (inputDir == null) {
-            nextAction = () => { };
-            return;
-        }
-        if (ButtonManager.Instance.AttackMode) {
-            nextAction = () => PlayerAttack((Direction)inputDir, defaultAttackDamage);
-        } else {
-            nextAction = () => Move((Direction)inputDir);
-        }
-    }
-
-    protected override void Awake() {
-        base.Awake();
-        Instance = this;
-        animator = GetComponent<Animator>();
-        foreach (GameObject obj in playerParts) {
-            playerPartComponents.Add(
-                new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
-        }
-        TurnReady = true;
-        StartsFacingRight = true;
-    }
-
-    protected override void DecideNextAction() {
-    }
-
-    /// <summary>
-    /// 자신 스프라이트를 좌우로 뒤집는다.
-    /// </summary>
-    /// <param name="toRight">true면 오른쪽, false면 왼쪽을 보게 된다.</param>
-    protected override void FlipSprite(bool toRight) {
-        //먼저 자신을 뒤집는다
-        base.FlipSprite(toRight);
-        //자신의 모든 파츠를 플레이어와 같은 방향으로 뒤집는다
-        float sign = !toRight ? 1.0f : -1.0f;
-        foreach (var part in playerPartComponents) {
-            part.sprite.flipX = spriteRenderer.flipX;
-            part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
-        }
-    }
-
-    protected override void TurnUpdate() {
-        base.TurnUpdate();
-        moveCount += 1;
-        if (moveCount == 3) {
-            moveCount = 0;
-            hp -= 1;
-        }
-        equippedArmor?.OnTurnUpdate();
-    }
-
     private new void Move(Direction dir) {
         base.Move(dir);
         facing = dir;
         animator.SetTrigger("isWalk");
+    }
+
+    protected override void DecideNextAction() {
     }
 
     private void PlayerAttack(Direction dir, int damage) {
@@ -199,6 +103,102 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             //} else {
             OnTurnUpdate();
             //}
+        }
+    }
+
+    protected override void Awake() {
+        base.Awake();
+        Instance = this;
+        animator = GetComponent<Animator>();
+        foreach (GameObject obj in playerParts) {
+            playerPartComponents.Add(
+                new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
+        }
+        TurnReady = true;
+        StartsFacingRight = true;
+    }
+
+    /// <summary>
+    /// 자신 스프라이트를 좌우로 뒤집는다.
+    /// </summary>
+    /// <param name="toRight">true면 오른쪽, false면 왼쪽을 보게 된다.</param>
+    protected override void FlipSprite(bool toRight) {
+        //먼저 자신을 뒤집는다
+        base.FlipSprite(toRight);
+        //자신의 모든 파츠를 플레이어와 같은 방향으로 뒤집는다
+        float sign = !toRight ? 1.0f : -1.0f;
+        foreach (var part in playerPartComponents) {
+            part.sprite.flipX = spriteRenderer.flipX;
+            part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
+        }
+    }
+
+    protected override void TurnUpdate() {
+        base.TurnUpdate();
+        moveCount += 1;
+        if (moveCount == 3) {
+            moveCount = 0;
+            hp -= 1;
+        }
+        equippedArmor?.OnTurnUpdate();
+    }
+
+    public void AddMaxHP(int value) {
+        maxHP += value;
+    }
+
+    /// <summary>
+    /// 최대 쉴드 감소는 여기에 음수를 넣어서 표현한다.("음수를 더한다")
+    /// </summary>
+    public void AddMaxShield(int value) {
+        maxShield += value;
+    }
+
+    public void ArmorEquip(Armor armor) {
+        if (equippedArmor != null) {
+            equippedArmor.OnUnequip();
+        }
+        equippedArmor = armor;
+        equippedArmor.OnEquip(this);
+    }
+
+    public void HealHP(int value) {
+        if (hp + value > maxHP) {
+            hp = maxHP;
+        } else {
+            hp += value;
+        }
+    }
+
+    public void HideOrShowArm(int showArm) {
+        foreach (var part in playerPartComponents) {
+            part.sprite.enabled = (showArm == 1);
+        }
+    }
+
+    public void TakeDamage(int damage) {
+        if (shield < damage) {
+            hp -= damage - shield;
+            shield = 0;
+        } else {
+            shield -= damage;
+        }
+        equippedArmor?.OnHit();
+        animator.SetTrigger("isHit");
+    }
+
+    /// <summary>
+    /// 입력은 여기에서 받는다.
+    /// </summary>
+    public void TakeInput(Direction? inputDir) {
+        if (inputDir == null) {
+            nextAction = () => { };
+            return;
+        }
+        if (ButtonManager.Instance.AttackMode) {
+            nextAction = () => PlayerAttack((Direction)inputDir, defaultAttackDamage);
+        } else {
+            nextAction = () => Move((Direction)inputDir);
         }
     }
 }

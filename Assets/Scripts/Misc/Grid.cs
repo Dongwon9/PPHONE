@@ -25,8 +25,7 @@ public class Grid<TGridObject> {
                 gridArray[x, y] = createGridObject(this, x, y);
             }
         }
-        bool showDebug = debug;
-        if (showDebug) {
+        if (debug) {
             TextMesh[,] debugTextArray = new TextMesh[width, height];
             for (int x = 0; x < gridArray.GetLength(0); x++) {
                 for (int y = 0; y < gridArray.GetLength(1); y++) {

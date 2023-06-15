@@ -5,10 +5,8 @@ using UnityEngine;
 /// 모든 적들이 상속할 abstract 클래스
 /// </summary>
 public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
-    [SerializeField] private int HP;
-
     private Animator animator;
-
+    [SerializeField] private int HP;
     //[SerializeField] private SpriteRenderer NextActonSprite;
 
     protected class EnemyAction {
@@ -18,14 +16,6 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
         public EnemyAction(Action preTurnAction, Action turnAction) {
             PreTurnAction = preTurnAction;
             TurnAction = turnAction;
-        }
-    }
-
-    public virtual void TakeDamage(int damage) {
-        HP -= damage;
-        animator.SetTrigger("isHit");
-        if (HP <= 0) {
-            Destroy(gameObject);
         }
     }
 
@@ -60,5 +50,13 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
                 break;
         }
         //NextActonSprite.transform.SetPositionAndRotation(transform.position + offset, Quaternion.Euler(0, 0, -90 * (int)dir));
+    }
+
+    public virtual void TakeDamage(int damage) {
+        HP -= damage;
+        animator.SetTrigger("isHit");
+        if (HP <= 0) {
+            Destroy(gameObject);
+        }
     }
 }

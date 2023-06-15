@@ -2,9 +2,12 @@
 using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour {
-    public static ButtonManager Instance;
     [SerializeField]
     private Button UpButton, DownButton, LeftButton, RightButton, ModeButton, WaitButton;
+    public static ButtonManager Instance;
+    /// <summary>
+    /// 버튼이 공격모드인가? 이동모드인가?
+    /// </summary>
     public bool AttackMode { get; private set; }
     private void Awake() {
         Instance = this;

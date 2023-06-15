@@ -11,6 +11,7 @@
  */
 
 public class PathNode {
+    private Grid<PathNode> grid;
     public PathNode cameFromNode;
     public int fCost;
     public int gCost;
@@ -18,8 +19,6 @@ public class PathNode {
     public bool isWalkable;
     public int x;
     public int y;
-    private Grid<PathNode> grid;
-
     public PathNode(Grid<PathNode> grid, int x, int y) {
         this.grid = grid;
         this.x = x;

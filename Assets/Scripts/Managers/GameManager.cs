@@ -4,13 +4,18 @@ public enum Direction { Left, Up, Right, Down };
 
 //디자인패턴: 싱글톤
 public class GameManager : MonoBehaviour {
+    //public Image UIWindow;
+    [SerializeField] private bool WalkableGridDebugDisplay;
     /// <summary>
     /// 맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자
     /// </summary>
     public static Grid<bool> WalkableGrid;
-    //public Image UIWindow;
-    [SerializeField] private bool WalkableGridDebugDisplay;
     public static GameManager Instance { get; private set; }
+
+    private void Awake() {
+        Instance = this;
+        WalkableGrid = new Grid<bool>(31, 31, (grid, x, y) => true, WalkableGridDebugDisplay);
+    }
 
     /// <summary>
     /// walkableGrid 전체를 업데이트하는데 사용한다.
@@ -25,10 +30,5 @@ public class GameManager : MonoBehaviour {
                 WalkableGrid.SetGridObject(x + 15, y + 15, !hit2D);
             }
         }
-    }
-
-    private void Awake() {
-        Instance = this;
-        WalkableGrid = new Grid<bool>(31, 31, (grid, x, y) => true, WalkableGridDebugDisplay);
     }
 }

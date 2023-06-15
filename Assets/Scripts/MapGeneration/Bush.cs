@@ -20,6 +20,7 @@ public class Bush : TurnActor {
                 turnCount++;
                 if (turnCount >= 3) {
                     GenerateEnemies();
+                    Destroy(gameObject);
                 }
             };
         } else {

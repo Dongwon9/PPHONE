@@ -6,7 +6,6 @@ public class Trap : MonoBehaviour {
     [SerializeField] private bool oneUse;
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        //이것이 바로 인터페이스의 활용법!
         Player damageTarget;
         bool success = collision.gameObject.TryGetComponent<Player>(out damageTarget);
         if (success) {
