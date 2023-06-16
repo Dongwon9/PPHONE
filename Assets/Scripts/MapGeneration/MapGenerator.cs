@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary> 주어진 프리셋들을 각 방에 무작위로 배치하는 스크립트 </summary>
 public class MapGenerator : MonoBehaviour {
     [SerializeField] private List<GameObject> RoomPresets;
     private void Awake() {

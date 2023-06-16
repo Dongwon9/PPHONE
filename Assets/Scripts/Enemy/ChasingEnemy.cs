@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// 플레이어를 쫓아와서 거리가 1칸이 되면 공격하는 적
-/// </summary>
+/// <summary>플레이어를 쫓아와서 거리가 1칸이 되면 공격하는 적</summary>
 public class ChasingEnemy : Enemy {
     private AStarPathfinding pathfinding;
     [SerializeField] private List<Vector3> pathToPlayer;

@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Player클래스가 턴의 흐름을 제어한다.
-/// </summary>
+/// <summary>Player클래스가 턴의 흐름을 제어한다.</summary>
 public class Player : MovingTurnActor, TurnActor.IDamagable {
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
@@ -23,7 +21,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     public int Shield => shield;
 
     /// <summary>
-    /// 모든 TurnActor들이 이 이벤트에 TurnUpdate()를 구독시키고,
+    /// 모든 TurnActor들이 이 이벤트에 TurnUpdate()를 구독시키고,<br></br>
     /// 플레이어 행동이 정해지면 이 이벤트를 호출해 이 이벤트에 구독된
     /// 수많은 TurnActor들의 TurnUpdate()가 실행된다.
     /// </summary>
@@ -118,9 +116,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         StartsFacingRight = true;
     }
 
-    /// <summary>
-    /// 자신 스프라이트를 좌우로 뒤집는다.
-    /// </summary>
+    /// <summary>자신 스프라이트를 좌우로 뒤집는다.</summary>
     /// <param name="toRight">true면 오른쪽, false면 왼쪽을 보게 된다.</param>
     protected override void FlipSprite(bool toRight) {
         //먼저 자신을 뒤집는다
@@ -187,9 +183,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         animator.SetTrigger("isHit");
     }
 
-    /// <summary>
-    /// 입력은 여기에서 받는다.
-    /// </summary>
+    /// <summary>입력은 여기에서 받는다. </summary>
     public void TakeInput(Direction? inputDir) {
         if (inputDir == null) {
             nextAction = () => { };

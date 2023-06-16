@@ -1,17 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-/// <summary>
-/// TurnActor중 움직일 수 있는 오브젝트들<br></br>
-///(플레이어, 적 등)
-/// </summary>
+/// <summary>TurnActor중 움직일 수 있는 오브젝트들<br></br>
+///(플레이어, 적 등)</summary>
 public abstract class MovingTurnActor : TurnActor {
     private Vector3 moveDir = Vector3.zero;
     protected new Collider2D collider;
     protected SpriteRenderer spriteRenderer;
-    /// <summary>
-    ///이 오브젝트의 스프라이트는 시작할 때 오른쪽을 보는가?
-    /// </summary>
+    /// <summary>이 오브젝트의 스프라이트는 시작할 때 오른쪽을 보는가?</summary>
     protected bool StartsFacingRight;
     protected float timeCounter = -1f;
     /// <summary>
@@ -35,9 +31,7 @@ public abstract class MovingTurnActor : TurnActor {
             }
         }
     }
-    /// <summary>
-    /// 오브젝트의 좌표를 (정수)+0.5로 교정한다.
-    /// </summary>
+    /// <summary>오브젝트의 좌표를 (정수)+0.5로 교정한다.</summary>
     private void AdjustPosition() {
         transform.position = new Vector3(
             MathF.Floor(transform.position.x) + 0.5f,
@@ -72,16 +66,12 @@ public abstract class MovingTurnActor : TurnActor {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    /// <summary>
-    /// 스프라이트를 X축으로 뒤집거나 뒤집지 않는다
-    /// </summary>
+    /// <summary>스프라이트를 X축으로 뒤집거나 뒤집지 않는다.</summary>
     protected virtual void FlipSprite(bool toRight) {
         spriteRenderer.flipX = StartsFacingRight ? !toRight : toRight;
     }
 
-    /// <summary>
-    /// dir 방향으로 1칸 이동한다.
-    /// </summary>
+    /// <summary>dir 방향으로 1칸 이동한다.</summary>
     protected void Move(Direction dir) {
         Vector3 direction = Vector3.zero;
         bool? moveToRight = null;
@@ -126,9 +116,7 @@ public abstract class MovingTurnActor : TurnActor {
         timeCounter = 0;
     }
 
-    /// <summary>
-    /// 해당 방향으로 움직일 수 있는지만 알고 싶을 때 사용한다.
-    /// </summary>
+    /// <summary>해당 방향으로 움직일 수 있는지만 알고 싶을 때 사용한다.</summary>
     protected bool MoveCheck(Direction dir) {
         Vector3 direction = Vector3.zero;
         switch (dir) {

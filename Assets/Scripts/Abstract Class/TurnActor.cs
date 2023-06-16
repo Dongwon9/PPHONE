@@ -5,9 +5,7 @@ using UnityEngine;
 /// 턴마다 어떤 행동을 하는 모든 오브젝트는 TurnActor를 상속한다.
 /// </summary>
 public abstract class TurnActor : MonoBehaviour {
-    /// <summary>
-    /// 모든 TurnActor들이 사용하는 다음턴 action
-    /// </summary>
+    /// <summary>모든 TurnActor들이 사용하는 다음턴 action</summary>
     protected Action nextAction;
 
     public interface IDamagable {
@@ -18,9 +16,7 @@ public abstract class TurnActor : MonoBehaviour {
         Player.OnTurnUpdate -= TurnUpdate;
     }
 
-    /// <summary>
-    /// TurnActor들이 다음 행동을 정할 때 사용하는 함수
-    /// </summary>
+    /// <summary> TurnActor들이 다음 행동을 정할 때 사용하는 함수</summary>
     protected virtual void DecideNextAction() {
         nextAction = () => { };
     }
@@ -30,9 +26,7 @@ public abstract class TurnActor : MonoBehaviour {
         DecideNextAction();
     }
 
-    /// <summary>
-    /// 현재 턴의 행동을 실행하는 코드
-    /// </summary>
+    /// <summary>현재 턴의 행동을 실행하는 코드</summary>
     protected virtual void TurnUpdate() {
         if (nextAction == null) {
             Debug.Log(ToString() + "의 nextAction이 null입니다");
@@ -40,7 +34,6 @@ public abstract class TurnActor : MonoBehaviour {
         }
         nextAction();
         DecideNextAction();
-        // DecideNextAction();
     }
 
     /// <summary>
