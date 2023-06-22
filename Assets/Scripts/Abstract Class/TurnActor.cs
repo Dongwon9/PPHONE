@@ -6,19 +6,45 @@ using UnityEngine;
 /// </summary>
 public abstract class TurnActor : MonoBehaviour {
     /// <summary>모든 TurnActor들이 사용하는 다음턴 action</summary>
+
     protected Action nextAction;
+
+    public enum Direction { None, Left, Up, Right, Down };
+
+    public enum Target { Player, Enemy, Any }
 
     public interface IDamagable {
         public void TakeDamage(int damage);
     }
 
-    private void OnDisable() {
-        Player.OnTurnUpdate -= TurnUpdate;
+    /// <summary> position 칸에 공격을 한다.</summary>
+    /// <param name="target">공격할 대상(플레이어,적 또는 둘다)</param>
+    protected void Attack(Vector3 position, int damage, Target target) {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(position, Vector2.down, 0.1f);
+        foreach (RaycastHit2D hit in hits) {
+            switch (target) {
+                case Target.Player:
+                    hit.collider.GetComponent<Player>()?.TakeDamage(damage);
+                    break;
+
+                case Target.Enemy:
+                    hit.collider.GetComponent<Enemy>()?.TakeDamage(damage);
+                    break;
+
+                case Target.Any:
+                    hit.collider.GetComponent<IDamagable>()?.TakeDamage(damage);
+                    break;
+            }
+        }
     }
 
     /// <summary> TurnActor들이 다음 행동을 정할 때 사용하는 함수</summary>
     protected virtual void DecideNextAction() {
         nextAction = () => { };
+    }
+
+    protected virtual void OnDisable() {
+        Player.OnTurnUpdate -= TurnUpdate;
     }
 
     protected virtual void OnEnable() {
@@ -36,15 +62,18 @@ public abstract class TurnActor : MonoBehaviour {
         DecideNextAction();
     }
 
+    public Vector2 Adjust(Vector2 orig) {
+        return new Vector2(
+         MathF.Round(orig.x),
+         MathF.Round(orig.y));
+    }
+
     /// <summary>
     /// position에 공격 경고를 띄운다. 이 함수를 반복적으로 사용해 적의 공격을 구현한다.
     /// </summary>
-    public void AttackPreTurn(Vector3 position, int damage, Action onHitEffect = null, bool instant = false) {
-        Attack attack = ObjectPool.AttackPool.Get();
-        attack.tag = gameObject.tag;
+    public void AttackWarning(Vector3 position, bool instant = false) {
+        RedSquare attack = ObjectPool.AttackPool.Get();
         attack.transform.position = position;
-        attack.damage = damage;
-        attack.onHitEffect = onHitEffect;
         attack.instant = instant;
     }
 }

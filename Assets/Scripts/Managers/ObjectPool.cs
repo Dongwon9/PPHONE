@@ -2,13 +2,13 @@
 using UnityEngine.Pool;
 
 public class ObjectPool : MonoBehaviour {
-    public static IObjectPool<Attack> AttackPool;
-    public Attack AttackPrefab;
+    public static IObjectPool<RedSquare> AttackPool;
+    public RedSquare AttackPrefab;
 
     private void Awake() {
-        AttackPool = new ObjectPool<Attack>(
+        AttackPool = new ObjectPool<RedSquare>(
         () => {
-            Attack attack = Instantiate(AttackPrefab, transform).GetComponent<Attack>();
+            RedSquare attack = Instantiate(AttackPrefab, transform).GetComponent<RedSquare>();
             attack.SetManagedPool(AttackPool);
             return attack;
         },

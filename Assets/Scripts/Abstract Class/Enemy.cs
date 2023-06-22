@@ -31,19 +31,19 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
         //NextActonSprite.enabled = true;
         Vector3 offset = Vector3.zero;
         switch (dir) {
-            case Direction.Left:
+            case TurnActor.Direction.Left:
                 offset = Vector3.left;
                 break;
 
-            case Direction.Right:
+            case TurnActor.Direction.Right:
                 offset = Vector3.right;
                 break;
 
-            case Direction.Up:
+            case TurnActor.Direction.Up:
                 offset = Vector3.up;
                 break;
 
-            case Direction.Down:
+            case TurnActor.Direction.Down:
                 offset = Vector3.down;
                 break;
         }
@@ -54,6 +54,7 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
         HP -= damage;
         animator.SetTrigger("isHit");
         if (HP <= 0) {
+            nextAction = null;
             Destroy(gameObject);
         }
     }

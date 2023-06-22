@@ -23,13 +23,11 @@ public class BasicEnemy : Enemy {
 
         private void Execute() {
             int dirSign = 1;
-            if (facing == Direction.Left) {
+            if (facing == TurnActor.Direction.Left) {
                 dirSign = -1;
             }
             for (int i = -1; i <= 1; i++) {
-                attackUser.AttackPreTurn(attackUser.transform.position + new Vector3(turnCounter * dirSign, i), damage,
-                    () => {
-                    });
+                attackUser.AttackWarning(attackUser.transform.position + new Vector3(turnCounter * dirSign, i));
             }
             turnCounter += 1;
             if (turnCounter > attackDuration) {
@@ -69,8 +67,8 @@ public class BasicEnemy : Enemy {
 
     private void LaserPreTurn() {
         for (int i = 1; i <= 10; i++) {
-            //AttackPreTurn(-i, 0, 2);
-            AttackPreTurn(transform.position + new Vector3(-i, 0), 2);
+            //AttackWarning(-i, 0, 2);
+            AttackWarning(transform.position + new Vector3(-i, 0));
         }
     }
 
@@ -79,9 +77,9 @@ public class BasicEnemy : Enemy {
         nextAction = () => { };
         if (counter < 4) {
             if (counter % 2 == 0) {
-                WaveAttack.Activate(Direction.Left, 5);
+                WaveAttack.Activate(TurnActor.Direction.Left, 5);
             } else {
-                WaveAttack.Activate(Direction.Right, 5);
+                WaveAttack.Activate(TurnActor.Direction.Right, 5);
             }
         }
         counter = (counter + 1) % 8;
@@ -96,10 +94,10 @@ public class BasicEnemy : Enemy {
         WaveAttack.SetAttackUser(this);
         base.OnEnable();
         sampleAI = new List<EnemyAction> {
-            MoveAction(Direction.Right),
-            MoveAction(Direction.Left),
-            MoveAction(Direction.Up),
-            MoveAction(Direction.Down)
+            MoveAction(TurnActor.Direction.Right),
+            MoveAction(TurnActor.Direction.Left),
+            MoveAction(TurnActor.Direction.Up),
+            MoveAction(TurnActor.Direction.Down)
         };
     }
 

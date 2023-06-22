@@ -89,7 +89,7 @@ public class AStarPathfinding {
         } else {
             List<Vector3> vectorPath = new List<Vector3>();
             foreach (PathNode pathNode in path) {
-                vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * grid.GetCellSize() + .5f * grid.GetCellSize() * Vector3.one + grid.GetOrigin());
+                vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * grid.GetCellSize() + grid.GetOrigin());
             }
             return vectorPath;
         }

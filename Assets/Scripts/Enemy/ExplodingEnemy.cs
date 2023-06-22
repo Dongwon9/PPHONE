@@ -5,10 +5,10 @@ public class ExplodingEnemy : Enemy {
     [SerializeField] private int damage = 10;
     private List<Vector3> ExplosionPosList;
     [SerializeField] private int ExplosionRadius;
+    [SerializeField] private GameObject ExplosionSprite;
     private AStarPathfinding pathfinding;
     [SerializeField] private List<Vector3> pathToPlayer;
     [SerializeField] private GameObject RedSquare;
-    [SerializeField] private GameObject ExplosionSprite;
     private int turnsTillExplosion = -1;
     private void ExecuteMove() {
         Move(pathToPlayer[1]);
@@ -30,19 +30,19 @@ public class ExplodingEnemy : Enemy {
                 if (pathToPlayer != null && pathToPlayer.Count > 2) {
                     Invoke(nameof(ExecuteMove), movingTime);
                 }
-            };
-            if (pathToPlayer != null && pathToPlayer.Count == 2) {
-                //거리 2 이내까지 오면, 자폭로직으로 전환한다.
-                nextAction = () => { };
-                turnsTillExplosion = 2;
-                foreach (Vector3 pos in ExplosionPosList) {
-                    Instantiate(RedSquare, transform.position + pos, Quaternion.identity, transform);
+                if (pathToPlayer != null && pathToPlayer.Count == 2) {
+                    //거리 2 이내까지 오면, 자폭로직으로 전환한다.
+                    nextAction = () => { };
+                    turnsTillExplosion = 2;
+                    foreach (Vector3 pos in ExplosionPosList) {
+                        Instantiate(RedSquare, transform.position + pos, Quaternion.identity, transform);
+                    }
                 }
-            }
+            };
         }
         void Explode() {
             foreach (Vector3 pos in ExplosionPosList) {
-                AttackPreTurn(transform.position + pos, damage, instant: true);
+                Attack(transform.position + pos, damage, Target.Player);
             }
             ExplosionSprite.transform.SetParent(null, true);
             ExplosionSprite.SetActive(true);

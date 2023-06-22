@@ -10,10 +10,10 @@ public class ButtonManager : MonoBehaviour {
     private void Awake() {
         Instance = this;
         AttackMode = false;
-        UpButton.onClick.AddListener(() => Player.Instance.TakeInput(Direction.Up));
-        DownButton.onClick.AddListener(() => Player.Instance.TakeInput(Direction.Down));
-        LeftButton.onClick.AddListener(() => Player.Instance.TakeInput(Direction.Left));
-        RightButton.onClick.AddListener(() => Player.Instance.TakeInput(Direction.Right));
+        UpButton.onClick.AddListener(() => Player.Instance.TakeInput(TurnActor.Direction.Up));
+        DownButton.onClick.AddListener(() => Player.Instance.TakeInput(TurnActor.Direction.Down));
+        LeftButton.onClick.AddListener(() => Player.Instance.TakeInput(TurnActor.Direction.Left));
+        RightButton.onClick.AddListener(() => Player.Instance.TakeInput(TurnActor.Direction.Right));
         ModeButton.onClick.AddListener(() => AttackMode = !AttackMode);
         WaitButton.onClick.AddListener(() => Player.Instance.TakeInput(null));
     }

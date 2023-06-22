@@ -8,7 +8,9 @@ public class DoorScript : TurnActor {
         animator = GetComponent<Animator>();
         collider = GetComponent<Collider2D>();
         animator.enabled = false;
-        shadowAnimator.enabled = false;
+        if (shadowAnimator != null) {
+            shadowAnimator.enabled = false;
+        }
     }
 
     private void Update() {
@@ -17,6 +19,7 @@ public class DoorScript : TurnActor {
             //문을 연다
             OpenDoor();
         }
+
         void OpenDoor() {
             GameManager.WalkableGrid.SetGridObject(transform.position, true);
             GameManager.WalkableGrid.SetGridObject(transform.position + transform.right, true);

@@ -15,27 +15,21 @@ public abstract class MovingTurnActor : TurnActor {
     /// 플레이어는 최소 이 시간을 기다린 후에 행동할 수 있다.
     /// </summary>
     public const float movingTime = 0.1f;
+    public bool TurnProcessing => !TurnReady;
     /// <summary>
     /// Private인 timeCounter를 대신해 클래스들이 참조할 수 있는 속성<br></br>
     /// 다른 클래스들은 자신 턴이 준비 됐는지만 알 수 있다.
     /// </summary>
     public bool TurnReady {
         get => timeCounter == -1;
-        set {
-            if (value == true) {
-                timeCounter = -1;
-            } else {
-                timeCounter = 0;
-            }
-        }
+        set => timeCounter = value == true ? -1 : 0;
     }
-    public bool TurnProcessing => !TurnReady;
-    /// <summary>오브젝트의 좌표를 (정수)+0.5로 교정한다.</summary>
+    /// <summary>오브젝트의 좌표를 정수로 교정한다.</summary>
     private void AdjustPosition() {
         transform.position = new Vector3(
-            MathF.Floor(transform.position.x) + 0.5f,
-            MathF.Floor(transform.position.y) + 0.5f,
-            MathF.Floor(transform.position.y) * 0.1f);
+            MathF.Round(transform.position.x),
+            MathF.Round(transform.position.y),
+            MathF.Round(transform.position.y) * 0.1f);
     }
 
     private void FixedUpdate() {
@@ -48,7 +42,7 @@ public abstract class MovingTurnActor : TurnActor {
             }
             //왼쪽도 오른쪽도 아니면, 스프라이트를 그대로 둔다.
             transform.Translate(moveDir * Time.fixedDeltaTime / movingTime);
-            timeCounter += Time.deltaTime;
+            timeCounter += Time.fixedDeltaTime;
             collider.enabled = false;
             if (timeCounter >= movingTime) {
                 TurnReady = true;
@@ -77,21 +71,21 @@ public abstract class MovingTurnActor : TurnActor {
         Vector3 direction = Vector3.zero;
         bool? moveToRight = null;
         switch (dir) {
-            case Direction.Left:
+            case TurnActor.Direction.Left:
                 direction = Vector3.left;
                 moveToRight = false;
                 break;
 
-            case Direction.Right:
+            case TurnActor.Direction.Right:
                 direction = Vector3.right;
                 moveToRight = true;
                 break;
 
-            case Direction.Up:
+            case TurnActor.Direction.Up:
                 direction = Vector3.up;
                 break;
 
-            case Direction.Down:
+            case TurnActor.Direction.Down:
                 direction = Vector3.down;
                 break;
         }
@@ -121,19 +115,19 @@ public abstract class MovingTurnActor : TurnActor {
     protected bool MoveCheck(Direction dir) {
         Vector3 direction = Vector3.zero;
         switch (dir) {
-            case Direction.Left:
+            case TurnActor.Direction.Left:
                 direction = Vector3.left;
                 break;
 
-            case Direction.Right:
+            case TurnActor.Direction.Right:
                 direction = Vector3.right;
                 break;
 
-            case Direction.Up:
+            case TurnActor.Direction.Up:
                 direction = Vector3.up;
                 break;
 
-            case Direction.Down:
+            case TurnActor.Direction.Down:
                 direction = Vector3.down;
                 break;
         }

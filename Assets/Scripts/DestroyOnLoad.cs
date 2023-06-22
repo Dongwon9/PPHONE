@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 프리팹에 있는 스프라이트마스크에 넣는다.<br></br>

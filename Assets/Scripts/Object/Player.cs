@@ -6,8 +6,9 @@ using UnityEngine;
 public class Player : MovingTurnActor, TurnActor.IDamagable {
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
+    [SerializeField]
     private int defaultAttackDamage = 1;
-    private Direction facing = Direction.Right;
+    private Direction facing = TurnActor.Direction.Right;
     [SerializeField]
     private int hp = 100, maxHP = 100, shield = 20, maxShield = 20;
     private int moveCount = 0;
@@ -48,32 +49,29 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         animator.SetTrigger("isWalk");
     }
 
-    protected override void DecideNextAction() {
-    }
-
     private void PlayerAttack(Direction dir, int damage) {
         Vector3 direction = Vector3.zero;
         switch (dir) {
-            case Direction.Left:
+            case TurnActor.Direction.Left:
                 direction = Vector3.left;
                 FlipSprite(false);
                 break;
 
-            case Direction.Right:
+            case TurnActor.Direction.Right:
                 direction = Vector3.right;
                 FlipSprite(true);
                 break;
 
-            case Direction.Up:
+            case TurnActor.Direction.Up:
                 direction = Vector3.up;
                 break;
 
-            case Direction.Down:
+            case TurnActor.Direction.Down:
                 direction = Vector3.down;
                 break;
         }
-        AttackPreTurn(transform.position + direction, damage);
-
+        AttackWarning(transform.position + direction);
+        Attack(transform.position + direction, damage, Target.Enemy);
         foreach (var obj in playerPartComponents) {
             obj.animator.SetTrigger("Attack");
         }
@@ -81,11 +79,11 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            nextAction = () => Move(Direction.Left);
+            nextAction = () => Move(TurnActor.Direction.Left);
         } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            nextAction = () => Move(Direction.Right);
+            nextAction = () => Move(TurnActor.Direction.Right);
         } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            nextAction = () => Move(Direction.Down);
+            nextAction = () => Move(TurnActor.Direction.Down);
         } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
             nextAction = () => Move(Direction.Up);
         } else if (Input.GetKeyDown(KeyCode.Z)) {
@@ -95,12 +93,10 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         }
 
         if (nextAction != null && TurnReady) {
-            //if (UIManager.Instance.UIActive) {
-            //    UIManager.Instance.SetUIActive(false);
-            //    nextAction = null;
-            //} else {
+            //무조건 플레이어가 먼저 행동한다.
+            TurnUpdate();
+            //그 후에 다른 모든 TurnActor들이 행동한다.
             OnTurnUpdate();
-            //}
         }
     }
 
@@ -116,6 +112,9 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         StartsFacingRight = true;
     }
 
+    protected override void DecideNextAction() {
+    }
+
     /// <summary>자신 스프라이트를 좌우로 뒤집는다.</summary>
     /// <param name="toRight">true면 오른쪽, false면 왼쪽을 보게 된다.</param>
     protected override void FlipSprite(bool toRight) {
@@ -127,6 +126,12 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             part.sprite.flipX = spriteRenderer.flipX;
             part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
         }
+    }
+
+    protected override void OnDisable() {
+    }
+
+    protected override void OnEnable() {
     }
 
     protected override void TurnUpdate() {

@@ -11,17 +11,21 @@ public class ChasingEnemy : Enemy {
     }
 
     protected override void DecideNextAction() {
-        pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
         nextAction = () => {
+            pathToPlayer = pathfinding?.FindPath(transform.position, Player.Instance.transform.position);
+            if (pathToPlayer == null) {
+                return;
+            }
             //필요한 이동 길이가 2칸보다 많으면 움직인다.
-            if (pathToPlayer != null && pathToPlayer.Count > 2) {
+            if (pathToPlayer.Count > 2) {
                 Invoke(nameof(ExecuteMove), movingTime / 2);
             }
+            //필요한 이동 길이가 2칸이면 공격한다.
+            if (pathToPlayer.Count == 2) {
+                AttackWarning(Player.Instance.transform.position);
+                nextAction = () => Attack(Player.Instance.transform.position, 5, Target.Player);
+            }
         };
-        //필요한 이동 길이가 2칸이면 공격한다.
-        if (pathToPlayer != null && pathToPlayer.Count == 2) {
-            AttackPreTurn(Player.Instance.transform.position, 5);
-        }
     }
 
     protected override void OnEnable() {
