@@ -15,17 +15,13 @@ public class Bush : TurnActor {
     private Vector2Int[] obstaclePositions; // 장애물 위치 배열
 
     protected override void DecideNextAction() {
-        if (turnCount < 3) {
-            nextAction = () => {
-                turnCount++;
-                if (turnCount >= 3) {
-                    GenerateEnemies();
-                    Destroy(gameObject);
-                }
-            };
-        } else {
-            nextAction = () => { };
-        }
+        nextAction = () => {
+            turnCount++;
+            if (turnCount >= 3) {
+                GenerateEnemies();
+                Destroy(gameObject);
+            }
+        };
     }
 
     private void Start() {
@@ -63,7 +59,14 @@ public class Bush : TurnActor {
         //int startY = (mapSize - obstacleSize) / 2;
 
         for (int i = 0; i < obstacleCount; i++) {
-            positions[i] = new Vector2Int(Random.Range(0, mapSize), Random.Range(0, mapSize));
+            while (true) {
+                Vector2Int pos = GetRandomPosition();
+                //얻은 좌표가 bush가 생성되어있는 좌표라면, 좌표를 다시 얻는다.
+                if (!bushPositions.Contains(pos)) {
+                    positions[i] = pos;
+                    break;
+                }
+            }
         }
 
         return positions;

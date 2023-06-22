@@ -20,9 +20,7 @@ public abstract class MovingTurnActor : TurnActor {
     /// 다른 클래스들은 자신 턴이 준비 됐는지만 알 수 있다.
     /// </summary>
     public bool TurnReady {
-        get {
-            return timeCounter == -1;
-        }
+        get => timeCounter == -1;
         set {
             if (value == true) {
                 timeCounter = -1;
@@ -31,6 +29,7 @@ public abstract class MovingTurnActor : TurnActor {
             }
         }
     }
+    public bool TurnProcessing => !TurnReady;
     /// <summary>오브젝트의 좌표를 (정수)+0.5로 교정한다.</summary>
     private void AdjustPosition() {
         transform.position = new Vector3(
@@ -43,10 +42,11 @@ public abstract class MovingTurnActor : TurnActor {
         //캐릭터가 일정 시간에 걸쳐 움직이게 하는 코드
         if (!TurnReady) {
             if (moveDir.normalized == Vector3.left) {
-                spriteRenderer.flipX = true;
+                FlipSprite(false);
             } else if (moveDir.normalized == Vector3.right) {
-                spriteRenderer.flipX = false;
+                FlipSprite(true);
             }
+            //왼쪽도 오른쪽도 아니면, 스프라이트를 그대로 둔다.
             transform.Translate(moveDir * Time.fixedDeltaTime / movingTime);
             timeCounter += Time.deltaTime;
             collider.enabled = false;
@@ -67,6 +67,7 @@ public abstract class MovingTurnActor : TurnActor {
     }
 
     /// <summary>스프라이트를 X축으로 뒤집거나 뒤집지 않는다.</summary>
+    /// <param name="toRight">스프라이트가 오른쪽을 볼까?</param>
     protected virtual void FlipSprite(bool toRight) {
         spriteRenderer.flipX = StartsFacingRight ? !toRight : toRight;
     }

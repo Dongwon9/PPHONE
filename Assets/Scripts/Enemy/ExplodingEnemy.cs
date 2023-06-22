@@ -40,6 +40,14 @@ public class ExplodingEnemy : Enemy {
                 }
             }
         }
+        void Explode() {
+            foreach (Vector3 pos in ExplosionPosList) {
+                AttackPreTurn(transform.position + pos, damage, instant: true);
+            }
+            ExplosionSprite.transform.SetParent(null, true);
+            ExplosionSprite.SetActive(true);
+            Destroy(gameObject);
+        }
     }
 
     protected override void OnEnable() {
@@ -53,14 +61,5 @@ public class ExplodingEnemy : Enemy {
                 ExplosionPosList.Add(new Vector3(x, y));
             }
         }
-    }
-
-    private void Explode() {
-        foreach (Vector3 pos in ExplosionPosList) {
-            AttackPreTurn(transform.position + pos, damage, instant: true);
-        }
-        ExplosionSprite.transform.SetParent(null, true);
-        ExplosionSprite.SetActive(true);
-        Destroy(gameObject);
     }
 }
