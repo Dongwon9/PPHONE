@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.Pool;
+﻿using UnityEngine.Pool;
 
 public class RedSquare : TurnActor {
     private const float lifeTime = 2 * MovingTurnActor.movingTime;
@@ -9,20 +8,14 @@ public class RedSquare : TurnActor {
     public bool instant;
 
     private void Update() {
-        if (destroying) {
-            timeCount += Time.deltaTime;
-            if (timeCount >= lifeTime) {
-                managedPool.Release(this);
-                timeCount = 0f;
-            }
-        }
         if (instant) {
             destroying = true;
         }
     }
 
     protected override void DecideNextAction() {
-        nextAction += () => destroying = true;
+        nextAction = destroying ? () => { managedPool.Release(this); }
+        : () => { destroying = true; };
     }
 
     public void SetManagedPool(IObjectPool<RedSquare> pool) {

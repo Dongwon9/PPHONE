@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DoorScript : TurnActor {
+public class DoorScript : MonoBehaviour {
     private Animator animator;
     private new Collider2D collider;
     [SerializeField] private Animator shadowAnimator;
@@ -21,9 +21,9 @@ public class DoorScript : TurnActor {
         }
 
         void OpenDoor() {
-            GameManager.WalkableGrid.SetGridObject(transform.position, true);
-            GameManager.WalkableGrid.SetGridObject(transform.position + transform.right, true);
-            GameManager.WalkableGrid.SetGridObject(transform.position - transform.right, true);
+            GameManager.Instance.WalkableGrid.SetWalkable(transform.position, true);
+            GameManager.Instance.WalkableGrid.SetWalkable(transform.position + transform.right, true);
+            GameManager.Instance.WalkableGrid.SetWalkable(transform.position - transform.right, true);
             animator.enabled = true;
             if (shadowAnimator) {
                 shadowAnimator.enabled = true;

@@ -5,7 +5,7 @@ public class DestroyableWall : MonoBehaviour, TurnActor.IDamagable {
     public void TakeDamage(int damage) {
         HP -= 1;
         if (HP <= 0) {
-            GameManager.WalkableGrid.SetGridObject(transform.position, true);
+            GameManager.Instance.WalkableGrid.SetWalkable(transform.position, true);
             Destroy(gameObject);
         }
     }

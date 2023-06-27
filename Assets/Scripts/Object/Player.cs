@@ -92,14 +92,17 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             nextAction = () => { };
         }
 
-        if (nextAction != null && TurnReady) {
+        if (nextAction != null && !TurnProcessing) {
             //무조건 플레이어가 먼저 행동한다.
             TurnUpdate();
             //그 후에 다른 모든 TurnActor들이 행동한다.
-            OnTurnUpdate();
+            Invoke(nameof(ProcessTurn), MovingTurnActor.movingTime * 2f);
         }
-    }
 
+    }
+    void ProcessTurn() {
+        OnTurnUpdate();
+    }
     protected override void Awake() {
         base.Awake();
         Instance = this;
@@ -108,7 +111,6 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             playerPartComponents.Add(
                 new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
         }
-        TurnReady = true;
         StartsFacingRight = true;
     }
 
