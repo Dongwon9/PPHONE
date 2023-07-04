@@ -25,10 +25,12 @@ public abstract class MovingTurnActor : TurnActor {
             MathF.Round(transform.position.y),
             MathF.Round(transform.position.y) * 0.1f);
     }
+
     private void ReadyForTurn() {
         TurnProcessing = true;
         timeCounter = 0;
     }
+
     private void FixedUpdate() {
         //캐릭터가 일정 시간에 걸쳐 움직이게 하는 코드
         if (TurnProcessing) {
@@ -133,6 +135,7 @@ public abstract class MovingTurnActor : TurnActor {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.0f, LayerMask.GetMask("Wall"));
         return hit.collider != null;
     }
+
     protected override void TurnUpdate() {
         if (nextAction == null) {
             Debug.Log(ToString() + "의 nextAction이 null입니다");

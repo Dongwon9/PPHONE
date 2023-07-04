@@ -16,11 +16,11 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     private List<GameObject> playerParts;
     public static Player Instance;
     public Armor equippedArmor = null;
+    public static Vector3 Position => Instance.transform.position;
     public int HP => hp;
     public int MaxHP => maxHP;
     public int MaxShield => maxShield;
     public int Shield => shield;
-
     /// <summary>
     /// 모든 TurnActor들이 이 이벤트에 TurnUpdate()를 구독시키고,<br></br>
     /// 플레이어 행동이 정해지면 이 이벤트를 호출해 이 이벤트에 구독된
@@ -98,11 +98,12 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             //그 후에 다른 모든 TurnActor들이 행동한다.
             Invoke(nameof(ProcessTurn), MovingTurnActor.movingTime * 2f);
         }
+    }
 
+    private void ProcessTurn() {
+        OnTurnUpdate?.Invoke();
     }
-    void ProcessTurn() {
-        OnTurnUpdate();
-    }
+
     protected override void Awake() {
         base.Awake();
         Instance = this;
@@ -130,6 +131,8 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         }
     }
 
+    //player는 모든 TurnActor보다 먼저 턴이 진행되기 때문에,
+    //OnTurnUpdate에 메소드를 구독하지 않는다.
     protected override void OnDisable() {
     }
 

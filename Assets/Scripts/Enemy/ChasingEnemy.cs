@@ -3,7 +3,7 @@ public class ChasingEnemy : Enemy {
     private Path pathfinding;
 
     protected override void DecideNextAction() {
-        pathfinding.FindPath(transform.position, Player.Instance.transform.position);
+        pathfinding.FindPath(transform.position, Player.Position);
         if (!pathfinding.PathExists) {
             nextAction = () => { };
             return;
@@ -21,7 +21,7 @@ public class ChasingEnemy : Enemy {
     protected override void OnEnable() {
         Player.OnTurnUpdate += TurnUpdate;
         pathfinding = new Path();
-        pathfinding.FindPath(transform.position, Player.Instance.transform.position);
+        pathfinding.FindPath(transform.position, Player.Position);
         DecideNextAction();
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 public class Path {
     //경로 전체
     private List<Node> FullPath = new();
-    public bool PathExists => !(FullPath == null || FullPath.Count == 0);
+    /// <summary>경로가 존재하는가?</summary>
+    public bool PathExists => FullPath.Count >= 1;
+    /// <summary>경로의 길이</summary>
     public int PathLength => FullPath.Count - 1;
     public Path(Vector3 startpos, Vector3 endpos) {
         FindPath(startpos, endpos);
@@ -24,6 +26,9 @@ public class Path {
     }
 
     public List<Vector3> GetFullPathVector() {
+        if (!PathExists) {
+            return null;
+        }
         List<Vector3> res = new();
         foreach (Node node in FullPath) {
             res.Add(new Vector3(node.x, node.y));
@@ -51,13 +56,15 @@ public class Path {
             //OpenList에서 Fcost가 가장 낮은 노드를 찾는다.
             Node currentNode = FindLowestFCostNode();
 
+            //도착 노드를 찾았다.
             if (currentNode == nodeGrid.GetNode(endx, endy)) {
-                //도착 노드를 찾았다.
                 FullPath = GetFullPath();
                 return;
             }
+
             OpenList.Remove(currentNode);
             ClosedList.Add(currentNode);
+            //이웃 노드들을 탐색한다.
             foreach (Node node in getNeighbor(currentNode)) {
                 //이웃 노드를 이미 탐색했다.
                 if (ClosedList.Contains(node)) {

@@ -245,11 +245,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 5
+  explosionTime: 3
   damage: 10
   ExplosionRadius: 3
-  pathToPlayer: []
-  RedSquare: {fileID: 8814332389410693332, guid: 7b7f6322d46ff844ba3ae415fccad9bc, type: 3}
   ExplosionSprite: {fileID: 8809898331813258942}
+  RedSquare: {fileID: 8814332389410693332, guid: 7b7f6322d46ff844ba3ae415fccad9bc, type: 3}
 --- !u!1 &8809898331813258942
 GameObject:
   m_ObjectHideFlags: 0

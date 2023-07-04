@@ -7,11 +7,11 @@ using UnityEngine;
 public abstract class TurnActor : MonoBehaviour {
     /// <summary>모든 TurnActor들이 사용하는 다음턴 action</summary>
 
+    public enum Direction { Left, Up, Right, Down };
+
+    public enum Target { Player, Enemy, Any, Wall }
+
     protected Action nextAction;
-
-    public enum Direction { None, Left, Up, Right, Down };
-
-    public enum Target { Player, Enemy, Any }
 
     public interface IDamagable {
         public void TakeDamage(int damage);
@@ -62,7 +62,50 @@ public abstract class TurnActor : MonoBehaviour {
         DecideNextAction();
     }
 
-    public Vector2 Adjust(Vector2 orig) {
+    public Vector3 DirectionToVector(Direction dir) {
+        switch (dir) {
+            case Direction.Left:
+                return Vector3.left;
+
+            case Direction.Right:
+                return Vector3.right;
+
+            case Direction.Up:
+                return Vector3.up;
+
+            case Direction.Down:
+                return Vector3.down;
+
+            default:
+                return Vector3.zero;
+        }
+    }
+
+    public bool CheckForObjectAtPosition(Target[] objectType, Vector3 position) {
+        if (objectType.Length == 0) {
+            Debug.LogError("objectType 매개변수에 요소가 하나도 없습니다");
+            return false;
+        }
+        string[] objects = new string[objectType.Length];
+        for (int i = 0; i < objects.Length; i++) {
+            switch (objectType[i]) {
+                case Target.Enemy:
+                    objects[i] = "Enemy";
+                    break;
+
+                case Target.Player:
+                    objects[i] = "Player";
+                    break;
+
+                case Target.Wall:
+                    objects[i] = "Wall";
+                    break;
+            }
+        }
+        return Physics2D.Raycast(position, Vector2.down, 0.1f, LayerMask.GetMask(objects));
+    }
+
+    public Vector2 Round(Vector2 orig) {
         return new Vector2(
          MathF.Round(orig.x),
          MathF.Round(orig.y));

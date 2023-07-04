@@ -25,7 +25,7 @@ public class ExplodingEnemy : Enemy {
             };
         } else {
             //ChasingEnemy와 같은 위치추적 로직
-            pathfinding.FindPath(transform.position, Player.Instance.transform.position);
+            pathfinding.FindPath(transform.position, Player.Position);
             if (pathfinding.PathExists && pathfinding.PathLength > 2) {
                 nextAction = () => Move(pathfinding.GetNextPos());
             }
@@ -56,7 +56,7 @@ public class ExplodingEnemy : Enemy {
     protected override void OnEnable() {
         Player.OnTurnUpdate += TurnUpdate;
         pathfinding = new Path();
-        pathfinding.FindPath(transform.position, Player.Instance.transform.position);
+        pathfinding.FindPath(transform.position, Player.Position);
         ExplosionSprite.SetActive(false);
         ExplosionPosList = new();
         for (int x = -ExplosionRadius; x <= ExplosionRadius; x++) {
