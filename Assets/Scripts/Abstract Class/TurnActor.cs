@@ -62,7 +62,7 @@ public abstract class TurnActor : MonoBehaviour {
         DecideNextAction();
     }
 
-    public Vector3 DirectionToVector(Direction dir) {
+    public static Vector3 DirectionToVector(Direction dir) {
         switch (dir) {
             case Direction.Left:
                 return Vector3.left;

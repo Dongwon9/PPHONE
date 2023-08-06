@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BasicEnemy : Enemy {
-    private readonly EnemyAction Nothing = new(() => { }, () => { });
-
     private int counter = 0;
 
-    private List<EnemyAction> sampleAI;
+    private List<Action> sampleAI;
 
     public event Action PreTurnActions;
 
@@ -73,7 +71,6 @@ public class BasicEnemy : Enemy {
     }
 
     protected override void DecideNextAction() {
-        EnemyAction decidedAction = Nothing;
         nextAction = () => { };
         if (counter < 4) {
             if (counter % 2 == 0) {
@@ -83,8 +80,6 @@ public class BasicEnemy : Enemy {
             }
         }
         counter = (counter + 1) % 8;
-        PreTurnActions += decidedAction.PreTurnAction;
-        nextAction = decidedAction.TurnAction;
         PreTurnActions();
         WaveAttack.ExecuteAll();
         PreTurnActions = () => { };
@@ -93,11 +88,7 @@ public class BasicEnemy : Enemy {
     protected override void OnEnable() {
         WaveAttack.SetAttackUser(this);
         base.OnEnable();
-        sampleAI = new List<EnemyAction> {
-            MoveAction(TurnActor.Direction.Right),
-            MoveAction(TurnActor.Direction.Left),
-            MoveAction(TurnActor.Direction.Up),
-            MoveAction(TurnActor.Direction.Down)
+        sampleAI = new List<Action> {
         };
     }
 

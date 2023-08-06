@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>TurnActor중 움직일 수 있는 오브젝트들<br></br>
 ///(플레이어, 적 등)</summary>
 public abstract class MovingTurnActor : TurnActor {
     private Vector3 moveDir = Vector3.zero;
+    private List<Status> statusList = new List<Status>();
     protected new Collider2D collider;
     protected SpriteRenderer spriteRenderer;
     /// <summary>이 오브젝트의 스프라이트는 시작할 때 오른쪽을 보는가?</summary>
@@ -17,7 +19,6 @@ public abstract class MovingTurnActor : TurnActor {
     /// 플레이어는 최소 이 시간을 기다린 후에 행동할 수 있다.
     /// </summary>
     public const float movingTime = 0.1f;
-
     /// <summary>오브젝트의 좌표를 정수로 교정한다.</summary>
     private void AdjustPosition() {
         transform.position = new Vector3(
@@ -67,27 +68,8 @@ public abstract class MovingTurnActor : TurnActor {
 
     /// <summary>dir 방향으로 1칸 이동한다.</summary>
     protected void Move(Direction dir) {
-        Vector3 direction = Vector3.zero;
+        Vector3 direction = DirectionToVector(dir);
         bool? moveToRight = null;
-        switch (dir) {
-            case TurnActor.Direction.Left:
-                direction = Vector3.left;
-                moveToRight = false;
-                break;
-
-            case TurnActor.Direction.Right:
-                direction = Vector3.right;
-                moveToRight = true;
-                break;
-
-            case TurnActor.Direction.Up:
-                direction = Vector3.up;
-                break;
-
-            case TurnActor.Direction.Down:
-                direction = Vector3.down;
-                break;
-        }
         //내가 진행하려는 방향으로 1칸 떨어진 곳에 벽이 있는가?
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.0f, LayerMask.GetMask("Wall"));
         if (hit.collider == null) {
@@ -113,24 +95,7 @@ public abstract class MovingTurnActor : TurnActor {
 
     /// <summary>해당 방향으로 움직일 수 있는지만 알고 싶을 때 사용한다.</summary>
     protected bool MoveCheck(Direction dir) {
-        Vector3 direction = Vector3.zero;
-        switch (dir) {
-            case TurnActor.Direction.Left:
-                direction = Vector3.left;
-                break;
-
-            case TurnActor.Direction.Right:
-                direction = Vector3.right;
-                break;
-
-            case TurnActor.Direction.Up:
-                direction = Vector3.up;
-                break;
-
-            case TurnActor.Direction.Down:
-                direction = Vector3.down;
-                break;
-        }
+        Vector3 direction = TurnActor.DirectionToVector(dir);
         //내가 진행하려는 방향으로 1칸 떨어진 곳에 벽이 있는지 여부를 반환한다.
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.0f, LayerMask.GetMask("Wall"));
         return hit.collider != null;

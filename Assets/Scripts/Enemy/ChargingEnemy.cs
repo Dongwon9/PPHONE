@@ -5,16 +5,11 @@ public class ChargingEnemy : Enemy, TurnActor.IDamagable {
 
     private enum AIMode { Finding, Charging, Stun }
 
-    //1: 플레이어의 일직선상에 들어오려고 한다
-    //2: 플레이어가 일직선상에 있으면, 돌진한다
-    //3: 돌진하다가 플레이어나 벽에 박으면, 3턴동안 기절한다.
     private readonly Vector2[] directionOrder = { Vector2.up, Vector2.down, Vector2.right, Vector2.left };
     private readonly List<Direction> dirorder = new List<Direction> { Direction.Up, Direction.Down, Direction.Right, Direction.Left };
     private Direction ChargeDirection;
-
     private AIMode mode = AIMode.Finding;
     private Path[] allPathToPlayer = new Path[4];
-    [SerializeField] private int damage;
     private int turnCounter;
     private Vector3? DecideWhereToGo() {
         //플레이어의 4방향 중, 어느 방향으로 일직선상에 갈지 정한다.
@@ -80,7 +75,7 @@ public class ChargingEnemy : Enemy, TurnActor.IDamagable {
                 nextAction = Stun;
                 break;
         }
-
+        //로컬 함수들
         void FindPlayer() {
             if (turnCounter % 2 == 1) {
                 return;
@@ -95,14 +90,13 @@ public class ChargingEnemy : Enemy, TurnActor.IDamagable {
         void Charge() {
             //가려는 칸에 벽이 있으면, 현 위치에서 멈추고 기절한다.
             if (CheckForObjectAtPosition(new Target[] { Target.Wall }, transform.position + DirectionToVector(ChargeDirection))) {
-
                 mode = AIMode.Stun;
                 turnCounter = 3;
                 return;
             }
             //이동 전, 플레이어가 자신에게 부딪히면, 플레이어에게 대미지를 주고 자신은 기절한다.
             if (CheckForObjectAtPosition(new Target[] { Target.Player }, transform.position)) {
-                Attack(transform.position, damage, Target.Player);
+                Attack(transform.position, GetFinalStats().damage, Target.Player);
                 mode = AIMode.Stun;
                 turnCounter = 3;
                 return;
@@ -111,11 +105,12 @@ public class ChargingEnemy : Enemy, TurnActor.IDamagable {
             Move(ChargeDirection);
             //이동 후에 한번 더 플레이어가 자신에게 부딪혔는지 확인한다.
             if (CheckForObjectAtPosition(new Target[] { Target.Player }, transform.position + DirectionToVector(ChargeDirection))) {
-                Attack(transform.position + DirectionToVector(ChargeDirection), damage, Target.Player);
+                Attack(transform.position + DirectionToVector(ChargeDirection), GetFinalStats().damage, Target.Player);
                 mode = AIMode.Stun;
                 turnCounter = 3;
             }
         }
+
         void Stun() {
             turnCounter -= 1;
             if (turnCounter <= 0) {

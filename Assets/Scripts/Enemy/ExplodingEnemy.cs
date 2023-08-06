@@ -24,15 +24,17 @@ public class ExplodingEnemy : Enemy {
                 }
             };
         } else {
-            //ChasingEnemy와 같은 위치추적 로직
-            pathfinding.FindPath(transform.position, Player.Position);
-            if (pathfinding.PathExists && pathfinding.PathLength > 2) {
-                nextAction = () => Move(pathfinding.GetNextPos());
-            }
-            if (pathfinding.PathExists && pathfinding.PathLength <= 2) {
-                //거리 2 이내까지 오면, 자폭로직으로 전환한다.
-                ExplosionMode();
-            }
+            nextAction = () => {
+                //ChasingEnemy와 같은 위치추적 로직
+                pathfinding.FindPath(transform.position, Player.Position);
+                if (pathfinding.PathExists && pathfinding.PathLength > 2) {
+                    Move(pathfinding.GetNextPos());
+                }
+                if (pathfinding.PathExists && pathfinding.PathLength <= 2) {
+                    //거리 2 이내까지 오면, 자폭로직으로 전환한다.
+                    ExplosionMode();
+                }
+            };
         }
 
         void ExplosionMode() {

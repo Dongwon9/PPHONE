@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 
-//디자인패턴: 싱글톤
 public class GameManager : MonoBehaviour {
-    //public Image UIWindow;
     [SerializeField] private bool WalkableGridDebugDisplay;
     public GameObject redSquare;
     public static GameManager Instance { get; private set; }
