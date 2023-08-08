@@ -3839,13 +3839,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d83ae9219e9145a8b49d4416f314d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAttackDamage: 100
+  facing: 2
   hp: 100
   maxHP: 100
   shield: 20
   maxShield: 20
   playerParts:
   - {fileID: 1031224900}
+  equippedWeapon: {fileID: 11400000, guid: 8c0ff4e07efb73846a5a4fb5939cef26, type: 2}
 --- !u!61 &783624755
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5389,6 +5390,10 @@ PrefabInstance:
     - target: {fileID: 8734298803451357170, guid: 6fbf81bb948bc1145839b579ded15344, type: 3}
       propertyPath: m_Name
       value: BombEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8734298803451357170, guid: 6fbf81bb948bc1145839b579ded15344, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8734298803451357172, guid: 6fbf81bb948bc1145839b579ded15344, type: 3}
       propertyPath: m_RootOrder

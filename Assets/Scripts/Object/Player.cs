@@ -7,7 +7,6 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
     [SerializeField]
-    private int defaultAttackDamage = 1;
     private Direction facing = TurnActor.Direction.Right;
     [SerializeField]
     private int hp = 100, maxHP = 100, shield = 20, maxShield = 20;
@@ -16,6 +15,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     private List<GameObject> playerParts;
     public static Player Instance;
     public Armor equippedArmor = null;
+    public Weapon equippedWeapon;
     public static Vector3 Position => Instance.transform.position;
     public int HP => hp;
     public int MaxHP => maxHP;
@@ -49,29 +49,11 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         animator.SetTrigger("isWalk");
     }
 
-    private void PlayerAttack(Direction dir, int damage) {
-        Vector3 direction = Vector3.zero;
-        switch (dir) {
-            case TurnActor.Direction.Left:
-                direction = Vector3.left;
-                FlipSprite(false);
-                break;
-
-            case TurnActor.Direction.Right:
-                direction = Vector3.right;
-                FlipSprite(true);
-                break;
-
-            case TurnActor.Direction.Up:
-                direction = Vector3.up;
-                break;
-
-            case TurnActor.Direction.Down:
-                direction = Vector3.down;
-                break;
+    private void PlayerAttack(Direction dir) {
+        foreach (Vector2 offset in equippedWeapon.GetAttackSquare(dir)) {
+            AttackWarning(transform.position + (Vector3)offset);
+            Attack(transform.position + (Vector3)offset, equippedWeapon.damage, Target.Enemy);
         }
-        AttackWarning(transform.position + direction);
-        Attack(transform.position + direction, damage, Target.Enemy);
         foreach (var obj in playerPartComponents) {
             obj.animator.SetTrigger("Attack");
         }
@@ -87,7 +69,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
             nextAction = () => Move(Direction.Up);
         } else if (Input.GetKeyDown(KeyCode.Z)) {
-            nextAction = () => PlayerAttack(facing, 1);
+            nextAction = () => PlayerAttack(facing);
         } else if (Input.GetKeyDown(KeyCode.Space)) {
             nextAction = () => { };
         }
@@ -200,7 +182,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             return;
         }
         if (ButtonManager.Instance.AttackMode) {
-            nextAction = () => PlayerAttack((Direction)inputDir, defaultAttackDamage);
+            nextAction = () => PlayerAttack((Direction)inputDir);
         } else {
             nextAction = () => Move((Direction)inputDir);
         }
