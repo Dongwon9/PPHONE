@@ -11,8 +11,8 @@ public class Thorns : TurnActor {
     private int turnCount = 0;  // 캐릭터의 움직임 턴 수
     private Vector3 characterPosition;  // 캐릭터의 위치
 
-    protected override void DecideNextAction() {
-        nextAction = ThornsAction;
+    protected override void TurnUpdate() {
+        ThornsAction();
     }
 
     private void ThornsAction() {

@@ -13,9 +13,10 @@ public class RedSquare : TurnActor {
         }
     }
 
-    protected override void DecideNextAction() {
-        nextAction = destroying ? () => { managedPool.Release(this); }
-        : () => { destroying = true; };
+    protected override void TurnUpdate() {
+        if (destroying) {
+            managedPool.Release(this);
+        } else { destroying = true; }
     }
 
     public void SetManagedPool(IObjectPool<RedSquare> pool) {

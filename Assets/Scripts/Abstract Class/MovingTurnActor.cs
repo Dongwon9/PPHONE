@@ -28,8 +28,6 @@ public abstract class MovingTurnActor : TurnActor {
     }
 
     private void ReadyForTurn() {
-        TurnProcessing = true;
-        timeCounter = 0;
     }
 
     private void FixedUpdate() {
@@ -50,7 +48,6 @@ public abstract class MovingTurnActor : TurnActor {
                 moveDir = Vector3.zero;
                 AdjustPosition();
                 collider.enabled = true;
-                DecideNextAction();
             }
         }
     }
@@ -75,7 +72,8 @@ public abstract class MovingTurnActor : TurnActor {
         if (hit.collider == null) {
             //벽이 없다면 움직인다.
             moveDir = direction;
-            ReadyForTurn();
+            TurnProcessing = true;
+            timeCounter = 0;
         }
         //스프라이트 x축으로 반전
         if (moveToRight != null) {
@@ -90,6 +88,7 @@ public abstract class MovingTurnActor : TurnActor {
         } else if (moveDir.x < 0) {
             FlipSprite(false);
         }
+        TurnProcessing = true;
         timeCounter = 0;
     }
 
@@ -99,15 +98,5 @@ public abstract class MovingTurnActor : TurnActor {
         //내가 진행하려는 방향으로 1칸 떨어진 곳에 벽이 있는지 여부를 반환한다.
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.0f, LayerMask.GetMask("Wall"));
         return hit.collider != null;
-    }
-
-    protected override void TurnUpdate() {
-        if (nextAction == null) {
-            Debug.Log(ToString() + "의 nextAction이 null입니다");
-            DecideNextAction();
-        }
-        nextAction();
-        ReadyForTurn();
-        nextAction = null;
     }
 }

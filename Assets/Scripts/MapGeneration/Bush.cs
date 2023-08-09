@@ -14,14 +14,12 @@ public class Bush : TurnActor {
     private List<Vector2Int> bushPositions;
     private Vector2Int[] obstaclePositions; // 장애물 위치 배열
 
-    protected override void DecideNextAction() {
-        nextAction = () => {
-            turnCount++;
-            if (turnCount >= 3) {
-                GenerateEnemies();
-                Destroy(gameObject);
-            }
-        };
+    protected override void TurnUpdate() {
+        turnCount++;
+        if (turnCount >= 3) {
+            GenerateEnemies();
+            Destroy(gameObject);
+        }
     }
 
     private void Start() {

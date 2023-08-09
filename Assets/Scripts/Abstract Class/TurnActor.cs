@@ -11,8 +11,6 @@ public abstract class TurnActor : MonoBehaviour {
 
     public enum Target { Player, Enemy, Any, Wall }
 
-    protected Action nextAction;
-
     public interface IDamagable {
         public void TakeDamage(int damage);
     }
@@ -39,9 +37,6 @@ public abstract class TurnActor : MonoBehaviour {
     }
 
     /// <summary> TurnActor들이 다음 행동을 정할 때 사용하는 함수</summary>
-    protected virtual void DecideNextAction() {
-        nextAction = () => { };
-    }
 
     protected virtual void OnDisable() {
         Player.OnTurnUpdate -= TurnUpdate;
@@ -49,18 +44,10 @@ public abstract class TurnActor : MonoBehaviour {
 
     protected virtual void OnEnable() {
         Player.OnTurnUpdate += TurnUpdate;
-        DecideNextAction();
     }
 
     /// <summary>현재 턴의 행동을 실행하는 코드</summary>
-    protected virtual void TurnUpdate() {
-        if (nextAction == null) {
-            Debug.Log(ToString() + "의 nextAction이 null입니다");
-            DecideNextAction();
-        }
-        nextAction();
-        DecideNextAction();
-    }
+    protected abstract void TurnUpdate();
 
     public static Vector3 DirectionToVector(Direction dir) {
         switch (dir) {

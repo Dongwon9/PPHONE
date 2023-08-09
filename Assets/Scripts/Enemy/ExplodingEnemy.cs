@@ -14,34 +14,25 @@ public class ExplodingEnemy : Enemy {
     [SerializeField] private GameObject RedSquare;
     private int turnsTillExplosion = -1;
 
-    protected override void DecideNextAction() {
+    protected override void TurnUpdate() {
         if (turnsTillExplosion != -1) {
             //자폭 로직을 개시,3턴 후에 폭발한다.
-            nextAction = () => {
-                turnsTillExplosion -= 1;
-                if (turnsTillExplosion <= 0) {
-                    Explode();
-                }
-            };
+            turnsTillExplosion -= 1;
+            if (turnsTillExplosion <= 0) {
+                Explode();
+            }
         } else {
-            nextAction = () => {
-                //ChasingEnemy와 같은 위치추적 로직
-                pathfinding.FindPath(transform.position, Player.Position);
-                if (pathfinding.PathExists && pathfinding.PathLength > 2) {
-                    Move(pathfinding.GetNextPos());
+            //ChasingEnemy와 같은 위치추적 로직
+            pathfinding.FindPath(transform.position, Player.Position);
+            if (pathfinding.PathExists && pathfinding.PathLength > 2) {
+                Move(pathfinding.GetNextPos());
+            }
+            if (pathfinding.PathExists && pathfinding.PathLength <= 2) {
+                //거리 2 이내까지 오면, 자폭로직으로 전환한다.
+                turnsTillExplosion = explosionTime - 1;
+                foreach (Vector3 pos in ExplosionPosList) {
+                    Instantiate(RedSquare, transform.position + pos, Quaternion.identity, transform);
                 }
-                if (pathfinding.PathExists && pathfinding.PathLength <= 2) {
-                    //거리 2 이내까지 오면, 자폭로직으로 전환한다.
-                    ExplosionMode();
-                }
-            };
-        }
-
-        void ExplosionMode() {
-            nextAction = () => { };
-            turnsTillExplosion = explosionTime - 1;
-            foreach (Vector3 pos in ExplosionPosList) {
-                Instantiate(RedSquare, transform.position + pos, Quaternion.identity, transform);
             }
         }
 
@@ -66,6 +57,5 @@ public class ExplodingEnemy : Enemy {
                 ExplosionPosList.Add(new Vector3(x, y));
             }
         }
-        DecideNextAction();
     }
 }

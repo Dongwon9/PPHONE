@@ -16,6 +16,8 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     public static Player Instance;
     public Armor equippedArmor = null;
     public Weapon equippedWeapon;
+    private Action nextAction;
+
     public static Vector3 Position => Instance.transform.position;
     public int HP => hp;
     public int MaxHP => maxHP;
@@ -52,7 +54,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     private void PlayerAttack(Direction dir) {
         foreach (Vector2 offset in equippedWeapon.GetAttackSquare(dir)) {
             AttackWarning(transform.position + (Vector3)offset);
-            Attack(transform.position + (Vector3)offset, equippedWeapon.damage, Target.Enemy);
+            Attack(transform.position + (Vector3)offset, equippedWeapon.damage, Target.Any);
         }
         foreach (var obj in playerPartComponents) {
             obj.animator.SetTrigger("Attack");
@@ -97,9 +99,6 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         StartsFacingRight = true;
     }
 
-    protected override void DecideNextAction() {
-    }
-
     /// <summary>자신 스프라이트를 좌우로 뒤집는다.</summary>
     /// <param name="toRight">true면 오른쪽, false면 왼쪽을 보게 된다.</param>
     protected override void FlipSprite(bool toRight) {
@@ -122,7 +121,8 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     }
 
     protected override void TurnUpdate() {
-        base.TurnUpdate();
+        nextAction();
+        nextAction = null;
         moveCount += 1;
         if (moveCount == 3) {
             moveCount = 0;

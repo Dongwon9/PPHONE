@@ -28,14 +28,11 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
     }
 
     protected override void TurnUpdate() {
-        if (!GetFinalStats().isStunned) {
-            base.TurnUpdate();
-        } else {
+        if (GetFinalStats().isStunned) {
             TurnUpdateOnStun();
         }
         HP += GetFinalStats().healthPerTurn;
         if (HP <= 0) {
-            nextAction = null;
             Destroy(gameObject);
         }
     }
@@ -53,7 +50,6 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
         HP -= damage - GetFinalStats().defence;
         animator.SetTrigger("isHit");
         if (HP <= 0) {
-            nextAction = null;
             Destroy(gameObject);
         }
     }

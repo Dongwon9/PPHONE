@@ -70,8 +70,7 @@ public class BasicEnemy : Enemy {
         }
     }
 
-    protected override void DecideNextAction() {
-        nextAction = () => { };
+    protected override void TurnUpdate() {
         if (counter < 4) {
             if (counter % 2 == 0) {
                 WaveAttack.Activate(TurnActor.Direction.Left, 5);
@@ -90,9 +89,5 @@ public class BasicEnemy : Enemy {
         base.OnEnable();
         sampleAI = new List<Action> {
         };
-    }
-
-    public void AddNextAction(Action action) {
-        nextAction += action;
     }
 }

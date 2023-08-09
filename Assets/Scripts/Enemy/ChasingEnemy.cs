@@ -8,29 +8,25 @@ public class ChasingEnemy : Enemy {
     private AIMode mode = AIMode.finding;
     private Vector3 attackLocation; // 공격할 좌표
     private Path pathfinding;
-    protected override void DecideNextAction() {
+    protected override void TurnUpdate() {
         if (mode == AIMode.finding) {
-            nextAction = () => {
-                pathfinding.FindPath(transform.position, Player.Position);
-                if (!pathfinding.PathExists) {
-                    return;
-                }
-                //필요한 이동 길이가 1칸보다 많으면 움직인다.
-                if (pathfinding.PathLength > 1) {
-                    Move(pathfinding.GetNextPos());
-                } else {
-                    //필요한 이동 길이가 1칸이 되면, 그 턴은 아무것도 하지 않고,
-                    //다음턴에 공격한다.
-                    AttackWarning(pathfinding.GetNextPos());
-                    attackLocation = pathfinding.GetNextPos();
-                    mode = AIMode.attacking;
-                }
-            };
+            pathfinding.FindPath(transform.position, Player.Position);
+            if (!pathfinding.PathExists) {
+                return;
+            }
+            //필요한 이동 길이가 1칸보다 많으면 움직인다.
+            if (pathfinding.PathLength > 1) {
+                Move(pathfinding.GetNextPos());
+            } else {
+                //필요한 이동 길이가 1칸이 되면, 그 턴은 아무것도 하지 않고,
+                //다음턴에 공격한다.
+                AttackWarning(pathfinding.GetNextPos());
+                attackLocation = pathfinding.GetNextPos();
+                mode = AIMode.attacking;
+            }
         } else {
-            nextAction = () => {
-                Attack(attackLocation, GetFinalStats().damage, Target.Player);
-                mode = AIMode.finding;
-            };
+            Attack(attackLocation, GetFinalStats().damage, Target.Player);
+            mode = AIMode.finding;
         }
     }
 
@@ -40,6 +36,5 @@ public class ChasingEnemy : Enemy {
         Player.OnTurnUpdate += TurnUpdate;
         pathfinding = new Path();
         pathfinding.FindPath(transform.position, Player.Position);
-        DecideNextAction();
     }
 }

@@ -19,8 +19,8 @@ public class RecoverySpace : TurnActor {
         return Mathf.Abs((transform.position - Player.Position).magnitude) <= 4.0f;
     }
 
-    protected override void DecideNextAction() {
-        nextAction = CharacterMoved;
+    protected override void TurnUpdate() {
+        CharacterMoved();
     }
 
     public void CharacterMoved() {
