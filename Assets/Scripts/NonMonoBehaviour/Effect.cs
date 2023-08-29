@@ -4,13 +4,13 @@ using UnityEngine;
 /// <summary>
 /// 버프와 디버프를 나타내는 클래스
 /// </summary>
-[CreateAssetMenu(fileName = "NewStatusEffect", menuName = "새 상태이상")]
-public class Status : ScriptableObject {
+[CreateAssetMenu(fileName = "NewEffect", menuName = "새 상태이상")]
+public class Effect : ScriptableObject {
     private int timeLeft;
     private int counter;
     private MovingTurnActor target;
     private Action<MovingTurnActor> specialFunction = (MovingTurnActor target) => { };
-    public static readonly Status[] statusList;
+    public static readonly Effect[] effectList;
 
     public Sprite Icon;
     public string Id;

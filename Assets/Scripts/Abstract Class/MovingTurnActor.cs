@@ -6,7 +6,7 @@ using UnityEngine;
 ///(플레이어, 적 등)</summary>
 public abstract class MovingTurnActor : TurnActor {
     private Vector3 moveDir = Vector3.zero;
-    private List<Status> statusList = new List<Status>();
+    private List<Effect> statusList = new List<Effect>();
     protected new Collider2D collider;
     protected SpriteRenderer spriteRenderer;
     /// <summary>이 오브젝트의 스프라이트는 시작할 때 오른쪽을 보는가?</summary>

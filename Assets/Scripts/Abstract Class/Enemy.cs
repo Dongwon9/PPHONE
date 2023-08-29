@@ -6,7 +6,7 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
     private Animator animator;
     [SerializeField] private int HP;
     [SerializeField] private int attackDamage;
-    private List<Status> StatusList = new List<Status>();
+    private List<Effect> StatusList = new List<Effect>();
 
     protected Stats GetFinalStats() {
         Stats finalStats = new Stats();

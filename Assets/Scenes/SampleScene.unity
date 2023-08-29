@@ -298,7 +298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &57872142
 Transform:
   m_ObjectHideFlags: 0
@@ -936,7 +936,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79736a704eb93fc4facaec4a2d431458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoveryAmount: 7
+  totalRecovery: 100
+  perTurnRecovery: 10
 --- !u!1 &224880234
 GameObject:
   m_ObjectHideFlags: 0
@@ -3847,6 +3848,7 @@ MonoBehaviour:
   playerParts:
   - {fileID: 1031224900}
   equippedWeapon: {fileID: 11400000, guid: 8c0ff4e07efb73846a5a4fb5939cef26, type: 2}
+  inventory: []
 --- !u!61 &783624755
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9380,7 +9382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 309, y: -70}
+  m_AnchoredPosition: {x: 303, y: -75}
   m_SizeDelta: {x: 605.1648, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1832697040 stripped
@@ -12288,7 +12290,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5004522801350822430, guid: d7a065a2c74a4744c8398f8950b73bd3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -12625,7 +12628,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -318, y: 48}
+  m_AnchoredPosition: {x: -318, y: 69}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!4 &2126286221 stripped

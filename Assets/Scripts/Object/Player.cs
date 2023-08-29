@@ -17,7 +17,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     public Armor equippedArmor = null;
     public Weapon equippedWeapon;
     private Action nextAction;
-
+    [SerializeField] private List<InventoryItem> inventory = new();
     public static Vector3 Position => Instance.transform.position;
     public int HP => hp;
     public int MaxHP => maxHP;
