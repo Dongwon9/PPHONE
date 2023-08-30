@@ -36,11 +36,14 @@ public class Path {
         return res;
     }
 
+    /// <summary>
+    /// 경로 탐색 알고리즘: A* 알고리즘
+    /// </summary>
     public void FindPath(int startx, int starty, int endx, int endy) {
         Grid nodeGrid = GameManager.Instance.WalkableGrid;
-        /// <summary>나중에 탐색할 노드</summary>
+        //나중에 탐색할 노드
         List<Node> OpenList = new List<Node>();
-        /// <summary>탐색을 완료한 노드</summary>
+        //탐색을 완료한 노드
         List<Node> ClosedList = new List<Node>();
 
         foreach (Node node in nodeGrid.GetAllNode()) {
@@ -140,6 +143,9 @@ public class Path {
         }
     }
 
+    /// <summary>
+    /// 경로 탐색 알고리즘: A* 알고리즘
+    /// </summary>
     public void FindPath(Vector3 startpos, Vector3 endpos) {
         FindPath(Mathf.RoundToInt(startpos.x), Mathf.RoundToInt(startpos.y),
             Mathf.RoundToInt(endpos.x), Mathf.RoundToInt(endpos.y));

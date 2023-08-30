@@ -6,12 +6,9 @@ using UnityEngine;
 /// </summary>
 [CreateAssetMenu(fileName = "NewEffect", menuName = "새 상태이상")]
 public class Effect : ScriptableObject {
-    private int timeLeft;
-    private int counter;
-    private MovingTurnActor target;
-    private Action<MovingTurnActor> specialFunction = (MovingTurnActor target) => { };
+    public Action<MovingTurnActor> specialFunction = (MovingTurnActor target) => { };
     public static readonly Effect[] effectList;
-
+    public int duration;
     public Sprite Icon;
     public string Id;
     public bool isDebuff; //'디버프 제거' 등을 구현하기 위해 만든 필드
@@ -25,14 +22,12 @@ public class Effect : ScriptableObject {
     /// </summary>
     public int attack;
     /// <summary>
+    /// 공격력에 이 수를 곱한다.<br></br>
+    /// 이 수가 1이 아니면 attack은 무시된다.
+    /// </summary>
+    public float attackMultiplier = 1;
+    /// <summary>
     /// 양수면 받는 대미지 방어, 음수면 대미지 증가
     /// </summary>
     public int defense;
-    public void TurnUpdate() {
-        specialFunction(target);
-        timeLeft -= 1;
-        if (timeLeft <= 0) {
-            Destroy(this);
-        }
-    }
 }
