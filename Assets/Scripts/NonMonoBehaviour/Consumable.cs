@@ -4,7 +4,6 @@
 public class Consumable : ScriptableObject {
     public new string name;
     public string description;
-    public Effect itemEffect;
     public Sprite icon;
     [SerializeField]
     private int HPRecovery;

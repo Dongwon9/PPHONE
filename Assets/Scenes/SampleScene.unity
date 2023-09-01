@@ -4567,10 +4567,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Items:
   - {fileID: 11400000, guid: 3554991b47a81fc4596a1c24559ff97a, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 3554991b47a81fc4596a1c24559ff97a, type: 2}
+  - {fileID: 11400000, guid: 3554991b47a81fc4596a1c24559ff97a, type: 2}
+  - {fileID: 11400000, guid: 3554991b47a81fc4596a1c24559ff97a, type: 2}
+  - {fileID: 11400000, guid: 3554991b47a81fc4596a1c24559ff97a, type: 2}
 --- !u!1 &814805942
 GameObject:
   m_ObjectHideFlags: 0

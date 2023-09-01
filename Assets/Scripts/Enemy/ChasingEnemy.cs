@@ -9,10 +9,8 @@ public class ChasingEnemy : Enemy {
     private Vector3 attackLocation; // 공격할 좌표
     private Path pathfinding;
     protected override void TurnUpdate() {
-        if (GetFinalStats().isStunned) {
-            mode = AIMode.finding;
-            return;
-        }
+
+
         if (mode == AIMode.finding) {
             pathfinding.FindPath(transform.position, Player.Position);
             if (!pathfinding.PathExists) {
@@ -29,7 +27,7 @@ public class ChasingEnemy : Enemy {
                 mode = AIMode.attacking;
             }
         } else {
-            Attack(attackLocation, GetFinalStats().damage, Target.Player);
+            Attack(attackLocation, attackDamage, Target.Player);
             mode = AIMode.finding;
         }
     }
