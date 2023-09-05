@@ -91,7 +91,7 @@ public class ChargingEnemy : Enemy, TurnActor.IDamagable {
                 }
                 //이동 전, 플레이어가 자신에게 부딪히면, 플레이어에게 대미지를 주고 자신은 기절한다.
                 if (CheckForObjectAtPosition(new Target[] { Target.Player }, transform.position)) {
-                    Attack(transform.position, attackDamage, Target.Player);
+                    Attack(transform.position, enemydata.Damage, Target.Player);
                     mode = AIMode.Stun;
                     turnCounter = 3;
                     return;
@@ -100,7 +100,7 @@ public class ChargingEnemy : Enemy, TurnActor.IDamagable {
                 Move(ChargeDirection);
                 //이동 후에 한번 더 플레이어가 자신에게 부딪혔는지 확인한다.
                 if (CheckForObjectAtPosition(new Target[] { Target.Player }, transform.position + DirectionToVector(ChargeDirection))) {
-                    Attack(transform.position + DirectionToVector(ChargeDirection), attackDamage, Target.Player);
+                    Attack(transform.position + DirectionToVector(ChargeDirection), enemydata.Damage, Target.Player);
                     mode = AIMode.Stun;
                     turnCounter = 3;
                 }

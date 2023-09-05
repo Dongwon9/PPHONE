@@ -6,7 +6,6 @@ public class ExplodingEnemy : Enemy {
     /// 자폭모드 전환 후, 자폭할 때까지 걸리는 시간
     /// </summary>
     [SerializeField] private int explosionTime;
-    [SerializeField] private int damage = 10;
     private List<Vector3> ExplosionPosList;
     [SerializeField] private int ExplosionRadius;
     [SerializeField] private GameObject ExplosionSprite;
@@ -38,7 +37,7 @@ public class ExplodingEnemy : Enemy {
 
         void Explode() {
             foreach (Vector3 pos in ExplosionPosList) {
-                Attack(transform.position + pos, damage, Target.Player);
+                Attack(transform.position + pos, enemydata.Damage, Target.Player);
             }
             ExplosionSprite.transform.SetParent(null, true);
             ExplosionSprite.SetActive(true);

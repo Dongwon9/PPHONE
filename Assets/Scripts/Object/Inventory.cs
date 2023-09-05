@@ -44,7 +44,9 @@ public class Inventory : MonoBehaviour {
         if (!IndexInRange(index)) {
             return;
         }
-        Debug.Log(Items[index].name + "을 사용했다!");
+        Player.Instance.HealHP(Items[index].HPRecovery);
+        //아이템을 사용하는 것도 1턴을 소모한다.
+        Player.Instance.TakeInput(null);
         RemoveItem(index);
     }
 
@@ -52,7 +54,7 @@ public class Inventory : MonoBehaviour {
         if (!IndexInRange(index)) {
             return;
         }
-
         Items[index] = null;
+        InventoryUI.instance.UpdateItemSlots();
     }
 }

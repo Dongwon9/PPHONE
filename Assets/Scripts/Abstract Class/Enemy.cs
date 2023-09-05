@@ -4,16 +4,15 @@
 public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
     private Animator animator;
     [SerializeField] protected int HP;
-    [SerializeField] protected int attackDamage;
-
+    [SerializeField] protected EnemyData enemydata;
 
     //[SerializeField] private SpriteRenderer NextActonSprite;
     protected override void Awake() {
         base.Awake();
         StartsFacingRight = false;
         animator = GetComponent<Animator>();
+        HP = (int)(enemydata.MaxHP * GameManager.Instance.GetStageHPModifier());
     }
-
 
     /// <summary>
     /// 스턴당했을 때 내부 변수 등을 조절하고 싶으면 사용한다.

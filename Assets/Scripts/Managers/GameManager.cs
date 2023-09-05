@@ -3,6 +3,7 @@
 public class GameManager : MonoBehaviour {
     [SerializeField] private bool WalkableGridDebugDisplay;
     public GameObject redSquare;
+    public int stageCount;
     public static GameManager Instance { get; private set; }
     /// <summary>맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자</summary>
     public Grid WalkableGrid { get; private set; }
@@ -12,6 +13,22 @@ public class GameManager : MonoBehaviour {
         UpdateWalkableGrid();
         if (WalkableGridDebugDisplay) {
             DebugShowWalkableGrid();
+        }
+    }
+
+    public float GetStageHPModifier() {
+        switch (stageCount) {
+            case 1:
+                return 1.0f;
+
+            case 2:
+                return 1.5f;
+
+            case 3:
+                return 2.0f;
+
+            default:
+                return 1.0f;
         }
     }
 
