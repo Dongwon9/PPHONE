@@ -26,5 +26,6 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
         if (HP <= 0) {
             Destroy(gameObject);
         }
+        DamageNumberManager.instance.DisplayDamageNumber(damage, transform.position + Vector3.up);
     }
 }

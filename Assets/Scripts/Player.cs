@@ -150,11 +150,16 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     }
 
     public void HealHP(int value) {
+        if (value < 0) {
+            Debug.LogWarning("체력회복량이 음수입니다.");
+            return;
+        }
         if (hp + value > maxHP) {
             hp = maxHP;
         } else {
             hp += value;
         }
+        DamageNumberManager.instance.DisplayDamageNumber(value, transform.position + Vector3.up, true);
     }
 
     public void HideOrShowArm(int showArm) {
@@ -172,6 +177,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         }
         equippedArmor?.OnHit();
         animator.SetTrigger("isHit");
+        DamageNumberManager.instance.DisplayDamageNumber(damage, transform.position + Vector3.up);
     }
 
     /// <summary>입력은 여기에서 받는다. </summary>
