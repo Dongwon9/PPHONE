@@ -5,6 +5,7 @@ public class Inventory : MonoBehaviour {
     public static Inventory Instance;
     [SerializeField]
     private Consumable[] Items = new Consumable[MAX_SLOTS];
+    public Consumable[] Content { get { return Items; } }
     private bool IndexInRange(int index) {
         if (index >= 0 && index < Items.Length) {
             return true;
@@ -16,6 +17,10 @@ public class Inventory : MonoBehaviour {
 
     private void Awake() {
         Instance = this;
+    }
+
+    private void Start() {
+        Items = GameSaveManager.Instance.SaveData.inventory;
     }
 
     public Consumable GetItem(int index) {

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 턴마다 어떤 행동을 하는 모든 오브젝트는 TurnActor를 상속한다.
@@ -35,7 +36,39 @@ public abstract class TurnActor : MonoBehaviour {
             }
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <param name="direction"></param>
+    /// <param name="damage"></param>
+    /// <param name="target"></param>
+    /// <param name="pierce">이 레이저는 벽을 만날때까지 관통하는 레이저인가?</param>
+    protected void LaserAttack(Vector3 origin,Vector2 direction,int damage,Target target,bool pierce = false) {
+        float laserLength = Physics2D.Raycast(origin, direction, 99999, LayerMask.GetMask("Wall")).distance;
+        RaycastHit2D[] hits;
+        if (pierce) {
+            hits = Physics2D.RaycastAll(origin, direction, laserLength);
+        } else {
+            hits = new RaycastHit2D[1];
+            hits[0] = Physics2D.Raycast(origin, direction, laserLength);
+        }
+        foreach (RaycastHit2D hit in hits) {
+            switch (target) {
+                case Target.Player:
+                    hit.collider.GetComponent<Player>()?.TakeDamage(damage);
+                    break;
 
+                case Target.Enemy:
+                    hit.collider.GetComponent<Enemy>()?.TakeDamage(damage);
+                    break;
+
+                case Target.Any:
+                    hit.collider.GetComponent<IDamagable>()?.TakeDamage(damage);
+                    break;
+            }
+        }
+    }
     /// <summary> TurnActor들이 다음 행동을 정할 때 사용하는 함수</summary>
 
     protected virtual void OnDisable() {
@@ -102,7 +135,7 @@ public abstract class TurnActor : MonoBehaviour {
     /// position에 공격 경고를 띄운다. 이 함수를 반복적으로 사용해 적의 공격을 구현한다.
     /// </summary>
     public void AttackWarning(Vector3 position, bool instant = false) {
-        RedSquare attack = ObjectPool.AttackPool.Get();
+        RedSquare attack = Instantiate(GameManager.Instance.redSquare).GetComponent<RedSquare>();
         attack.transform.position = position;
         attack.instant = instant;
     }

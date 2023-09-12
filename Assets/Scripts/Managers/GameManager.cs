@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] private bool WalkableGridDebugDisplay;
+    [SerializeField] private int seed;
+    public int Seed { get { return seed; } }
     public GameObject redSquare;
     public int stageCount;
     public static GameManager Instance { get; private set; }
@@ -14,6 +17,16 @@ public class GameManager : MonoBehaviour {
         if (WalkableGridDebugDisplay) {
             DebugShowWalkableGrid();
         }
+        Random.InitState(seed);
+    }
+
+    private void Start() {
+        GameSaveManager.Instance.LoadGame();
+        
+    }
+
+    public void QuitGame() {
+        SceneManager.LoadScene("Scene_Main");
     }
 
     public float GetStageHPModifier() {

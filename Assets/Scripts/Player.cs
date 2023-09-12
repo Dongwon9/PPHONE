@@ -28,6 +28,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     /// 수많은 TurnActor들의 TurnUpdate()가 실행된다.
     /// </summary>
     public static event Action OnTurnUpdate;
+    public static event Action OnPlayerDeath;
 
     /// <summary>
     /// 플레이어의 파츠의 필요한 컴포넌트만 담는 클래스<br></br>
@@ -59,7 +60,13 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             obj.animator.SetTrigger("Attack");
         }
     }
-
+    private void Start() {
+        SaveData data = GameSaveManager.Instance.SaveData;
+        hp = data.HP;
+        maxHP = data.maxHP;
+        shield = data.shield;
+        maxShield = data.maxShield;
+    }
     private void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             nextAction = () => Move(TurnActor.Direction.Left);
@@ -110,6 +117,14 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
         }
     }
+
+    //private void Start() {
+    //    SaveData data = GameSaveManager.Instance.SaveData;
+    //    hp = data.HP;
+    //    maxHP = data.maxHP;
+    //    shield = data.shield;
+    //    maxShield = data.maxShield;
+    //}
 
     //player는 모든 TurnActor보다 먼저 턴이 진행되기 때문에,
     //OnTurnUpdate에 메소드를 구독하지 않는다.

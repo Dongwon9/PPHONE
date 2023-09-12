@@ -25,12 +25,11 @@ public class ItemToolTip : MonoBehaviour {
 
     public void TrashItem() {
         Inventory.Instance.RemoveItem(chosenSlot);
-
-        gameObject.SetActive(false);
+        TextReset();
     }
 
     public void UseItem() {
         Inventory.Instance.UseItem(chosenSlot);
-        gameObject.SetActive(false);
+        TextReset();
     }
 }
