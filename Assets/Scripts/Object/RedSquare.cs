@@ -3,7 +3,6 @@
 public class RedSquare : TurnActor {
     private const float lifeTime = 2 * MovingTurnActor.movingTime;
     private bool destroying;
-    private IObjectPool<RedSquare> managedPool;
     public bool instant;
 
     private void Update() {
@@ -14,11 +13,7 @@ public class RedSquare : TurnActor {
 
     protected override void TurnUpdate() {
         if (destroying) {
-            managedPool.Release(this);
+           Destroy(gameObject);
         } else { destroying = true; }
-    }
-
-    public void SetManagedPool(IObjectPool<RedSquare> pool) {
-        managedPool = pool;
     }
 }

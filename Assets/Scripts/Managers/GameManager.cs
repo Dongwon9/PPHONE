@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private int seed;
     public int Seed { get { return seed; } }
     public GameObject redSquare;
-    public int stageCount;
+    public int stageNumber;
     public static GameManager Instance { get; private set; }
     /// <summary>맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자</summary>
     public Grid WalkableGrid { get; private set; }
@@ -16,13 +16,14 @@ public class GameManager : MonoBehaviour {
         UpdateWalkableGrid();
         if (WalkableGridDebugDisplay) {
             DebugShowWalkableGrid();
-        }
-        Random.InitState(seed);
+        }       
     }
 
     private void Start() {
         GameSaveManager.Instance.LoadGame();
-        
+        stageNumber = GameSaveManager.Instance.SaveData.stageCount;
+        Random.InitState(seed * stageNumber);
+
     }
 
     public void QuitGame() {
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public float GetStageHPModifier() {
-        switch (stageCount) {
+        switch (stageNumber) {
             case 1:
                 return 1.0f;
 

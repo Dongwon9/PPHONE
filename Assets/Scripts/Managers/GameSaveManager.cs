@@ -1,4 +1,4 @@
-using System.IO;
+ï»¿using System.IO;
 using UnityEngine;
 
 public class GameSaveManager : MonoBehaviour {
@@ -37,10 +37,15 @@ public class GameSaveManager : MonoBehaviour {
 
     public void LoadGame() {
         if (!File.Exists(saveFilepath)) {
-            Debug.LogError("°ÔÀÓ ºÒ·¯¿À±â ½ÇÆÐ.");
+            Debug.LogError("ê²Œìž„ ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨.");
             return;
         }
         string data = File.ReadAllText(saveFilepath);
         SaveData = JsonUtility.FromJson<SaveData>(data);
     }
+    public void DeleteGame() {
+        SaveData = new SaveData();
+        File.Delete(saveFilepath);
+    }
+    
 }

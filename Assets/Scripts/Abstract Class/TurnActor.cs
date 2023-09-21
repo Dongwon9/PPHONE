@@ -79,7 +79,9 @@ public abstract class TurnActor : MonoBehaviour {
         Player.OnTurnUpdate += TurnUpdate;
     }
 
-    /// <summary>현재 턴의 행동을 실행하는 코드</summary>
+    /// <summary>현재 턴의 행동을 실행하는 함수<br></br>
+    /// 행동 코드는 이 함수를 오버라이드해 그 안에 구현한다.
+    /// </summary>
     protected abstract void TurnUpdate();
 
     public static Vector3 DirectionToVector(Direction dir) {
@@ -132,7 +134,7 @@ public abstract class TurnActor : MonoBehaviour {
     }
 
     /// <summary>
-    /// position에 공격 경고를 띄운다. 이 함수를 반복적으로 사용해 적의 공격을 구현한다.
+    /// position에 공격을 경고하는 빨간 사각형을 생성한다.
     /// </summary>
     public void AttackWarning(Vector3 position, bool instant = false) {
         RedSquare attack = Instantiate(GameManager.Instance.redSquare).GetComponent<RedSquare>();

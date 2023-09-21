@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 12d64a9ee3ff5c94ca8b7737f7279225
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - enemydata: {fileID: 11400000, guid: 545b470d48b10b5489d69770460167c5, type: 2}
+  - PurpleSquare: {fileID: 5468115531791417932, guid: a20601d03b7a30d458d6a820472fb2bb, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

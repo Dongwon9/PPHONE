@@ -46,7 +46,7 @@ public class ExplodingEnemy : Enemy {
     }
 
     protected override void OnEnable() {
-        Player.OnTurnUpdate += TurnUpdate;
+        base.OnEnable();
         pathfinding = new Path();
         pathfinding.FindPath(transform.position, Player.Position);
         ExplosionSprite.SetActive(false);

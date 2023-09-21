@@ -31,7 +31,7 @@ public class ChasingEnemy : Enemy {
     }
 
     protected override void OnEnable() {
-        Player.OnTurnUpdate += TurnUpdate;
+        base.OnEnable();
         pathfinding = new Path();
         pathfinding.FindPath(transform.position, Player.Position);
     }

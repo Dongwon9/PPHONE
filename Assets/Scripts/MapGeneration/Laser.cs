@@ -4,18 +4,15 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Laser : TurnActor {
-    private Vector2Int laserStartPos1;
-    private Vector2Int laserStartPos2;
     public GameObject laserDeco;
-    private bool isLaserActive = false;
     [SerializeField]
     private int turnTillLaser = 4;//레이저가 몇 턴에 한번씩 발사되는가?
     [SerializeField]
     private int startingTurnCount;
     private int turnCount = 0;
-    private void OnEnable() {
+    protected override void OnEnable() {
         base.OnEnable();
-        turnCount = startingTurnCount%turnTillLaser;
+        turnCount = startingTurnCount % turnTillLaser;
     }
 
     protected override void TurnUpdate() {

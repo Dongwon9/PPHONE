@@ -11,9 +11,12 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
         base.Awake();
         StartsFacingRight = false;
         animator = GetComponent<Animator>();
+        
+    }
+    protected override void OnEnable() { 
+        base.OnEnable();
         HP = (int)(enemydata.MaxHP * GameManager.Instance.GetStageHPModifier());
     }
-
     /// <summary>
     /// 스턴당했을 때 내부 변수 등을 조절하고 싶으면 사용한다.
     /// </summary>
@@ -27,5 +30,10 @@ public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
             Destroy(gameObject);
         }
         DamageNumberManager.instance.DisplayDamageNumber(damage, transform.position + Vector3.up);
+    }
+    private void Update() {
+        if(HP <= 0) {
+            Destroy(gameObject);
+        }
     }
 }

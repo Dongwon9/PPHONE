@@ -51,7 +51,7 @@ public class ChargingEnemy : Enemy, TurnActor.IDamagable {
     }
 
     protected override void OnEnable() {
-        Player.OnTurnUpdate += TurnUpdate;
+        base.OnEnable();
         for (int i = 0; i < allPathToPlayer.Length; i++) {
             allPathToPlayer[i] = new Path();
         }

@@ -25,8 +25,6 @@ public abstract class MovingTurnActor : TurnActor {
             MathF.Round(transform.position.y) * 0.1f);
     }
 
-    private void ReadyForTurn() {
-    }
 
     private void FixedUpdate() {
         //캐릭터가 일정 시간에 걸쳐 움직이게 하는 코드
