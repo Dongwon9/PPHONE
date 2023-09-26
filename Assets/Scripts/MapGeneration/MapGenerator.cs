@@ -16,11 +16,11 @@ public class MapGenerator : MonoBehaviour {
             (0,-1),         (0,1),
             (1,-1), (1,0),  (1,1)
         };
-        //for(int i = 0; i < Random.Range(0, 1);i++) {
+        for(int i = 0; i < Random.Range(0, 1);i++) {
         GameObject obstacle = Instantiate(obstacleSecuring, transform);
         obstacle.SetActive(false);
          RoomPresets.Add(obstacle);
-      //  }
+         }
         //프리셋이 7개보다 많으면, 무작위로 제거해서 7개로 만든다
         //(8번째는 보스방이니까)
         while (RoomPresets.Count > 7) {
@@ -34,7 +34,7 @@ public class MapGenerator : MonoBehaviour {
             int i = Random.Range(0, coordList.Count);
             (int x, int y) = coordList[i];
             coordList.RemoveAt(i);
-            obj.transform.Translate(new Vector3(x * 10, y * 10));
+            obj.transform.position = new Vector3(x * 10, y * 10);
             obj.SetActive(true);
             if(coordList.Count == 1) {
                 break;

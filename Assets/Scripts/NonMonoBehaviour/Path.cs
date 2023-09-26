@@ -8,13 +8,6 @@ public class Path {
     public bool PathExists => FullPath.Count >= 1;
     /// <summary>경로의 길이</summary>
     public int PathLength => FullPath.Count - 1;
-    public Path(Vector3 startpos, Vector3 endpos) {
-        FindPath(startpos, endpos);
-    }
-
-    public Path() {
-    }
-
     public Vector3 GetNextPos() {
         Node next;
         if (FullPath.Count < 2) {

@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour {
         GameSaveManager.Instance.LoadGame();
         stageNumber = GameSaveManager.Instance.SaveData.stageCount;
         Random.InitState(seed * stageNumber);
-
     }
 
     public void QuitGame() {

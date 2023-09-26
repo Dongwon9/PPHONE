@@ -124,7 +124,7 @@ public abstract class TurnActor : MonoBehaviour {
                     break;
             }
         }
-        return Physics2D.Raycast(position, Vector2.down, 0.1f, LayerMask.GetMask(objects));
+        return Physics2D.Raycast(position, Vector2.down, 0.1f, LayerMask.GetMask(objects)).collider == null;
     }
 
     public Vector2 Round(Vector2 orig) {

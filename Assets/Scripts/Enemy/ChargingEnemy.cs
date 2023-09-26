@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 플레이어가 일직선상에 있으면 플레이어 방향으로 돌진해오는 적
+/// </summary>
 public class ChargingEnemy : Enemy, TurnActor.IDamagable {
 
     private enum AIMode { Finding, Charging, Stun }
@@ -70,6 +72,7 @@ public class ChargingEnemy : Enemy, TurnActor.IDamagable {
                 }
             }
         }
+
         switch (mode) {
             case AIMode.Finding:
                 if (turnCounter % 2 == 1) {

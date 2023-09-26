@@ -7,18 +7,17 @@ public class Boss1 : Enemy
     [SerializeField] private GameObject PurpleSquare;
     private List<GameObject> PurpleSquareList = new List<GameObject>(); 
     private readonly Path pathFinding = new();
-    private BossRoom bossRoom;
     private int counter = 0;
     protected override void Awake() {
         base.Awake();
-        bossRoom = GetComponentInParent<BossRoom>();
     }
     protected override void TurnUpdate() {
         counter += 1;
         if (counter == 2) {
-            bossTraces.Add(transform.position);
-            PurpleSquareList.Add(Instantiate(PurpleSquare, transform.position, Quaternion.identity));
-          
+            if (!bossTraces.Contains(transform.position)) {
+                bossTraces.Add(transform.position);
+                PurpleSquareList.Add(Instantiate(PurpleSquare, transform.position, Quaternion.identity));
+            }
             counter = 0;
         }
         pathFinding.FindPath(transform.position, Player.Position);
@@ -33,6 +32,5 @@ public class Boss1 : Enemy
         foreach(GameObject go in PurpleSquareList) {
             Destroy(go);
         }
-        bossRoom.BossDead();
     }
 }

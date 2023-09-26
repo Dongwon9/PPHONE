@@ -92,8 +92,8 @@ public class Bush : TurnActor {
     }
 
     private Vector2Int GetRandomPosition() {
-        int x = Random.Range(0, mapSize);
-        int y = Random.Range(0, mapSize);
+        int x = Random.Range(0, mapSize) - 4;
+        int y = Random.Range(0, mapSize) - 4;
         return new Vector2Int(x, y);
     }
 }

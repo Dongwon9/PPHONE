@@ -11,6 +11,7 @@ public class GameSaveManager : MonoBehaviour {
             Instance = this;
         } else {
             Destroy(gameObject);
+            return;
         }
         DontDestroyOnLoad(gameObject);
         saveFilepath = Application.persistentDataPath + "/save";
@@ -30,7 +31,7 @@ public class GameSaveManager : MonoBehaviour {
         SaveData.maxShield = 20;
         SaveData.inventory = new Consumable[5];
         SaveData.stageCount = 1;
-        SaveData.seed = (int)Random.value * 2147483647;
+        SaveData.seed = Random.Range(int.MinValue, int.MaxValue);
         string data = JsonUtility.ToJson(SaveData);
         File.WriteAllText(saveFilepath, data);
     }

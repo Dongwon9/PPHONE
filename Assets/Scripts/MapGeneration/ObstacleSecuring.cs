@@ -32,7 +32,7 @@ public class ObstacleSecuring : MonoBehaviour {
         //int startY = (mapSize - obstacleSize) / 2;
 
         for (int i = 0; i < obstacleCount; i++) {
-            positions[i] = new Vector2Int(Random.Range(0, mapSize), Random.Range(0, mapSize));
+            positions[i] = new Vector2Int(Random.Range(0, mapSize) - 4, Random.Range(0, mapSize) - 4);
         }
 
         return positions;
@@ -50,8 +50,8 @@ public class ObstacleSecuring : MonoBehaviour {
 
     // 0부터 9(mapSize) 까지의 랜덤한 x, y 좌표를 생성하여 Vector2Int 형태로 반환
     private Vector2Int GetRandomPosition() {
-        int x = Random.Range(0, mapSize);
-        int y = Random.Range(0, mapSize);
+        int x = Random.Range(0, mapSize) - 4;
+        int y = Random.Range(0, mapSize) - 4;
         return new Vector2Int(x, y);
     }
 }

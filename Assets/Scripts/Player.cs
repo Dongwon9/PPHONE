@@ -9,7 +9,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     [SerializeField]
     private Direction facing = TurnActor.Direction.Right;
     [SerializeField]
-    private int hp = 100, maxHP = 100, shield = 20, maxShield = 20;
+    private int hp, maxHP, shield, maxShield;
     private int moveCount = 0;
     [SerializeField]
     private List<GameObject> playerParts;
@@ -117,14 +117,6 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
         }
     }
-
-    //private void Start() {
-    //    SaveData data = GameSaveManager.Instance.SaveData;
-    //    hp = data.HP;
-    //    maxHP = data.maxHP;
-    //    shield = data.shield;
-    //    maxShield = data.maxShield;
-    //}
 
     //player는 모든 TurnActor보다 먼저 턴이 진행되기 때문에,
     //OnTurnUpdate에 메소드를 구독하지 않는다.
