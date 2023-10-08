@@ -6,6 +6,7 @@
     public Consumable[] inventory = new Consumable[0];
     public int seed;
     public int stageCount;
+    public int gold;
     public SaveData() {
     }
 
@@ -16,5 +17,6 @@
         shield = Player.Instance.Shield;
         seed = GameManager.Instance.Seed;
         inventory = Inventory.Instance.Content;
+        gold = Inventory.Instance.Gold;
     }
 }

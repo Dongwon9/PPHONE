@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 20
   damage: 1
+  dropType: 2

@@ -7,12 +7,13 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
     [SerializeField]
-    private Direction facing = TurnActor.Direction.Right;
+    private Direction facing = Direction.Right;
     [SerializeField]
     private int hp, maxHP, shield, maxShield;
     private int moveCount = 0;
     [SerializeField]
     private List<GameObject> playerParts;
+    private int doubleDamageTurnLeft = 0;
     public static Player Instance;
     public Armor equippedArmor = null;
     public Weapon equippedWeapon;
@@ -51,15 +52,20 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         animator.SetTrigger("isWalk");
     }
 
+    private int GetFinalDamage() {
+        return doubleDamageTurnLeft > 0 ? equippedWeapon.damage * 2 : equippedWeapon.damage;
+    }
+
     private void PlayerAttack(Direction dir) {
         foreach (Vector2 offset in equippedWeapon.GetAttackSquare(dir)) {
             AttackWarning(transform.position + (Vector3)offset);
-            Attack(transform.position + (Vector3)offset, equippedWeapon.damage, Target.Any);
+            Attack(transform.position + (Vector3)offset, GetFinalDamage(), Target.Any);
         }
         foreach (var obj in playerPartComponents) {
             obj.animator.SetTrigger("Attack");
         }
     }
+
     private void Start() {
         SaveData data = GameSaveManager.Instance.SaveData;
         hp = data.HP;
@@ -67,6 +73,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         shield = data.shield;
         maxShield = data.maxShield;
     }
+
     private void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             nextAction = () => Move(TurnActor.Direction.Left);
@@ -134,7 +141,14 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             moveCount = 0;
             hp -= 1;
         }
+        if (doubleDamageTurnLeft > 0) {
+            doubleDamageTurnLeft -= 1;
+        }
         equippedArmor?.OnTurnUpdate();
+    }
+
+    public void ActivateDoubleDamage(int turnCount) {
+        doubleDamageTurnLeft = turnCount;
     }
 
     public void AddMaxHP(int value) {

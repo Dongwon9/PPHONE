@@ -5,13 +5,13 @@ public class InventoryUI : MonoBehaviour {
     [SerializeField] private ItemSlot[] slots = new ItemSlot[5];
     [SerializeField] private ItemToolTip tooltip;
     public static InventoryUI instance;
-    public void UpdateItemSlots() {
+    public void Update() {
         for (int i = 0; i < MAX_SLOTS; i++) {
             if (Inventory.Instance.GetItem(i) != null) {
                 slots[i].gameObject.SetActive(true);
                 slots[i].slotButton.image.sprite = Inventory.Instance.GetItem(i).icon;
             } else {
-                slots[i].slotButton.image = null;
+                slots[i].slotButton.image.sprite = null;
                 slots[i].gameObject.SetActive(false);
             }
         }
@@ -20,10 +20,6 @@ public class InventoryUI : MonoBehaviour {
     private void Awake() {
         instance = this;
         tooltip.gameObject.SetActive(false);
-    }
-
-    private void Start() {
-        UpdateItemSlots();
     }
 
     public void ChooseSlot(int index) {

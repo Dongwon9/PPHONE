@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab463ac2774fd0847a16309ae8cd7d9b, type: 3}
-  m_Name: ExplodingEnemy
+  m_Script: {fileID: 11500000, guid: 23f20a29a3644bd4bbc7068271b6624f, type: 3}
+  m_Name: Axe
   m_EditorClassIdentifier: 
-  maxHP: 5
-  damage: 10
-  dropType: 1
+  attackSquare:
+  - {x: 1, y: 1}
+  - {x: 1, y: 0}
+  - {x: 1, y: -1}
+  damage: 12
