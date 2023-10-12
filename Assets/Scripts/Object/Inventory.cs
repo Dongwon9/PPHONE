@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
 public class Inventory : MonoBehaviour {
-    public const int MAX_SLOTS = 5;
-    public static Inventory Instance;
     [SerializeField]
     private Consumable[] Items = new Consumable[MAX_SLOTS];
-    public Consumable[] Content { get { return Items; } }
     [SerializeField] private int gold;
+    public const int MAX_SLOTS = 5;
+    public static Inventory Instance;
+    public Consumable[] Content { get { return Items; } }
     public int Gold { get { return gold; } private set { gold = value; } }
     private bool IndexInRange(int index) {
         if (index >= 0 && index < Items.Length) {
@@ -17,19 +17,20 @@ public class Inventory : MonoBehaviour {
         }
     }
 
-    public void ModifyGold(int amount) {
-        Gold += amount;
-        if (Gold < 0) {
-            Gold = 0;
-        }
-    }
-
     private void Awake() {
         Instance = this;
     }
 
     private void Start() {
         Items = GameSaveManager.Instance.SaveData.inventory;
+        gold = GameSaveManager.Instance.SaveData.gold;
+    }
+
+    public void ModifyGold(int amount) {
+        Gold += amount;
+        if (Gold < 0) {
+            Gold = 0;
+        }
     }
 
     public Consumable GetItem(int index) {

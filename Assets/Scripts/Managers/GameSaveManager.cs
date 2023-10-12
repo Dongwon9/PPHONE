@@ -2,9 +2,9 @@
 using UnityEngine;
 
 public class GameSaveManager : MonoBehaviour {
+    private string saveFilepath;
     public static GameSaveManager Instance;
     public SaveData SaveData { get; private set; } = new SaveData();
-    private string saveFilepath;
     public bool FileExists => File.Exists(saveFilepath);
     private void Awake() {
         if (Instance == null) {
@@ -16,6 +16,12 @@ public class GameSaveManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         saveFilepath = Application.persistentDataPath + "/save";
         print(saveFilepath);
+    }
+
+    private void Update() {
+        if (null != Player.Instance && Player.Instance.GameOver) {
+            DeleteGame();
+        }
     }
 
     public void SaveGame() {
@@ -38,15 +44,14 @@ public class GameSaveManager : MonoBehaviour {
 
     public void LoadGame() {
         if (!File.Exists(saveFilepath)) {
-            Debug.LogError("게임 불러오기 실패.");
-            return;
+            NewGame();
         }
         string data = File.ReadAllText(saveFilepath);
         SaveData = JsonUtility.FromJson<SaveData>(data);
     }
+
     public void DeleteGame() {
         SaveData = new SaveData();
         File.Delete(saveFilepath);
     }
-    
 }

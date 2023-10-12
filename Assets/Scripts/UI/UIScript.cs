@@ -7,6 +7,12 @@ public class UIScript : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI HPText, ShieldText, GoldText;
     [SerializeField] private ButtonManager buttonManager;
     [SerializeField] private ShopScript shop;
+    [SerializeField] private GameObject gameOver;
+    [SerializeField] private GameObject gameClear;
+    public static bool GameClear = false;
+    private void Start() {
+        GameClear = false;
+    }
     private void Update() {
         HPBar.maxValue = Player.Instance.MaxHP;
         HPBar.value = Player.Instance.HP;
@@ -17,6 +23,19 @@ public class UIScript : MonoBehaviour {
         ShieldText.SetText(
             Player.Instance.Shield.ToString() + "/" + Player.Instance.MaxShield.ToString());
         GoldText.SetText(Inventory.Instance.Gold.ToString() + " Gold");
-        buttonManager.gameObject.SetActive(!shop.gameObject.activeSelf);
+        if (!Player.Instance.GameOver && !GameClear) {
+            buttonManager.gameObject.SetActive(!shop.gameObject.activeSelf);
+            gameOver.SetActive(false);
+            gameClear.SetActive(false);
+        } else {
+            buttonManager.gameObject.SetActive(false);
+            shop.gameObject.SetActive(false);
+            if (Player.Instance.GameOver) {
+                gameOver.SetActive(true);
+            }else { // if(gameClear)
+                gameClear.SetActive(true);
+            }
+        }
+
     }
 }

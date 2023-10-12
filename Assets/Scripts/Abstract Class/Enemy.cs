@@ -2,7 +2,7 @@
 
 /// <summary>모든 적들이 상속할 abstract 클래스</summary>
 public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
-    private Animator animator;
+    protected Animator animator;
     [SerializeField] protected int HP;
     [SerializeField] protected EnemyData enemydata;
     //[SerializeField] private SpriteRenderer NextActonSprite;

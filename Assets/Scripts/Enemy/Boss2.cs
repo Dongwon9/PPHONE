@@ -15,6 +15,7 @@ public class Boss2 : Enemy, TurnActor.IDamagable {
         //순간이동 한 후, 공격
         if(mode == AIMode.Attacking) {
             Attack(PosToAttack, enemydata.Damage, Target.Player);
+            animator.SetTrigger("attack02");
             mode = AIMode.Moving;
             return;
         }
@@ -52,6 +53,7 @@ public class Boss2 : Enemy, TurnActor.IDamagable {
         }
         Direction pickedDir = canMoveTo[Random.Range(0, canMoveTo.Count)];
         Move(pickedDir);
+        animator.SetTrigger("walk");
         for (int i = 0; i < 4; i++) {
             if (directionCoolTime[i] > 0) {
                 directionCoolTime[i]--;

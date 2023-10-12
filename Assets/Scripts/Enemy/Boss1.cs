@@ -8,6 +8,10 @@ public class Boss1 : Enemy
     private List<GameObject> PurpleSquareList = new List<GameObject>(); 
     private readonly Path pathFinding = new();
     private int counter = 0;
+    private enum AIMode { finding, attacking };
+
+    private AIMode mode = AIMode.finding;
+    private Vector3 attackLocation; // 공격할 좌표
     protected override void Awake() {
         base.Awake();
     }
@@ -20,8 +24,26 @@ public class Boss1 : Enemy
             }
             counter = 0;
         }
-        pathFinding.FindPath(transform.position, Player.Position);
-        Move(pathFinding.GetNextPos());
+        if (mode == AIMode.finding) {
+            pathFinding.FindPath(transform.position, Player.Position);
+            if (!pathFinding.PathExists) {
+                return;
+            }
+            //필요한 이동 길이가 1칸보다 많으면 움직인다.
+            if (pathFinding.PathLength > 1) {
+                Move(pathFinding.GetNextPos());
+            } else {
+                //필요한 이동 길이가 1칸이 되면, 그 턴은 아무것도 하지 않고,
+                //다음턴에 공격한다.
+                AttackWarning(pathFinding.GetNextPos());
+                attackLocation = pathFinding.GetNextPos();
+                mode = AIMode.attacking;
+            }
+        } else {
+            Attack(attackLocation, enemydata.Damage, Target.Player);
+            mode = AIMode.finding;
+        }
+
 
         // 플레이어의 위치를 확인하고, 보스의 흔적 위치와 일치하는지 확인한다.
         foreach (Vector3 tracePosition in bossTraces){
