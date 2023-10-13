@@ -13,6 +13,7 @@ public class UIScript : MonoBehaviour {
     private void Start() {
         GameClear = false;
     }
+
     private void Update() {
         HPBar.maxValue = Player.Instance.MaxHP;
         HPBar.value = Player.Instance.HP;
@@ -32,10 +33,9 @@ public class UIScript : MonoBehaviour {
             shop.gameObject.SetActive(false);
             if (Player.Instance.GameOver) {
                 gameOver.SetActive(true);
-            }else { // if(gameClear)
+            } else { // if(gameClear)
                 gameClear.SetActive(true);
             }
         }
-
     }
 }

@@ -4,10 +4,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
     [SerializeField] private bool WalkableGridDebugDisplay;
     [SerializeField] private int seed;
-    public int Seed { get { return seed; } }
     public GameObject redSquare;
-    public int stageNumber=> GameSaveManager.Instance.SaveData.stageCount;
+    public GameObject slash;
     public static GameManager Instance { get; private set; }
+    public int Seed { get { return seed; } }
+    public int stageNumber => GameSaveManager.Instance.SaveData.stageCount;
     /// <summary>맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자</summary>
     public Grid WalkableGrid { get; private set; }
     private void Awake() {
@@ -16,12 +17,22 @@ public class GameManager : MonoBehaviour {
         UpdateWalkableGrid();
         if (WalkableGridDebugDisplay) {
             DebugShowWalkableGrid();
-        }       
+        }
     }
 
     private void Start() {
         GameSaveManager.Instance.LoadGame();
         Random.InitState(seed * stageNumber);
+    }
+
+    private void DebugShowWalkableGrid() {
+        for (int x = -15; x <= 15; x++) {
+            for (int y = -15; y <= 15; y++) {
+                if (!WalkableGrid.GetNode(x, y).isWalkable) {
+                    Instantiate(redSquare, new Vector3(x, y), Quaternion.identity, this.transform);
+                }
+            }
+        }
     }
 
     public void QuitGame() {
@@ -41,16 +52,6 @@ public class GameManager : MonoBehaviour {
 
             default:
                 return 1.0f;
-        }
-    }
-
-    private void DebugShowWalkableGrid() {
-        for (int x = -15; x <= 15; x++) {
-            for (int y = -15; y <= 15; y++) {
-                if (!WalkableGrid.GetNode(x, y).isWalkable) {
-                    Instantiate(redSquare, new Vector3(x, y), Quaternion.identity, this.transform);
-                }
-            }
         }
     }
 

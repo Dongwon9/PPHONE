@@ -20,12 +20,13 @@ public class ChasingEnemy : Enemy {
             } else {
                 //필요한 이동 길이가 1칸이 되면, 그 턴은 아무것도 하지 않고,
                 //다음턴에 공격한다.
-                AttackWarning(pathfinding.GetNextPos());
                 attackLocation = pathfinding.GetNextPos();
+                AttackWarning(attackLocation);
                 mode = AIMode.attacking;
             }
         } else {
             Attack(attackLocation, enemydata.Damage, Target.Player);
+            CreateSlash(attackLocation);
             mode = AIMode.finding;
         }
     }

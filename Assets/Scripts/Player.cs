@@ -13,6 +13,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     private List<GameObject> playerParts;
     private int doubleDamageTurnLeft = 0;
     private Action nextAction;
+    private int ShieldHealCoolTime = 0;
     public static Player Instance;
     public Armor equippedArmor = null;
     public Weapon equippedWeapon;
@@ -22,14 +23,12 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     public int MaxShield => maxShield;
     public int Shield => shield;
     public bool GameOver => hp <= 0;
-    private int ShieldHealCoolTime = 0;
     /// <summary>
     /// 모든 TurnActor들이 이 이벤트에 TurnUpdate()를 구독시키고,<br></br>
     /// 플레이어 행동이 정해지면 이 이벤트를 호출해 이 이벤트에 구독된
     /// 수많은 TurnActor들의 TurnUpdate()가 실행된다.
     /// </summary>
     public static event Action OnTurnUpdate;
-    public static event Action OnPlayerDeath;
 
     /// <summary>
     /// 플레이어의 파츠의 필요한 컴포넌트만 담는 클래스<br></br>
@@ -45,23 +44,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             this.transform = transform;
         }
     }
-    protected override void Awake() {
-        base.Awake();
-        Instance = this;
-        animator = GetComponent<Animator>();
-        foreach (GameObject obj in playerParts) {
-            playerPartComponents.Add(
-                new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
-        }
-        StartsFacingRight = true;
-    }
-    //player는 모든 TurnActor보다 먼저 턴이 진행되기 때문에,
-    //OnTurnUpdate에 메소드를 구독하지 않는다.
-    protected override void OnDisable() {
-    }
 
-    protected override void OnEnable() {
-    }
     private void Start() {
         SaveData data = GameSaveManager.Instance.SaveData;
         hp = data.HP;
@@ -69,6 +52,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         shield = data.shield;
         maxShield = data.maxShield;
     }
+
     private void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
             nextAction = () => Move(TurnActor.Direction.Left);
@@ -94,6 +78,49 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             gameObject.SetActive(false);
         }
     }
+
+    private new void Move(Direction dir) {
+        base.Move(dir);
+        animator.SetTrigger("isWalk");
+    }
+
+    private int GetFinalDamage() {
+        return doubleDamageTurnLeft > 0 ? equippedWeapon.damage * 2 : equippedWeapon.damage;
+    }
+
+    private void PlayerAttack(Direction dir) {
+        foreach (Vector2 offset in equippedWeapon.GetAttackSquare(dir)) {
+            Attack(transform.position + (Vector3)offset, GetFinalDamage(), Target.Any);
+            CreateSlash(transform.position + (Vector3)offset);
+        }
+        foreach (PartComponents obj in playerPartComponents) {
+            obj.animator.SetTrigger("Attack");
+        }
+    }
+
+    private void ProcessTurn() {
+        OnTurnUpdate?.Invoke();
+    }
+
+    protected override void Awake() {
+        base.Awake();
+        Instance = this;
+        animator = GetComponent<Animator>();
+        foreach (GameObject obj in playerParts) {
+            playerPartComponents.Add(
+                new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
+        }
+        StartsFacingRight = true;
+    }
+
+    //player는 모든 TurnActor보다 먼저 턴이 진행되기 때문에,
+    //OnTurnUpdate에 메소드를 구독하지 않는다.
+    protected override void OnDisable() {
+    }
+
+    protected override void OnEnable() {
+    }
+
     protected override void TurnUpdate() {
         nextAction();
         nextAction = null;
@@ -114,29 +141,6 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             ShieldHealCoolTime -= 1;
         }
         equippedArmor?.OnTurnUpdate();
-
-    }
-    private new void Move(Direction dir) {
-        base.Move(dir);
-        animator.SetTrigger("isWalk");
-    }
-
-    private int GetFinalDamage() {
-        return doubleDamageTurnLeft > 0 ? equippedWeapon.damage * 2 : equippedWeapon.damage;
-    }
-
-    private void PlayerAttack(Direction dir) {
-        foreach (Vector2 offset in equippedWeapon.GetAttackSquare(dir)) {
-            AttackWarning(transform.position + (Vector3)offset);
-            Attack(transform.position + (Vector3)offset, GetFinalDamage(), Target.Any);
-        }
-        foreach (PartComponents obj in playerPartComponents) {
-            obj.animator.SetTrigger("Attack");
-        }
-    }
-
-    private void ProcessTurn() {
-        OnTurnUpdate?.Invoke();
     }
 
     /// <summary>자신 스프라이트를 좌우로 뒤집는다.</summary>
@@ -151,6 +155,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
             part.transform.localPosition = new Vector3(MathF.Abs(part.transform.localPosition.x) * sign, part.transform.localPosition.y);
         }
     }
+
     public void ActivateDoubleDamage(int turnCount) {
         doubleDamageTurnLeft = turnCount;
     }

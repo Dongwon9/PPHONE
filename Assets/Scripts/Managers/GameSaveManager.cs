@@ -15,11 +15,10 @@ public class GameSaveManager : MonoBehaviour {
         }
         DontDestroyOnLoad(gameObject);
         saveFilepath = Application.persistentDataPath + "/save";
-        print(saveFilepath);
     }
 
     private void Update() {
-        if (null != Player.Instance && Player.Instance.GameOver) {
+        if ((null != Player.Instance && Player.Instance.GameOver) || UIScript.GameClear) {
             DeleteGame();
         }
     }
@@ -51,6 +50,9 @@ public class GameSaveManager : MonoBehaviour {
     }
 
     public void DeleteGame() {
+        if (!File.Exists(saveFilepath)) {
+            return;
+        }
         SaveData = new SaveData();
         File.Delete(saveFilepath);
     }

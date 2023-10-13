@@ -2624,6 +2624,7 @@ MonoBehaviour:
   WalkableGridDebugDisplay: 0
   seed: 100
   redSquare: {fileID: 8814332389410693332, guid: 7b7f6322d46ff844ba3ae415fccad9bc, type: 3}
+  slash: {fileID: 3734027404306726923, guid: d4f75f4c124b70040806af1ea99b950b, type: 3}
 --- !u!114 &307458111
 MonoBehaviour:
   m_ObjectHideFlags: 0

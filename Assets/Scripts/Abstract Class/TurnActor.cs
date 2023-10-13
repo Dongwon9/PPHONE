@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// 턴마다 어떤 행동을 하는 모든 오브젝트는 TurnActor를 상속한다.
@@ -36,15 +35,9 @@ public abstract class TurnActor : MonoBehaviour {
             }
         }
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="origin"></param>
-    /// <param name="direction"></param>
-    /// <param name="damage"></param>
-    /// <param name="target"></param>
+
     /// <param name="pierce">이 레이저는 벽을 만날때까지 관통하는 레이저인가?</param>
-    protected void LaserAttack(Vector3 origin,Vector2 direction,int damage,Target target,bool pierce = false) {
+    protected void LaserAttack(Vector3 origin, Vector2 direction, int damage, Target target, bool pierce = false) {
         float laserLength = Physics2D.Raycast(origin, direction, 99999, LayerMask.GetMask("Wall")).distance;
         RaycastHit2D[] hits;
         if (pierce) {
@@ -69,6 +62,7 @@ public abstract class TurnActor : MonoBehaviour {
             }
         }
     }
+
     /// <summary> TurnActor들이 다음 행동을 정할 때 사용하는 함수</summary>
 
     protected virtual void OnDisable() {
@@ -136,9 +130,21 @@ public abstract class TurnActor : MonoBehaviour {
     /// <summary>
     /// position에 공격을 경고하는 빨간 사각형을 생성한다.
     /// </summary>
-    public void AttackWarning(Vector3 position, bool instant = false) {
-        RedSquare attack = Instantiate(GameManager.Instance.redSquare).GetComponent<RedSquare>();
-        attack.transform.position = position;
-        attack.instant = instant;
+    public void AttackWarning(Vector3 position) {
+        Instantiate(GameManager.Instance.redSquare, position, Quaternion.identity);
+    }
+
+    public void CreateSlash(Vector3 position) {
+        Quaternion rotation = Quaternion.identity;
+        //기본:오른쪽
+        if (position.x < transform.position.x) { //왼쪽
+            rotation = Quaternion.Euler(0, 0, 180);
+        }
+        if (position.y > transform.position.y) { //위
+            rotation = Quaternion.Euler(0, 0, 90);
+        } else if (position.y < transform.position.y) { //아래
+            rotation = Quaternion.Euler(0, 0, -90);
+        }
+        Instantiate(GameManager.Instance.slash, position, rotation);
     }
 }

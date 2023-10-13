@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 public class Boss2 : Enemy, TurnActor.IDamagable {
+
+    private enum AIMode { Moving, Attacking };
+
     private int turnsSinceTeleport = 0; // 순간 이동을 위한 턴 카운터
     private Direction[] directions = { Direction.Right, Direction.Up, Direction.Left, Direction.Down };
     private int[] directionCoolTime = { 0, 0, 0, 0 };
-    int counter = 0;
-    private enum AIMode { Moving, Attacking };
+    private int counter = 0;
     private AIMode mode = AIMode.Moving;
     private Vector3 PosToAttack;
     // 게임 루프나 턴 관리 로직에서 호출되는 메서드로, 보스의 움직임을 처리한다
     protected override void TurnUpdate() {
         //순간이동 한 후, 공격
-        if(mode == AIMode.Attacking) {
+        if (mode == AIMode.Attacking) {
             Attack(PosToAttack, enemydata.Damage, Target.Player);
+            CreateSlash(PosToAttack);
             animator.SetTrigger("attack02");
             mode = AIMode.Moving;
             return;
@@ -26,17 +28,18 @@ public class Boss2 : Enemy, TurnActor.IDamagable {
             List<Vector3> CanTeleportTo = new();
             foreach (var dir in directions) {
                 Vector3 v = Player.Position + DirectionToVector(dir);
-                if (CheckForObjectAtPosition(new Target[] { Target.Wall },v) && 
+                if (CheckForObjectAtPosition(new Target[] { Target.Wall }, v) &&
                       (v != transform.position)) {
                     CanTeleportTo.Add(v);
                 }
             }
-            transform.position = CanTeleportTo[Random.Range(0,CanTeleportTo.Count)];
+            transform.position = CanTeleportTo[Random.Range(0, CanTeleportTo.Count)];
             turnsSinceTeleport = 0; // 턴 카운터 초기화
             for (int i = 0; i < 4; i++) {
                 directionCoolTime[i] = 0; //이동방향 쿨타임도 초기화
             }
             PosToAttack = Player.Position;
+            AttackWarning(PosToAttack);
             mode = AIMode.Attacking;
             return;
         }
@@ -82,7 +85,6 @@ public class Boss2 : Enemy, TurnActor.IDamagable {
                 if (directionCoolTime[1] == 0)
                     directionCoolTime[1] = 2;
                 break;
-        }              
-        
+        }
     }
 }
