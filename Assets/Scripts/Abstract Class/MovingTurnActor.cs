@@ -28,7 +28,6 @@ public abstract class MovingTurnActor : TurnActor {
     private void FixedUpdate() {
         //캐릭터가 일정 시간에 걸쳐 움직이게 하는 코드
         if (TurnProcessing) {
-            collider.enabled = false;
             if (moveDir.normalized == Vector3.left) {
                 FlipSprite(false);
             } else if (moveDir.normalized == Vector3.right) {
@@ -42,7 +41,6 @@ public abstract class MovingTurnActor : TurnActor {
                 TurnProcessing = false;
                 moveDir = Vector3.zero;
                 AdjustPosition();
-                collider.enabled = true;
             }
         }
     }

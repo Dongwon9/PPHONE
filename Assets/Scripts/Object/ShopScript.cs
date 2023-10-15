@@ -13,7 +13,6 @@ public class ShopScript : MonoBehaviour {
         for (int i = 0; i < shopList.Length; i++) {
             shopList[i] = allConsumables[Random.Range(0, allConsumables.Count)];
         }
-        gameObject.SetActive(false);
     }
 
     private void Update() {
