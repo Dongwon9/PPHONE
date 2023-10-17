@@ -19,4 +19,8 @@ public class MainMenuButton : MonoBehaviour {
         GameSaveManager.Instance.LoadGame();
         SceneManager.LoadScene("Scene_Stage");
     }
+
+    public void Quit() {
+        Application.Quit();
+    }
 }

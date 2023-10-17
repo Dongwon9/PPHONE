@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UIScript : MonoBehaviour {
     [SerializeField] private Slider HPBar, ShieldBar;
-    [SerializeField] private TextMeshProUGUI HPText, ShieldText, GoldText;
+    [SerializeField] private TextMeshProUGUI HPText, ShieldText, GoldText, StageText;
     [SerializeField] private ButtonManager buttonManager;
     [SerializeField] private ShopScript shop;
     [SerializeField] private GameObject gameOver;
@@ -24,6 +24,7 @@ public class UIScript : MonoBehaviour {
         ShieldText.SetText(
             Player.Instance.Shield.ToString() + "/" + Player.Instance.MaxShield.ToString());
         GoldText.SetText(Inventory.Instance.Gold.ToString() + " Gold");
+        StageText.SetText("Stage " + GameManager.Instance.stageNumber);
         if (!Player.Instance.GameOver && !GameClear) {
             buttonManager.gameObject.SetActive(!shop.gameObject.activeSelf);
             gameOver.SetActive(false);

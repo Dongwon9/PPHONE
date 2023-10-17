@@ -52,9 +52,9 @@ public class Boss1 : Enemy {
             mode = AIMode.finding;
         }
 
-        // 플레이어의 위치를 확인하고, 보스의 흔적 위치와 일치하는지 확인한다.
+        //플레이어의 위치를 확인하고, 보스의 흔적 위치와 일치하는지 확인한다.
         foreach (Vector3 tracePosition in bossTraces) {
-            Attack(tracePosition, 1, Target.Player);
+            Attack(tracePosition, 5, Target.Player);
         }
     }
 }

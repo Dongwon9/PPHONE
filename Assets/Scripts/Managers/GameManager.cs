@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : TurnActor {
     [SerializeField] private bool WalkableGridDebugDisplay;
     [SerializeField] private int seed;
     public GameObject redSquare;
@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    protected override void TurnUpdate() {
+        UpdateWalkableGrid();
     }
 
     public void QuitGame() {

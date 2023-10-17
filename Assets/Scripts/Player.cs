@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     private int doubleDamageTurnLeft = 0;
     private Action nextAction;
     private int ShieldHealCoolTime = 0;
+    private float turnDelay;
     public static Player Instance;
     public Armor equippedArmor = null;
     public Weapon equippedWeapon;
@@ -57,14 +59,26 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
         if (nextAction != null && !TurnProcessing) {
             //무조건 플레이어가 먼저 행동한다.
             TurnUpdate();
+            StartCoroutine(Timer());
             //그 후에 다른 모든 TurnActor들이 행동한다.
-            Invoke(nameof(ProcessTurn), MovingTurnActor.movingTime * 2f);
+            Invoke(nameof(ProcessTurn), MovingTurnActor.movingTime * 1f);
         }
         if (GameOver) {
             Camera mainCamera = Camera.main;
             mainCamera.transform.SetParent(null, true);
             gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator Timer() {
+        TurnProcessing = true;
+        turnDelay = movingTime * 1f;
+        while (turnDelay > 0) {
+            yield return new WaitForSeconds(0.1f);
+            turnDelay -= 0.1f;
+        }
+        TurnProcessing = false;
+        turnDelay = 0;
     }
 
     private new void Move(Direction dir) {

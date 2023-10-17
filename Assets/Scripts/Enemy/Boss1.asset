@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab463ac2774fd0847a16309ae8cd7d9b, type: 3}
   m_Name: Boss1
   m_EditorClassIdentifier: 
-  maxHP: 20
-  damage: 1
+  maxHP: 40
+  damage: 10
   dropType: 2

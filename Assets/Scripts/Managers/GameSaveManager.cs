@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 
 public class GameSaveManager : MonoBehaviour {
@@ -36,7 +37,8 @@ public class GameSaveManager : MonoBehaviour {
         SaveData.maxShield = 20;
         SaveData.inventory = new Consumable[5];
         SaveData.stageCount = 1;
-        SaveData.seed = Random.Range(int.MinValue, int.MaxValue);
+        UnityEngine.Random.InitState((int)DateTimeOffset.Now.ToUnixTimeMilliseconds());
+        SaveData.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         string data = JsonUtility.ToJson(SaveData);
         File.WriteAllText(saveFilepath, data);
     }
