@@ -54,18 +54,6 @@ public class Player : MovingTurnActor, TurnActor.IDamagable {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            nextAction = () => Move(TurnActor.Direction.Left);
-        } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            nextAction = () => Move(TurnActor.Direction.Right);
-        } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            nextAction = () => Move(TurnActor.Direction.Down);
-        } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            nextAction = () => Move(Direction.Up);
-        } else if (Input.GetKeyDown(KeyCode.Space)) {
-            nextAction = () => { };
-        }
-
         if (nextAction != null && !TurnProcessing) {
             //무조건 플레이어가 먼저 행동한다.
             TurnUpdate();

@@ -17,4 +17,20 @@ public class ButtonManager : MonoBehaviour {
         ModeButton.onClick.AddListener(() => AttackMode = !AttackMode);
         WaitButton.onClick.AddListener(() => Player.Instance.TakeInput(null));
     }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            Player.Instance.TakeInput(TurnActor.Direction.Left);
+        } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
+            Player.Instance.TakeInput(TurnActor.Direction.Right);
+        } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            Player.Instance.TakeInput(TurnActor.Direction.Down);
+        } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            Player.Instance.TakeInput(TurnActor.Direction.Up);
+        } else if (Input.GetKeyDown(KeyCode.Space)) {
+            Player.Instance.TakeInput(null);
+        } else if (Input.GetKeyDown(KeyCode.LeftShift)) {
+            AttackMode = !AttackMode;
+        }
+    }
 }
