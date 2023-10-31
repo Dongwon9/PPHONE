@@ -35,10 +35,10 @@ public class Path {
     public void FindPath(int startx, int starty, int endx, int endy) {
         Grid nodeGrid = GameManager.Instance.WalkableGrid;
         //나중에 탐색할 노드
-        List<Node> OpenList = new List<Node>();
+        List<Node> OpenList = new();
         //탐색을 완료한 노드
-        List<Node> ClosedList = new List<Node>();
-
+        List<Node> ClosedList = new();
+        //초기화
         foreach (Node node in nodeGrid.GetAllNode()) {
             node.PrevNode = null;
             node.gCost = 0;
@@ -48,6 +48,7 @@ public class Path {
         nodeGrid.SetHCostFull(endNode);
         OpenList.Add(startNode);
         startNode.gCost = 0;
+        //탐색 시작
         while (OpenList.Count > 0) {
             //OpenList에서 Fcost가 가장 낮은 노드를 찾는다.
             Node currentNode = FindLowestFCostNode();
@@ -118,6 +119,11 @@ public class Path {
             //위
             if (node.y < nodeGrid.RightTopY) {
                 neighborList.Add(nodeGrid.GetNode(node.x, node.y + 1));
+            }
+            //한쪽 방향만을 우선하는 것을 막기 위해 이웃 노드 리스트를 섞는다.
+            for (int i = 0; i < neighborList.Count; i++) {
+                int j = Random.Range(0, neighborList.Count);
+                (neighborList[j], neighborList[i]) = (neighborList[i], neighborList[j]);
             }
             return neighborList;
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>Player클래스가 턴의 흐름을 제어한다.</summary>
-public class Player : MovingTurnActor, TurnActor.IDamagable {
+public class Player : MovingTurnActor, IDamagable {
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
     [SerializeField]

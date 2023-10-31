@@ -87,7 +87,7 @@ public abstract class MovingTurnActor : TurnActor {
 
     /// <summary>해당 방향으로 움직일 수 있는지만 알고 싶을 때 사용한다.</summary>
     protected bool CanMove(Direction dir) {
-        Vector3 direction = TurnActor.DirectionToVector(dir);
+        Vector3 direction = DirectionToVector(dir);
         //내가 진행하려는 방향으로 1칸 떨어진 곳에 벽이 있는지 여부를 반환한다.
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.0f, LayerMask.GetMask("Wall"));
         return hit.collider == null;

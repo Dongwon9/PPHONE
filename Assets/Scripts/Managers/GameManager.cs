@@ -4,11 +4,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : TurnActor {
     [SerializeField] private bool WalkableGridDebugDisplay;
     [SerializeField] private int seed;
+    public const int FinalStageNumber = 3;
     public GameObject redSquare;
     public GameObject slash;
     public static GameManager Instance { get; private set; }
     public int Seed { get { return seed; } }
-    public int stageNumber => GameSaveManager.Instance.SaveData.stageCount;
+    public int StageNumber => GameSaveManager.Instance.SaveData.stageCount;
     /// <summary>맵의 걸을 수 있는 칸과 없는 칸을 저장하는 격자</summary>
     public Grid WalkableGrid { get; private set; }
     private void Awake() {
@@ -22,7 +23,7 @@ public class GameManager : TurnActor {
 
     private void Start() {
         GameSaveManager.Instance.LoadGame();
-        Random.InitState(seed * stageNumber);
+        Random.InitState(seed * StageNumber);
     }
 
     private void DebugShowWalkableGrid() {
@@ -44,7 +45,7 @@ public class GameManager : TurnActor {
     }
 
     public float GetStageHPModifier() {
-        switch (stageNumber) {
+        switch (StageNumber) {
             case 1:
                 return 1.0f;
 

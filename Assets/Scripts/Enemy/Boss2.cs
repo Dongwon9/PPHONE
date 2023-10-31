@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss2 : Enemy, TurnActor.IDamagable {
+public class Boss2 : Enemy, IDamagable {
 
     private enum AIMode { Moving, Attacking };
 
@@ -47,7 +47,7 @@ public class Boss2 : Enemy, TurnActor.IDamagable {
         if (counter < 2)
             return;
         counter = 0;
-        // 보스의 이동 로직 구현(무작위 방향으로 이동
+        // 보스의 이동 로직 구현(무작위 방향으로 이동)
         List<Direction> canMoveTo = new();
         for (int i = 0; i < 4; i++) {
             if (CanMove(directions[i]) && (directionCoolTime[i] == 0)) {
@@ -65,25 +65,25 @@ public class Boss2 : Enemy, TurnActor.IDamagable {
         //보스는 한 방향으로 움직이면, 2턴동안 그 반대방향으로 움직이지 않는다.
         switch (pickedDir) {
             case Direction.Left:
-                if (directionCoolTime[0] == 0) {
-                    directionCoolTime[0] = 2;
+                if (directionCoolTime[(int)Direction.Right] == 0) {
+                    directionCoolTime[(int)Direction.Right] = 2;
                 }
                 break;
 
             case Direction.Right:
-                if (directionCoolTime[2] == 0) {
-                    directionCoolTime[2] = 2;
+                if (directionCoolTime[(int)Direction.Left] == 0) {
+                    directionCoolTime[(int)Direction.Left] = 2;
                 }
                 break;
 
             case Direction.Up:
-                if (directionCoolTime[3] == 0)
-                    directionCoolTime[3] = 2;
+                if (directionCoolTime[(int)Direction.Down] == 0)
+                    directionCoolTime[(int)Direction.Down] = 2;
                 break;
 
             case Direction.Down:
-                if (directionCoolTime[1] == 0)
-                    directionCoolTime[1] = 2;
+                if (directionCoolTime[(int)Direction.Up] == 0)
+                    directionCoolTime[(int)Direction.Up] = 2;
                 break;
         }
     }

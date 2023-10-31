@@ -16,6 +16,7 @@ public class GameSaveManager : MonoBehaviour {
         }
         DontDestroyOnLoad(gameObject);
         saveFilepath = Application.persistentDataPath + "/save";
+        Debug.Log(saveFilepath);
     }
 
     private void Update() {

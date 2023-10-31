@@ -5,16 +5,6 @@ using UnityEngine;
 /// 턴마다 어떤 행동을 하는 모든 오브젝트는 TurnActor를 상속한다.
 /// </summary>
 public abstract class TurnActor : MonoBehaviour {
-    /// <summary>모든 TurnActor들이 사용하는 다음턴 action</summary>
-
-    public enum Direction { Left, Up, Right, Down };
-
-    public enum Target { Player, Enemy, Any, Wall }
-
-    public interface IDamagable {
-        public void TakeDamage(int damage);
-    }
-
     /// <summary> position 칸에 공격을 한다.</summary>
     /// <param name="target">공격할 대상(플레이어,적 또는 둘다)</param>
     protected void Attack(Vector3 position, int damage, Target target) {
@@ -62,8 +52,6 @@ public abstract class TurnActor : MonoBehaviour {
             }
         }
     }
-
-    /// <summary> TurnActor들이 다음 행동을 정할 때 사용하는 함수</summary>
 
     protected virtual void OnDisable() {
         Player.OnTurnUpdate -= TurnUpdate;

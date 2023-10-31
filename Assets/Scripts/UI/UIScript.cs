@@ -24,7 +24,7 @@ public class UIScript : MonoBehaviour {
         ShieldText.SetText(
             Player.Instance.Shield.ToString() + "/" + Player.Instance.MaxShield.ToString());
         GoldText.SetText(Inventory.Instance.Gold.ToString() + " Gold");
-        StageText.SetText("Stage " + GameManager.Instance.stageNumber);
+        StageText.SetText("Stage " + GameManager.Instance.StageNumber);
         if (!Player.Instance.GameOver && !GameClear) {
             buttonManager.gameObject.SetActive(!shop.gameObject.activeSelf);
             gameOver.SetActive(false);

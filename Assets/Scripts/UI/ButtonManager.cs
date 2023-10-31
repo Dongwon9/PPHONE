@@ -10,23 +10,23 @@ public class ButtonManager : MonoBehaviour {
     private void Awake() {
         Instance = this;
         AttackMode = false;
-        UpButton.onClick.AddListener(() => Player.Instance.TakeInput(TurnActor.Direction.Up));
-        DownButton.onClick.AddListener(() => Player.Instance.TakeInput(TurnActor.Direction.Down));
-        LeftButton.onClick.AddListener(() => Player.Instance.TakeInput(TurnActor.Direction.Left));
-        RightButton.onClick.AddListener(() => Player.Instance.TakeInput(TurnActor.Direction.Right));
+        UpButton.onClick.AddListener(() => Player.Instance.TakeInput(Direction.Up));
+        DownButton.onClick.AddListener(() => Player.Instance.TakeInput(Direction.Down));
+        LeftButton.onClick.AddListener(() => Player.Instance.TakeInput(Direction.Left));
+        RightButton.onClick.AddListener(() => Player.Instance.TakeInput(Direction.Right));
         ModeButton.onClick.AddListener(() => AttackMode = !AttackMode);
         WaitButton.onClick.AddListener(() => Player.Instance.TakeInput(null));
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            Player.Instance.TakeInput(TurnActor.Direction.Left);
+            Player.Instance.TakeInput(Direction.Left);
         } else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            Player.Instance.TakeInput(TurnActor.Direction.Right);
+            Player.Instance.TakeInput(Direction.Right);
         } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            Player.Instance.TakeInput(TurnActor.Direction.Down);
+            Player.Instance.TakeInput(Direction.Down);
         } else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            Player.Instance.TakeInput(TurnActor.Direction.Up);
+            Player.Instance.TakeInput(Direction.Up);
         } else if (Input.GetKeyDown(KeyCode.Space)) {
             Player.Instance.TakeInput(null);
         } else if (Input.GetKeyDown(KeyCode.LeftShift)) {

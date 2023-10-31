@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>모든 적들이 상속할 abstract 클래스</summary>
-public abstract class Enemy : MovingTurnActor, TurnActor.IDamagable {
+public abstract class Enemy : MovingTurnActor, IDamagable {
     protected Animator animator;
     [SerializeField] protected int HP;
     [SerializeField] protected EnemyData enemydata;

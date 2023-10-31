@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f20a29a3644bd4bbc7068271b6624f, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  name: "\uCC3D"
+  damage: 7
   attackSquare:
   - {x: 1, y: 0}
   - {x: 2, y: 0}
   - {x: 3, y: 0}
-  damage: 7

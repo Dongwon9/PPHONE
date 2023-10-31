@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 46af74b9929037047a7938fa9eec53a7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - enemydata: {fileID: 11400000, guid: d277151bcff0fad408ea1d55606249f1, type: 2}
+  - PurpleSquare: {fileID: 5468115531791417932, guid: a20601d03b7a30d458d6a820472fb2bb, type: 3}
+  - splitingBossManager: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

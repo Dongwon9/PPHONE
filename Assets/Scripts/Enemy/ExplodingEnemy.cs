@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+
 /// <summary>
 /// 플레이어가 주위에 있으면 자폭하는 적
 /// </summary>
@@ -26,6 +27,10 @@ public class ExplodingEnemy : Enemy {
                 ExplosionSprite.transform.SetParent(null, true);
                 ExplosionSprite.SetActive(true);
                 Destroy(gameObject);
+            } else {
+                foreach (Vector3 pos in ExplosionPosList) {
+                    Instantiate(RedSquare, transform.position + pos, Quaternion.identity, transform);
+                }
             }
             return;
         }
@@ -50,7 +55,9 @@ public class ExplodingEnemy : Enemy {
         base.OnEnable();
         ExplosionSprite.SetActive(false);
         for (int x = -ExplosionRadius; x <= ExplosionRadius; x++) {
-            for (int y = -(ExplosionRadius - Mathf.Abs(x)); y <= (ExplosionRadius - Mathf.Abs(x)); y++) {
+            for (int y = -(ExplosionRadius - Mathf.Abs(x));
+                y <= (ExplosionRadius - Mathf.Abs(x));
+                y++) {
                 ExplosionPosList.Add(new Vector3(x, y));
             }
         }

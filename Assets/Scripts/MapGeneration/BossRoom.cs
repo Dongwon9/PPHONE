@@ -25,7 +25,7 @@ public class BossRoom : MonoBehaviour {
         if (boss == null) {
             //방 문 다시열림, 포탈 소환
             Destroy(BossRoomWalls);
-            if (GameManager.Instance.stageNumber != 3) {
+            if (GameManager.Instance.StageNumber != 3) {
                 NextStagePortal.SetActive(true);
                 NextStagePortal.transform.SetParent(null, true);
                 Destroy(gameObject);
