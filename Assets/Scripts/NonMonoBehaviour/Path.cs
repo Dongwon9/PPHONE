@@ -4,6 +4,7 @@ using UnityEngine;
 public class Path {
     //경로 전체
     private List<Node> FullPath = new();
+    public (int x, int y)[] NeighborOffset = { (0, 1), (1, 0), (-1, 0), (0, -1) };
     /// <summary>경로가 존재하는가?</summary>
     public bool PathExists => FullPath.Count >= 1;
     /// <summary>경로의 길이</summary>
@@ -91,7 +92,7 @@ public class Path {
 
         //로컬 함수들
         int CalculateGCost(Node node) {
-            return node.PrevNode.gCost + 10;
+            return node.PrevNode.gCost + 1;
         }
         Node FindLowestFCostNode() {
             Node ReturnNode = OpenList[0];
@@ -103,26 +104,18 @@ public class Path {
             return ReturnNode;
         }
         List<Node> getNeighbor(Node node) {
-            List<Node> neighborList = new List<Node>();
-            //왼쪽
-            if (node.x > nodeGrid.LeftBottomX) {
-                neighborList.Add(nodeGrid.GetNode(node.x - 1, node.y));
-            }
-            //오른쪽
-            if (node.x < nodeGrid.RightTopX) {
-                neighborList.Add(nodeGrid.GetNode(node.x + 1, node.y));
-            }
-            //아래
-            if (node.y > nodeGrid.LeftBottomY) {
-                neighborList.Add(nodeGrid.GetNode(node.x, node.y - 1));
-            }
-            //위
-            if (node.y < nodeGrid.RightTopY) {
-                neighborList.Add(nodeGrid.GetNode(node.x, node.y + 1));
+            List<Node> neighborList = new();
+            foreach (var (x, y) in NeighborOffset) {
+                if (node.x + x <= nodeGrid.RightTopX &&
+                    node.x + x >= nodeGrid.LeftBottomX &&
+                    node.y + y <= nodeGrid.RightTopY &&
+                    node.y + y >= nodeGrid.LeftBottomY) {
+                    neighborList.Add(nodeGrid.GetNode(node.x + x, node.y + y));
+                }
             }
             //한쪽 방향만을 우선하는 것을 막기 위해 이웃 노드 리스트를 섞는다.
-            for (int i = 0; i < neighborList.Count; i++) {
-                int j = Random.Range(0, neighborList.Count);
+            for (int i = 0; i < neighborList.Count - 1; i++) {
+                int j = Random.Range(i, neighborList.Count);
                 (neighborList[j], neighborList[i]) = (neighborList[i], neighborList[j]);
             }
             return neighborList;

@@ -45,12 +45,14 @@ public class Grid {
     }
 
     /// <summary>
-    /// 맵에 있는 모든 노드의 HCost를 계산한다.
+    /// 맵에 있는 모든 노드의 HCost를 계산한다.<br></br>
+    /// end : 도착 노드
     /// </summary>
-    /// <param name="end"></param>
     public void SetHCostFull(Node end) {
         foreach (Node node in GridNode) {
-            node.hCost = Mathf.Abs(node.x - end.x) + Mathf.Abs(node.y - end.y);
+            node.hCost = Mathf.RoundToInt(10 * Mathf.Sqrt(
+                Mathf.Pow(Mathf.Abs(node.x - end.x), 2) +
+                Mathf.Pow(Mathf.Abs(node.y - end.y), 2)));
         }
     }
 }

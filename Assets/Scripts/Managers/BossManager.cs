@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class BossManager : MonoBehaviour {
     [SerializeField] private List<GameObject> BossArray = new();
+    private bool bossShuffled = false;
     [SerializeField] private GameObject finalBoss;
     public static BossManager Instance;
     private void Awake() {
@@ -13,13 +14,14 @@ public class BossManager : MonoBehaviour {
             return;
         }
         DontDestroyOnLoad(gameObject);
-        if (GameManager.Instance.StageNumber == 1) {
+        if (!bossShuffled) {
             //Fisher–Yates 셔플알고리즘:
             //보스의 순서를 무작위로 섞는다.
-            for (int i = 0; i < BossArray.Count; i++) {
-                int j = Random.Range(0, BossArray.Count);
+            for (int i = 0; i < BossArray.Count - 1; i++) {
+                int j = Random.Range(i, BossArray.Count);
                 (BossArray[j], BossArray[i]) = (BossArray[i], BossArray[j]);
             }
+            bossShuffled = true;
         }
     }
 
