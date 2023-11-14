@@ -11,21 +11,24 @@ public class Boss3 : Boss1 {
 
     public override void TakeDamage(int damage) {
         HP -= damage;
-        if (HP <= 0) {
-            splitingBossManager.enemyLeft -= 1;
-            if (size > 1) {
-                Boss3 minion = Instantiate(gameObject, transform.position + Vector3.right, Quaternion.identity).GetComponent<Boss3>();
-                minion.size = size - 1;
-                splitingBossManager.enemyLeft += 1;
-                minion.ScaleSize();
-                minion.gameObject.SetActive(true);
-                minion = Instantiate(gameObject, transform.position + Vector3.left, Quaternion.identity).GetComponent<Boss3>();
-                minion.size = size - 1;
-                splitingBossManager.enemyLeft += 1;
-                minion.ScaleSize();
-                minion.gameObject.SetActive(true);
-            }
-            Destroy(gameObject);
+        DamageNumberManager.instance.DisplayDamageNumber(damage, transform.position + Vector3.up);
+        if (HP > 0) {
+            return;
         }
+        splitingBossManager.enemyLeft -= 1;
+        if (size > 1) {
+            //2개의 더 작은 사이즈로 분열한다.
+            Boss3 minion = Instantiate(gameObject, transform.position + Vector3.right, Quaternion.identity).GetComponent<Boss3>();
+            minion.size = size - 1;
+            splitingBossManager.enemyLeft += 1;
+            minion.ScaleSize();
+            minion.gameObject.SetActive(true);
+            minion = Instantiate(gameObject, transform.position + Vector3.left, Quaternion.identity).GetComponent<Boss3>();
+            minion.size = size - 1;
+            splitingBossManager.enemyLeft += 1;
+            minion.ScaleSize();
+            minion.gameObject.SetActive(true);
+        }
+        Destroy(gameObject);
     }
 }

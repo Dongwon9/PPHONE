@@ -21,17 +21,18 @@ public class BossRoom : MonoBehaviour {
             BossRoomWalls.SetActive(true);
             boss.SetActive(true);
         }
-        //보스가 죽었으면
-        if (boss == null) {
-            //방 문 다시열림, 포탈 소환
-            Destroy(BossRoomWalls);
-            if (GameManager.Instance.StageNumber != 3) {
-                NextStagePortal.SetActive(true);
-                NextStagePortal.transform.SetParent(null, true);
-                Destroy(gameObject);
-            } else {
-                UIScript.GameClear = true;
-            }
+
+        if (boss != null) {
+            return;
+        }
+        //방 문 다시열림, 포탈 소환
+        Destroy(BossRoomWalls);
+        if (GameManager.Instance.StageNumber != GameManager.FinalStageNumber) {
+            NextStagePortal.SetActive(true);
+            NextStagePortal.transform.SetParent(null, true);
+            Destroy(gameObject);
+        } else {
+            UIScript.GameClear = true;
         }
     }
 }

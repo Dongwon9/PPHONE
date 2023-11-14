@@ -14,15 +14,21 @@ public class BossManager : MonoBehaviour {
             return;
         }
         DontDestroyOnLoad(gameObject);
-        if (!bossShuffled) {
-            //Fisher–Yates 셔플알고리즘:
-            //보스의 순서를 무작위로 섞는다.
-            for (int i = 0; i < BossArray.Count - 1; i++) {
-                int j = Random.Range(i, BossArray.Count);
-                (BossArray[j], BossArray[i]) = (BossArray[i], BossArray[j]);
-            }
-            bossShuffled = true;
+        if (bossShuffled) {
+            return;
         }
+        //Fisher–Yates 셔플알고리즘:
+        //보스의 순서를 무작위로 섞는다.
+        for (int i = 0; i < BossArray.Count - 1; i++) {
+            int j = Random.Range(i, BossArray.Count);
+            (BossArray[j], BossArray[i]) = (BossArray[i], BossArray[j]);
+        }
+        int originalBossCount = BossArray.Count;
+        //보스가 부족하면, 이미 있는 보스를 복제해 채운다.
+        while (BossArray.Count < GameManager.FinalStageNumber - 1) {
+            BossArray.Add(BossArray[Random.Range(0, originalBossCount)]);
+        }
+        bossShuffled = true;
     }
 
     public GameObject GetBoss() {

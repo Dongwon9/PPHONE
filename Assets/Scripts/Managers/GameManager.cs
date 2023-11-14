@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : TurnActor {
     [SerializeField] private bool WalkableGridDebugDisplay;
     [SerializeField] private int seed;
-    public const int FinalStageNumber = 3;
+    //몇 스테이직 최종 스테이지인가?
+    public const int FinalStageNumber = 5;
     public GameObject redSquare;
     public GameObject slash;
     public static GameManager Instance { get; private set; }
@@ -53,6 +54,8 @@ public class GameManager : TurnActor {
                 return 1.5f;
 
             case 3:
+            case 4:
+            case 5:
                 return 2.0f;
 
             default:
