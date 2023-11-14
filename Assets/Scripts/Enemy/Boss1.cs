@@ -8,18 +8,16 @@ public class Boss1 : Enemy {
     private readonly Path pathFinding = new();
     private List<Vector3> bossTraces = new List<Vector3>();// 보스의 흔적 위치 리스트
     [SerializeField] private GameObject PurpleSquare;
-    private List<GameObject> PurpleSquareList = new List<GameObject>();
     private int counter = 0;
     private AIMode mode = AIMode.finding;
-    private Vector3 attackLocation; // 공격할 좌표
-    private void OnDestroy() {
+    private Vector3 attackLocation;
+    protected List<GameObject> PurpleSquareList = new List<GameObject>();
+    // 공격할 좌표
+    protected override void OnDestroy() {
+        base.OnDestroy();
         foreach (GameObject go in PurpleSquareList) {
             Destroy(go);
         }
-    }
-
-    protected override void Awake() {
-        base.Awake();
     }
 
     protected override void TurnUpdate() {

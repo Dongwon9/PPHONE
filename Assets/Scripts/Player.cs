@@ -5,6 +5,7 @@ using UnityEngine;
 
 /// <summary>Player클래스가 턴의 흐름을 제어한다.</summary>
 public class Player : MovingTurnActor, IDamagable {
+    private const float healthDrainDelay = 2f;
     private readonly List<PartComponents> playerPartComponents = new();
     private Animator animator;
     [SerializeField]
@@ -16,6 +17,7 @@ public class Player : MovingTurnActor, IDamagable {
     private Action nextAction;
     private int ShieldHealCoolTime = 0;
     private float turnDelay;
+    private float healthDrainTimer = 0;
     public static Player Instance;
     public Armor equippedArmor = null;
     public Weapon equippedWeapon;
@@ -53,6 +55,7 @@ public class Player : MovingTurnActor, IDamagable {
         maxHP = data.maxHP;
         shield = data.shield;
         maxShield = data.maxShield;
+        healthDrainTimer = healthDrainDelay;
     }
 
     private void Update() {
@@ -67,6 +70,12 @@ public class Player : MovingTurnActor, IDamagable {
             Camera mainCamera = Camera.main;
             mainCamera.transform.SetParent(null, true);
             gameObject.SetActive(false);
+        }
+        healthDrainTimer -= Time.deltaTime;
+        //2초가 지나면 체력 감소
+        if (healthDrainTimer < 0) {
+            hp -= 1;
+            healthDrainTimer += healthDrainDelay;
         }
     }
 
@@ -126,7 +135,9 @@ public class Player : MovingTurnActor, IDamagable {
     protected override void TurnUpdate() {
         nextAction();
         nextAction = null;
+        healthDrainTimer = healthDrainDelay;
         moveCount += 1;
+
         if (moveCount == 3) {
             moveCount = 0;
             hp -= 1;

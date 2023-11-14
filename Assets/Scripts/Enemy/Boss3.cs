@@ -4,6 +4,12 @@ public class Boss3 : Boss1 {
     public int size = 3;
     public SplitingBossManager splitingBossManager;
 
+    protected override void OnDestroy() {
+        foreach (GameObject go in PurpleSquareList) {
+            Destroy(go);
+        }
+    }
+
     public void ScaleSize() {
         HP = (int)(HP * Mathf.Pow(0.5f, 3 - size));
         transform.localScale *= Mathf.Pow(2.0f / 3.0f, 3 - size);
@@ -28,6 +34,9 @@ public class Boss3 : Boss1 {
             splitingBossManager.enemyLeft += 1;
             minion.ScaleSize();
             minion.gameObject.SetActive(true);
+        }
+        if (splitingBossManager.enemyLeft == 0) {
+            Inventory.Instance.ModifyGold(enemydata.GetGoldAmount());
         }
         Destroy(gameObject);
     }

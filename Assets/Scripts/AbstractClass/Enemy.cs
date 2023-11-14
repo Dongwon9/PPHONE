@@ -5,6 +5,12 @@ public abstract class Enemy : MovingTurnActor, IDamagable {
     protected Animator animator;
     [SerializeField] protected int HP;
     [SerializeField] protected EnemyData enemydata;
+    private void Update() {
+        if (HP <= 0) {
+            Destroy(gameObject);
+        }
+    }
+
     //[SerializeField] private SpriteRenderer NextActonSprite;
     protected override void Awake() {
         base.Awake();
@@ -23,6 +29,10 @@ public abstract class Enemy : MovingTurnActor, IDamagable {
     protected virtual void TurnUpdateOnStun() {
     }
 
+    protected virtual void OnDestroy() {
+        Inventory.Instance.ModifyGold(enemydata.GetGoldAmount());
+    }
+
     public virtual void TakeDamage(int damage) {
         HP -= damage;
         animator.SetTrigger("isHit");
@@ -30,15 +40,5 @@ public abstract class Enemy : MovingTurnActor, IDamagable {
             Destroy(gameObject);
         }
         DamageNumberManager.instance.DisplayDamageNumber(damage, transform.position + Vector3.up);
-    }
-
-    private void Update() {
-        if (HP <= 0) {
-            Destroy(gameObject);
-        }
-    }
-
-    private void OnDestroy() {
-        Inventory.Instance.ModifyGold(enemydata.GetGoldAmount());
     }
 }

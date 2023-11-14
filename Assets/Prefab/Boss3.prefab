@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 0
-  enemydata: {fileID: 11400000, guid: d277151bcff0fad408ea1d55606249f1, type: 2}
+  enemydata: {fileID: 11400000, guid: 6a8efb2f87168af45810fad8498f4108, type: 2}
   PurpleSquare: {fileID: 5468115531791417932, guid: a20601d03b7a30d458d6a820472fb2bb, type: 3}
   size: 3
   splitingBossManager: {fileID: 1500176506643122998}
