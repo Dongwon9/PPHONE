@@ -1,9 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class BuyButton : MonoBehaviour
-{
-    public Button button;
+public class BuyButton : MonoBehaviour {
+    public TextMeshProUGUI itemName;
+    public ShopScript shopScript;
+    public int itemIndex;
+    private void Update() {
+        itemName.SetText(shopScript.GetShopItem(itemIndex).name);
+    }
 }

@@ -7,7 +7,6 @@ public class ShopScript : MonoBehaviour {
     private Consumable[] shopList = new Consumable[5];
     [SerializeField]
     private Button[] buttons;
-    [SerializeField]
     public List<Consumable> allConsumables = new();
     private void Start() {
         for (int i = 0; i < shopList.Length; i++) {
@@ -23,16 +22,23 @@ public class ShopScript : MonoBehaviour {
         }
     }
 
+    public Consumable GetShopItem(int index) {
+        if (index >= shopList.Length) {
+            Debug.LogError(index + " 는 상점 목록의 최대 인덱스인 " + shopList.Length + "를 초과합니다.");
+            return null;
+        }
+        return shopList[index];
+    }
+
     public void BuyItem(int index) {
         if (Inventory.Instance.Gold < 100) {
             return;
         }
-        if (Inventory.Instance.AddItem(shopList[index])) {
-            Inventory.Instance.ModifyGold(-100);
-            Destroy(buttons[index].gameObject);
-        } else {
+        if (!Inventory.Instance.AddItem(shopList[index])) {
             return;
         }
+        Inventory.Instance.ModifyGold(-100);
+        Destroy(buttons[index].gameObject);
     }
 
     public void Deactivate() {
