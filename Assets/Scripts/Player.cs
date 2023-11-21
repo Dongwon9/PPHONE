@@ -48,6 +48,17 @@ public class Player : MovingTurnActor, IDamagable {
         }
     }
 
+    protected override void Awake() {
+        base.Awake();
+        Instance = this;
+        animator = GetComponent<Animator>();
+        foreach (GameObject obj in playerParts) {
+            playerPartComponents.Add(
+                new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
+        }
+        StartsFacingRight = true;
+    }
+
     private void Start() {
         SaveData data = GameSaveManager.Instance.SaveData;
         hp = data.HP;
@@ -78,51 +89,6 @@ public class Player : MovingTurnActor, IDamagable {
         }
     }
 
-    private IEnumerator WaitThenProcessTurn() {
-        TurnProcessing = true;
-        float turnDelay = movingTime * 1f;
-        while (turnDelay > 0) {
-            yield return new WaitForSeconds(0.1f);
-            turnDelay -= 0.1f;
-        }
-        TurnProcessing = false;
-        OnTurnUpdate();
-    }
-
-    private new void Move(Direction dir) {
-        base.Move(dir);
-        animator.SetTrigger("isWalk");
-    }
-
-    private void PlayerAttack(Direction dir) {
-        foreach (Vector2 offset in equippedWeapon.GetAttackSquare(dir)) {
-            Attack(transform.position + (Vector3)offset, FinalDamage, Target.Any);
-            CreateSlash(transform.position + (Vector3)offset);
-        }
-        foreach (PartComponents obj in playerPartComponents) {
-            obj.animator.SetTrigger("Attack");
-        }
-    }
-
-    protected override void Awake() {
-        base.Awake();
-        Instance = this;
-        animator = GetComponent<Animator>();
-        foreach (GameObject obj in playerParts) {
-            playerPartComponents.Add(
-                new PartComponents(obj.GetComponent<Animator>(), obj.GetComponent<SpriteRenderer>(), obj.transform));
-        }
-        StartsFacingRight = true;
-    }
-
-    //player는 모든 TurnActor보다 먼저 턴이 진행되기 때문에,
-    //OnTurnUpdate에 메소드를 구독하지 않는다.
-    protected override void OnDisable() {
-    }
-
-    protected override void OnEnable() {
-    }
-
     protected override void TurnUpdate() {
         nextAction();
         nextAction = null;
@@ -143,6 +109,40 @@ public class Player : MovingTurnActor, IDamagable {
             }
         } else {
             ShieldHealCoolTime -= 1;
+        }
+    }
+
+    private IEnumerator WaitThenProcessTurn() {
+        TurnProcessing = true;
+        float turnDelay = movingTime * 1f;
+        while (turnDelay > 0) {
+            yield return new WaitForSeconds(0.1f);
+            turnDelay -= 0.1f;
+        }
+        TurnProcessing = false;
+        OnTurnUpdate();
+    }
+
+    //player는 모든 TurnActor보다 먼저 턴이 진행되기 때문에,
+    //OnTurnUpdate에 메소드를 구독하지 않는다.
+    protected override void OnDisable() {
+    }
+
+    protected override void OnEnable() {
+    }
+
+    private new void Move(Direction dir) {
+        base.Move(dir);
+        animator.SetTrigger("isWalk");
+    }
+
+    private void PlayerAttack(Direction dir) {
+        foreach (Vector2 offset in equippedWeapon.GetAttackSquare(dir)) {
+            Attack(transform.position + (Vector3)offset, FinalDamage, Target.Any);
+            CreateSlash(transform.position + (Vector3)offset);
+        }
+        foreach (PartComponents obj in playerPartComponents) {
+            obj.animator.SetTrigger("Attack");
         }
     }
 
