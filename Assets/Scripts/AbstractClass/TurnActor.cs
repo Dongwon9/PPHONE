@@ -85,28 +85,26 @@ public abstract class TurnActor : MonoBehaviour {
         }
     }
 
-    public bool CheckForObjectAtPosition(Target[] objectType, Vector3 position) {
-        if (objectType.Length == 0) {
-            Debug.LogError("objectType 매개변수에 요소가 하나도 없습니다");
-            return false;
-        }
-        string[] objects = new string[objectType.Length];
-        for (int i = 0; i < objects.Length; i++) {
-            switch (objectType[i]) {
-                case Target.Enemy:
-                    objects[i] = "Enemy";
-                    break;
+    public bool IsObjectAtPosition(Target objectType, Vector3 position) {
+        string objectTag;
+        switch (objectType) {
+            case Target.Enemy:
+                objectTag = "Enemy";
+                break;
 
-                case Target.Player:
-                    objects[i] = "Player";
-                    break;
+            case Target.Player:
+                objectTag = "Player";
+                break;
 
-                case Target.Wall:
-                    objects[i] = "Wall";
-                    break;
-            }
+            case Target.Wall:
+                objectTag = "Wall";
+                break;
+
+            default:
+                objectTag = "";
+                break;
         }
-        return Physics2D.Raycast(position, Vector2.down, 0.1f, LayerMask.GetMask(objects)).collider == null;
+        return Physics2D.Raycast(position, Vector2.down, 0.1f, LayerMask.GetMask(objectTag)).collider != null;
     }
 
     public Vector2 Round(Vector2 orig) {

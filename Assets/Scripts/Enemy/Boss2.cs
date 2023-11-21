@@ -5,13 +5,12 @@ public class Boss2 : Enemy, IDamagable {
 
     private enum AIMode { Moving, Attacking };
 
+    private readonly Direction[] directions = { Direction.Right, Direction.Up, Direction.Left, Direction.Down };
+    private readonly int[] directionCoolTime = { 0, 0, 0, 0 };
     private int turnsSinceTeleport = 0; // 순간 이동을 위한 턴 카운터
-    private Direction[] directions = { Direction.Right, Direction.Up, Direction.Left, Direction.Down };
-    private int[] directionCoolTime = { 0, 0, 0, 0 };
     private int counter = 0;
     private AIMode mode = AIMode.Moving;
     private Vector3 PosToAttack;
-    // 게임 루프나 턴 관리 로직에서 호출되는 메서드로, 보스의 움직임을 처리한다
     protected override void TurnUpdate() {
         //순간이동 한 후, 공격
         if (mode == AIMode.Attacking) {
@@ -28,7 +27,7 @@ public class Boss2 : Enemy, IDamagable {
             List<Vector3> CanTeleportTo = new();
             foreach (var dir in directions) {
                 Vector3 v = Player.Position + DirectionToVector(dir);
-                if (CheckForObjectAtPosition(new Target[] { Target.Wall }, v) &&
+                if (IsObjectAtPosition(Target.Wall, v) &&
                       (v != transform.position)) {
                     CanTeleportTo.Add(v);
                 }
@@ -44,8 +43,10 @@ public class Boss2 : Enemy, IDamagable {
             return;
         }
         counter += 1;
-        if (counter < 2)
+        if (counter < 2) {
             return;
+        }
+
         counter = 0;
         // 보스의 이동 로직 구현(무작위 방향으로 이동)
         List<Direction> canMoveTo = new();
@@ -77,13 +78,15 @@ public class Boss2 : Enemy, IDamagable {
                 break;
 
             case Direction.Up:
-                if (directionCoolTime[(int)Direction.Down] == 0)
+                if (directionCoolTime[(int)Direction.Down] == 0) {
                     directionCoolTime[(int)Direction.Down] = 2;
+                }
                 break;
 
             case Direction.Down:
-                if (directionCoolTime[(int)Direction.Up] == 0)
+                if (directionCoolTime[(int)Direction.Up] == 0) {
                     directionCoolTime[(int)Direction.Up] = 2;
+                }
                 break;
         }
     }

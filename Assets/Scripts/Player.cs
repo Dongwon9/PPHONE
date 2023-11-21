@@ -16,7 +16,6 @@ public class Player : MovingTurnActor, IDamagable {
     private int doubleDamageTurnLeft = 0;
     private Action nextAction;
     private int ShieldHealCoolTime = 0;
-    private float turnDelay;
     private float healthDrainTimer = 0;
     public static Player Instance;
     public Armor equippedArmor = null;
@@ -81,7 +80,7 @@ public class Player : MovingTurnActor, IDamagable {
 
     private IEnumerator Timer() {
         TurnProcessing = true;
-        turnDelay = movingTime * 1f;
+        float turnDelay = movingTime * 1f;
         while (turnDelay > 0) {
             yield return new WaitForSeconds(0.1f);
             turnDelay -= 0.1f;
@@ -170,7 +169,7 @@ public class Player : MovingTurnActor, IDamagable {
     }
 
     public void ActivateDoubleDamage(int turnCount) {
-        doubleDamageTurnLeft = turnCount;
+        doubleDamageTurnLeft += turnCount;
     }
 
     public void AddMaxHP(int value) {

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Boss4 : Enemy, IDamagable {
@@ -28,11 +28,12 @@ public class Boss4 : Enemy, IDamagable {
         }
 
         turnsSinceTeleport++;
+        //순간이동 코드
         if (turnsSinceTeleport >= 5) {
             List<Vector3> teleportPositions = new List<Vector3>();
             foreach (var dir in directions) {
                 Vector3 v = Player.Position + DirectionToVector(dir);
-                if (CheckForObjectAtPosition(new Target[] { Target.Wall }, v) && (v != transform.position)) {
+                if (IsObjectAtPosition(Target.Wall, v) && (v != transform.position)) {
                     teleportPositions.Add(v);
                 }
             }
@@ -42,52 +43,55 @@ public class Boss4 : Enemy, IDamagable {
                 directionCoolTime[i] = 0;
             }
             mode = AIMode.Attacking;
-        } else {
-            counter++;
-            if (counter >= 2) {
-                counter = 0;
-                List<Direction> canMoveTo = new();
-                for (int i = 0; i < 4; i++) {
-                    if (CanMove(directions[i]) && (directionCoolTime[i] == 0)) {
-                        canMoveTo.Add(directions[i]);
-                    }
-                }
-                if (canMoveTo.Count > 0) {
-                    Direction pickedDir = canMoveTo[Random.Range(0, canMoveTo.Count)];
-                    Move(pickedDir);
-                    animator.SetTrigger("walk");
-                    for (int i = 0; i < 4; i++) {
-                        if (directionCoolTime[i] > 0) {
-                            directionCoolTime[i]--;
-                        }
-                    }
-                    switch (pickedDir) {
-                        case Direction.Left:
-                            if (directionCoolTime[0] == 0) {
-                                directionCoolTime[0] = 2;
-                            }
-                            break;
-
-                        case Direction.Right:
-                            if (directionCoolTime[2] == 0) {
-                                directionCoolTime[2] = 2;
-                            }
-                            break;
-
-                        case Direction.Up:
-                            if (directionCoolTime[3] == 0) {
-                                directionCoolTime[3] = 2;
-                            }
-                            break;
-
-                        case Direction.Down:
-                            if (directionCoolTime[1] == 0) {
-                                directionCoolTime[1] = 2;
-                            }
-                            break;
-                    }
-                }
+            return;
+        }
+        //일반이동
+        counter++;
+        if (counter < 2) {
+            return;
+        }
+        counter = 0;
+        List<Direction> canMoveTo = new();
+        for (int i = 0; i < 4; i++) {
+            if (CanMove(directions[i]) && (directionCoolTime[i] == 0)) {
+                canMoveTo.Add(directions[i]);
             }
+        }
+        if (canMoveTo.Count <= 0) {
+            return;
+        }
+        Direction pickedDir = canMoveTo[Random.Range(0, canMoveTo.Count)];
+        Move(pickedDir);
+        animator.SetTrigger("walk");
+        for (int i = 0; i < 4; i++) {
+            if (directionCoolTime[i] > 0) {
+                directionCoolTime[i]--;
+            }
+        }
+        switch (pickedDir) {
+            case Direction.Left:
+                if (directionCoolTime[0] == 0) {
+                    directionCoolTime[0] = 2;
+                }
+                break;
+
+            case Direction.Right:
+                if (directionCoolTime[2] == 0) {
+                    directionCoolTime[2] = 2;
+                }
+                break;
+
+            case Direction.Up:
+                if (directionCoolTime[3] == 0) {
+                    directionCoolTime[3] = 2;
+                }
+                break;
+
+            case Direction.Down:
+                if (directionCoolTime[1] == 0) {
+                    directionCoolTime[1] = 2;
+                }
+                break;
         }
     }
 }
