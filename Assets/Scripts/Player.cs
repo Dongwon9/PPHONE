@@ -18,8 +18,8 @@ public class Player : MovingTurnActor, IDamagable {
     private int ShieldHealCoolTime = 0;
     private float healthDrainTimer = 0;
     public static Player Instance;
-    public Armor equippedArmor = null;
     public Weapon equippedWeapon;
+    private int FinalDamage => doubleDamageTurnLeft > 0 ? equippedWeapon.damage * 2 : equippedWeapon.damage;
     public static Vector3 Position => Instance.transform.position;
     public int HP => hp;
     public int MaxHP => maxHP;
@@ -58,18 +58,18 @@ public class Player : MovingTurnActor, IDamagable {
     }
 
     private void Update() {
+        if (GameOver) {
+            Camera.main.transform.SetParent(null, true);
+            gameObject.SetActive(false);
+            return;
+        }
         if (nextAction != null && !TurnProcessing) {
             //무조건 플레이어가 먼저 행동한다.
             TurnUpdate();
-            StartCoroutine(Timer());
+            StartCoroutine(WaitThenProcessTurn());
             //그 후에 다른 모든 TurnActor들이 행동한다.
-            Invoke(nameof(ProcessTurn), MovingTurnActor.movingTime * 1f);
         }
-        if (GameOver) {
-            Camera mainCamera = Camera.main;
-            mainCamera.transform.SetParent(null, true);
-            gameObject.SetActive(false);
-        }
+
         healthDrainTimer -= Time.deltaTime;
         //2초가 지나면 체력 감소
         if (healthDrainTimer < 0) {
@@ -78,7 +78,7 @@ public class Player : MovingTurnActor, IDamagable {
         }
     }
 
-    private IEnumerator Timer() {
+    private IEnumerator WaitThenProcessTurn() {
         TurnProcessing = true;
         float turnDelay = movingTime * 1f;
         while (turnDelay > 0) {
@@ -86,7 +86,7 @@ public class Player : MovingTurnActor, IDamagable {
             turnDelay -= 0.1f;
         }
         TurnProcessing = false;
-        turnDelay = 0;
+        OnTurnUpdate();
     }
 
     private new void Move(Direction dir) {
@@ -94,22 +94,14 @@ public class Player : MovingTurnActor, IDamagable {
         animator.SetTrigger("isWalk");
     }
 
-    private int GetFinalDamage() {
-        return doubleDamageTurnLeft > 0 ? equippedWeapon.damage * 2 : equippedWeapon.damage;
-    }
-
     private void PlayerAttack(Direction dir) {
         foreach (Vector2 offset in equippedWeapon.GetAttackSquare(dir)) {
-            Attack(transform.position + (Vector3)offset, GetFinalDamage(), Target.Any);
+            Attack(transform.position + (Vector3)offset, FinalDamage, Target.Any);
             CreateSlash(transform.position + (Vector3)offset);
         }
         foreach (PartComponents obj in playerPartComponents) {
             obj.animator.SetTrigger("Attack");
         }
-    }
-
-    private void ProcessTurn() {
-        OnTurnUpdate?.Invoke();
     }
 
     protected override void Awake() {
@@ -152,7 +144,6 @@ public class Player : MovingTurnActor, IDamagable {
         } else {
             ShieldHealCoolTime -= 1;
         }
-        equippedArmor?.OnTurnUpdate();
     }
 
     /// <summary>자신 스프라이트를 좌우로 뒤집는다.</summary>
@@ -183,14 +174,6 @@ public class Player : MovingTurnActor, IDamagable {
         maxShield += value;
     }
 
-    public void ArmorEquip(Armor armor) {
-        if (equippedArmor != null) {
-            equippedArmor.OnUnequip();
-        }
-        equippedArmor = armor;
-        equippedArmor.OnEquip(this);
-    }
-
     public void HealHP(int value) {
         if (value < 0) {
             Debug.LogWarning("체력회복량이 음수입니다.");
@@ -218,7 +201,6 @@ public class Player : MovingTurnActor, IDamagable {
             shield -= damage;
         }
         ShieldHealCoolTime = 7;
-        equippedArmor?.OnHit();
         animator.SetTrigger("isHit");
         DamageNumberManager.instance.DisplayDamageNumber(damage, transform.position + Vector3.up);
     }
