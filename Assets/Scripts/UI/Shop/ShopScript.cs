@@ -6,7 +6,11 @@ public class ShopScript : MonoBehaviour {
     [SerializeField]
     private Consumable[] shopList = new Consumable[5];
     [SerializeField]
-    private Button[] buttons;
+    private Weapon[] weaponList = new Weapon[2];
+    [SerializeField]
+    private Button[] PotionButtons;
+    [SerializeField]
+    private Button[] WeaponButtons;
     public List<Consumable> allConsumables = new();
     private void Start() {
         for (int i = 0; i < shopList.Length; i++) {
@@ -15,19 +19,27 @@ public class ShopScript : MonoBehaviour {
     }
 
     private void Update() {
-        for (int i = 0; i < buttons.Length; i++) {
-            if (null != buttons[i]) {
-                buttons[i].image.sprite = shopList[i].icon;
+        for (int i = 0; i < PotionButtons.Length; i++) {
+            if (null != PotionButtons[i]) {
+                PotionButtons[i].image.sprite = shopList[i].icon;
+            }
+        }
+        for (int i = 0; i < weaponList.Length; i++) {
+            if (WeaponButtons[i]) {
+                WeaponButtons[i].image.sprite = weaponList[i].icon;
             }
         }
     }
 
-    public Consumable GetShopItem(int index) {
-        if (index >= shopList.Length) {
-            Debug.LogError(index + " 는 상점 목록의 최대 인덱스인 " + shopList.Length + "를 초과합니다.");
-            return null;
+    public string GetShopItem(int index) {
+        if (index < shopList.Length) {
+            return shopList[index].name;
         }
-        return shopList[index];
+        if (index < shopList.Length + weaponList.Length) {
+            return weaponList[index - shopList.Length].name;
+        }
+        Debug.LogError("인덱스가 맞지 않습니다.");
+        return null;
     }
 
     public void BuyItem(int index) {
@@ -38,7 +50,15 @@ public class ShopScript : MonoBehaviour {
             return;
         }
         Inventory.Instance.ModifyGold(-100);
-        Destroy(buttons[index].gameObject);
+        Destroy(PotionButtons[index].gameObject);
+    }
+
+    public void BuyWeapon(int index) {
+        if (Inventory.Instance.Gold < 250) {
+            return;
+        }
+        Player.Instance.equippedWeapon = weaponList[index];
+        Destroy(WeaponButtons[index].gameObject);
     }
 
     public void Deactivate() {

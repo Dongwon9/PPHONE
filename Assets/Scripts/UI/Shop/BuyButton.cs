@@ -6,6 +6,6 @@ public class BuyButton : MonoBehaviour {
     public ShopScript shopScript;
     public int itemIndex;
     private void Update() {
-        itemName.SetText(shopScript.GetShopItem(itemIndex).name);
+        itemName.SetText(shopScript.GetShopItem(itemIndex));
     }
 }

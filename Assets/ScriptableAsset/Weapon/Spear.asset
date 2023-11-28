@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f20a29a3644bd4bbc7068271b6624f, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1ec3e5f5e6f7868428ea5e89e8990389, type: 3}
   name: "\uCC3D"
   damage: 7
   attackSquare:

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f20a29a3644bd4bbc7068271b6624f, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6c7fef745340f22479f9e76fef3f61f7, type: 3}
   name: "\uB3C4\uB07C"
   damage: 10
   attackSquare:
